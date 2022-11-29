@@ -7,17 +7,19 @@ public class User {
   private String name;
   private String pronouns;
   private String classYear;
+  private String email;
   private String perfectSaturday;
   private String dreamVacation;
   private String enjoyedActivity;
   private String reasoning;
   private List<List<Float>> embedding;
 
-  public User(String name, String pronouns, String classYear, List<List<Float>> emb){
+  public User(String name, String pronouns, String classYear, String e, List<List<Float>> emb){
     this.name = name;
     this.pronouns = pronouns;
     this.classYear = classYear;
     this.embedding = emb;
+    this.email = e;
 
   }
 

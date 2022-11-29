@@ -39,8 +39,11 @@ public class Server {
           response.header("Access-Control-Allow-Methods", "*");
         });
 
+    QuestionairreAPIHandler Qhandler = new QuestionairreAPIHandler();
+    Spark.get("getQuestionairreResponse", Qhandler);
+    List<String> params = Qhandler.texts;
     // the parameters will need to be read in from the front end
-    Spark.get("getCohereResponse", new CohereAPIHandler("whitney", "goodbye"));
+    Spark.get("getCohereResponse", new CohereAPIHandler(params.get(0), params.get(1)));
 
     Spark.init();
     Spark.awaitInitialization();
