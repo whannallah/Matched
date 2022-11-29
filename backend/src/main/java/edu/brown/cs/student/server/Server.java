@@ -2,6 +2,8 @@ package edu.brown.cs.student.server;
 
 import static spark.Spark.after;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 import spark.Spark;
 
@@ -14,8 +16,8 @@ import spark.Spark;
  */
 public class Server {
 
-  public static void main(String[] args) {
-    Spark.port(3232);
+  public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
+    Spark.port(9000);
     /*
        Setting CORS headers to allow cross-origin requests from the client; this is necessary for the client to
        be able to make requests to the server.
@@ -41,6 +43,28 @@ public class Server {
 
     // Setting up the handler for the GET endpoints
     Spark.get("getCohereResponse", new CohereAPIHandler("whitney", "goodbye"));
+
+    //Firebase stuff
+    Firebase firebase = new Firebase();
+    firebase.initFirebase();
+    String[] test = {"users"};
+    String[] badTest = {"noname"};
+    String[] putTest = {"users"};
+    String[] putTest2 = {"users", "575746"};
+    System.out.println(firebase.readDatabase(test) + "here");
+    ;
+
+    //PUT: overwrites if the key already exists
+//    firebase.putDatabase(putTest, "38346", "dumb");
+//    firebase.putDatabase(putTest, "575746", "smart");
+//    firebase.putDatabase(putTest2, "Age", "23");
+
+    //POST: doesn't overwrite, will create a child (Not sure we really need)
+
+    //UPDATE:
+    firebase.updateDatabase(putTest, "BBSSS", "hello");
+
+    //DELETE:
 
     Spark.init();
     Spark.awaitInitialization();
