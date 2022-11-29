@@ -1,14 +1,46 @@
 .App {
-    text-align: center;
-  }
-  
-  .App-header {
-    background-color: #282c34;
-    min-height: 20vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(1px + 2vmin);
-    color: white;
-  }
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(1px + 2vmin);
+  color: white;
+}
+
+.link{
+color:yellow;
+font-size: 300%;
+}
+
+#NewMatchLink{
+color: "grey";
+margin: 300;
+text-decoration-line: 'none';
+font-size: 28;
+font-family: "Georgia";
+position: "relative";
+top:40
+}
+
+#Matched{
+font-family: "Georgia";
+position:absolute;
+width: 100;
+text-align: "center";
+font-size: 400;
+
+}
+
+.labelForm{
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  font-size: 15px;
+}

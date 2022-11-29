@@ -1,5 +1,7 @@
 package edu.brown.cs.student.server;
 
+import java.util.List;
+
 public class User {
 
   private String name;
@@ -9,15 +11,14 @@ public class User {
   private String dreamVacation;
   private String enjoyedActivity;
   private String reasoning;
+  private List<List<Float>> embedding;
 
-  public User(String name, String pronouns, String classYear, String PS, String DV, String EA, String r){
+  public User(String name, String pronouns, String classYear, List<List<Float>> emb){
     this.name = name;
     this.pronouns = pronouns;
     this.classYear = classYear;
-    this.perfectSaturday = PS;
-    this.dreamVacation = DV;
-    this.enjoyedActivity = EA;
-    this.reasoning = r;
+    this.embedding = emb;
+
   }
 
   public String getName() {
@@ -46,5 +47,9 @@ public class User {
 
   public String getReasoning() {
     return this.reasoning;
+  }
+
+  public List<List<Float>> getEmbedding() {
+    return this.embedding;
   }
 }

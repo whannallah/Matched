@@ -41,7 +41,7 @@ public class Server {
           response.header("Access-Control-Allow-Methods", "*");
         });
 
-    // Setting up the handler for the GET endpoints
+    // the parameters will need to be read in from the front end
     Spark.get("getCohereResponse", new CohereAPIHandler("whitney", "goodbye"));
 
     //Firebase stuff

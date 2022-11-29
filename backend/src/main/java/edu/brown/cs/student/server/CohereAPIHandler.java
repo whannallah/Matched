@@ -45,6 +45,7 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 
       //System.out.println(embeddings.get(0).get(0));
 
+      // embedding will need to be written to database, along with unique identifier, name, year, etc
       return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
 
 
