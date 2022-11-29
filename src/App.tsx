@@ -22,7 +22,7 @@ function App(){
         </ol>
       </ul>
      
-      <IconButton style = {{position: 'absolute', right: 90, display: 'inline'}}> <LogoutIcon /> </IconButton>
+      <Link to='/Login'><IconButton style = {{position: 'absolute', right: 90, display: 'inline'}}> <LogoutIcon /> </IconButton></Link>
       <Main />
     </div>   
 
