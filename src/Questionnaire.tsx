@@ -59,17 +59,18 @@ const Questionnaire = () => {
       }),
     onSubmit: values => {
     
-      let data = JSON.stringify(values, null, 2);
-      alert("Survey has been submitted :)")
+        let data = JSON.stringify(values, null, 2);
+        alert("Survey has been submitted :)")
 
-      fetch('http://------------:8080/', {  // Enter your IP address here
+    // send data to backend
 
-      method: 'POST', 
-      mode: 'cors', 
-      body: data // body data type must match "Content-Type" header
+        fetch('http://------------:8080/', {  // Enter your IP address here
 
+        method: 'POST', 
+        mode: 'cors', 
+        body: data 
     })
-      // send data to backend
+     
     },
   });
   
