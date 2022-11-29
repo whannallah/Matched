@@ -15,9 +15,10 @@ function App(){
     <div style={{ display: 'inline',  color:"blue" }}>
      
       <ul >
-      <ol >
-        <Link to='/' style = {{color: "grey",  margin: 300,  textDecorationLine: 'none', fontSize: 28, fontFamily: "Georgia", position: "relative", top:70}} >NEW MATCHES </Link>
-        <Link to='/Profile' style = {{color: "grey",   textDecorationLine: 'none', fontSize: 28, fontFamily: "Georgia", position: "relative", top:70}}>MY MATCHES</Link>
+        <ol >
+          <Link to='/' style = {{color: "grey",   margin: 100, textDecorationLine: 'none', fontSize: 28, fontFamily: "Georgia", position: "relative", top:70}}>HOME</Link>
+          <Link to='/MatchOptions' style = {{color: "grey",  margin: 100,  textDecorationLine: 'none', fontSize: 28, fontFamily: "Georgia", position: "relative", top:70}} >NEW MATCHES </Link>
+          <Link to='/Profile' style = {{color: "grey",  margin: 100,  textDecorationLine: 'none', fontSize: 28, fontFamily: "Georgia", position: "relative", top:70}}>MY MATCHES</Link> 
         </ol>
       </ul>
      
