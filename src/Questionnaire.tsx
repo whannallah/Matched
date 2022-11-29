@@ -11,34 +11,8 @@ import * as Yup from 'yup';
 
 // Questionnaire PAGE
 
-// const validate = values => {
-//     const errors = {};
-//     if (!values.name) {
-//       errors.name = 'Required';
-//     } else if (values.name.length > 15) {
-//       errors.name = 'Must be 15 characters or less';
-//     }
-  
-//     if (!values.pronouns) {
-//       errors.pronouns = 'Required';
-//     } else if (values.pronouns.length > 10) {
-//       errors.pronouns = 'Must be 10 characters or less';
-//     }
 
-//     if (!values.classYear) {
-//         errors.classYear = 'Required';
-//       } else if (values.classYear.length > 4) {
-//         errors.classYear = 'Invalid class year';
-//       }
-  
-//     if (!values.email) {
-//       errors.email = 'Required';
-//     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-//       errors.email = 'Invalid email address';
-//     }
-  
-//     return errors;
-//   };
+
 
 const Questionnaire = () => {
   // Note that we have to initialize ALL of fields with values. These
@@ -56,12 +30,50 @@ const Questionnaire = () => {
       hobby: '',
       reasoning: ''
     },
-    //validate,
+    validationSchema: Yup.object({
+        name: Yup.string()
+          .max(15, "Must be 15 characters or less")
+          .required("Required"),
+        pronouns: Yup.string()
+          .max(15, "Must be 15 characters or less")
+          .required("Required"),
+        classYear: Yup.string()
+          .max(4, "Must be a valid class year")
+          .min(4, "Must be a valid class year")
+          .required("Required"),
+        email: Yup.string()
+          .email('Invalid email address')
+          .required('Required'),
+        perfSat: Yup.string()
+          .max(100, "Must be 100 character or less")
+          .required("Required"),
+        dreamVac: Yup.string()
+          .max(100, "Must be 100 character or less")
+          .required("Required"),
+        hobby: Yup.string()
+          .max(100, "Must be 100 character or less")
+          .required("Required"),
+        reasoning: Yup.string()
+          .max(100, "Must be 100 character or less")
+          .required("Required"),
+      }),
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-      // send data to backend
+    
+        let data = JSON.stringify(values, null, 2);
+        alert("Survey has been submitted :)")
+
+    // send data to backend
+
+        fetch('http://------------:8080/', {  // Enter your IP address here
+
+        method: 'POST', 
+        mode: 'cors', 
+        body: data 
+    })
+     
     },
   });
+  
   return (
     <form style ={{margin: 200, fontSize: 28, fontFamily: "Georgia", position: "relative"}} onSubmit={formik.handleSubmit}>
       <label className="labelForm" htmlFor="name">Name: </label>
@@ -70,10 +82,13 @@ const Questionnaire = () => {
         name="name"
         type="text"
         onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
         value={formik.values.name}
       />
 
-        {formik.errors.name ? <div>{formik.errors.name}</div> : null}
+    {formik.touched.name && formik.errors.name ? (
+         <div>{formik.errors.name}</div>
+       ) : null}
 
       <label className="labelForm" htmlFor="pronouns">Pronouns: </label>
       <input
@@ -81,11 +96,13 @@ const Questionnaire = () => {
         name="pronouns"
         type="text"
         onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
         value={formik.values.pronouns}
       />
 
-
-        {formik.errors.pronouns ? <div>{formik.errors.pronouns}</div> : null}
+        {formik.touched.pronouns && formik.errors.pronouns ? (
+         <div>{formik.errors.pronouns}</div>
+       ) : null}
 
 
       <label className="labelForm" htmlFor="classYear">Class year: </label>
@@ -94,10 +111,13 @@ const Questionnaire = () => {
         name="classYear"
         type="text"
         onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
         value={formik.values.classYear}
       />
 
-        {formik.errors.classYear ? <div>{formik.errors.classYear}</div> : null}
+        {formik.touched.classYear && formik.errors.classYear ? (
+         <div>{formik.errors.classYear}</div>
+       ) : null}
 
 
       <label className="labelForm" htmlFor="email">Email: </label>
@@ -109,7 +129,9 @@ const Questionnaire = () => {
         value={formik.values.email}
       />
 
-        {formik.errors.email ? <div>{formik.errors.email}</div> : null}
+      {formik.touched.email && formik.errors.email ? (
+         <div>{formik.errors.email}</div>
+       ) : null}
 
       <label className="labelForm" htmlFor="perfSat">Describe your perfect Saturday at Brown: </label>
       <input
@@ -120,6 +142,10 @@ const Questionnaire = () => {
         value={formik.values.perfSat}
       />
 
+        {formik.touched.perfSat && formik.errors.perfSat ? (
+         <div>{formik.errors.perfSat}</div>
+       ) : null}
+
       <label className="labelForm" htmlFor="dreamVac">Describe your dream vacation: </label>
       <input
         id="dreamVac"
@@ -128,6 +154,10 @@ const Questionnaire = () => {
         onChange={formik.handleChange}
         value={formik.values.dreamVac}
       />
+
+        {formik.touched.dreamVac && formik.errors.dreamVac ? (
+         <div>{formik.errors.dreamVac}</div>
+       ) : null}
 
       <label className="labelForm" htmlFor="hobby">Talk about something you enjoy that you wish you had more time to do. (This could be a sport, hobby, or any sort of activity) </label>
       <input
@@ -138,6 +168,10 @@ const Questionnaire = () => {
         value={formik.values.hobby}
       />
 
+        {formik.touched.hobby && formik.errors.hobby ? (
+         <div>{formik.errors.hobby}</div>
+       ) : null}
+
       <label className="labelForm" htmlFor="reasoning">What is your reasoning for filling out this questionnaire? </label>
       <input
         id="reasoning"
@@ -146,6 +180,10 @@ const Questionnaire = () => {
         onChange={formik.handleChange}
         value={formik.values.reasoning}
       />
+
+        {formik.touched.reasoning && formik.errors.reasoning ? (
+         <div>{formik.errors.reasoning}</div>
+       ) : null}
 
       <button className="labelForm" type="submit">Submit</button>
     </form>
