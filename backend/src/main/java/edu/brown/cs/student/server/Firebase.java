@@ -7,9 +7,7 @@ import java.net.*;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
 
@@ -19,6 +17,7 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.moshi.Moshi;
 
 public class Firebase {
     private FirebaseDatabase firebaseDatabase;
@@ -67,6 +66,11 @@ public class Firebase {
 
     clientConnection.connect();
     return clientConnection;
+  }
+
+  public Object createNewUser(User user) {
+      Moshi moshi = new Moshi.Builder().build();
+      return moshi.adapter(User.class).toJson(user);
   }
 
   public String readDatabase(String[] args) throws URISyntaxException, IOException, InterruptedException {

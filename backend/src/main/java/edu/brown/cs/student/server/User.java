@@ -54,4 +54,8 @@ public class User {
   public List<List<Float>> getEmbedding() {
     return this.embedding;
   }
+
+  public String getEmailWithoutEdu() {
+    return this.email.split("@")[0];
+  }
 }

@@ -4,7 +4,11 @@ import static spark.Spark.after;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import com.squareup.moshi.Moshi;
 import spark.Spark;
 
 /**
@@ -45,29 +49,38 @@ public class Server {
     Spark.get("getQuestionairreResponse", Qhandler);
     List<String> params = Qhandler.texts;
     // the parameters will need to be read in from the front end
-    Spark.get("getCohereResponse", new CohereAPIHandler(params.get(0), params.get(1)));
+    //Spark.get("getCohereResponse", new CohereAPIHandler(params.get(0), params.get(1)));
 
     //Firebase stuff
     Firebase firebase = new Firebase();
     firebase.initFirebase();
-    String[] test = {"users"};
-    String[] badTest = {"noname"};
-    String[] putTest = {"users"};
-    String[] putTest2 = {"users", "575746"};
-    System.out.println(firebase.readDatabase(test) + "here");
-    ;
 
-    //PUT: overwrites if the key already exists
-//    firebase.putDatabase(putTest, "38346", "dumb");
-//    firebase.putDatabase(putTest, "575746", "smart");
-//    firebase.putDatabase(putTest2, "Age", "23");
+    //Example creating a user:
+    //1) Mock Data:
+    String[] userRoot = {"users"};
+    List<Float> singleList1 = new ArrayList();
+    singleList1.add(Float.parseFloat("1.0"));
+    singleList1.add(Float.parseFloat("2.0"));
+    List<Float> singleList2 = new ArrayList();
+    singleList2.add(Float.parseFloat("3.0"));
+    singleList2.add(Float.parseFloat("4.0"));
+    List<List<Float>> exampleEmbedding = new ArrayList<List<Float>>();
+    exampleEmbedding.add(singleList1);
+    exampleEmbedding.add(singleList2);
+    //2) Actually adding the user:
+    User mainUser = new User("Whitney", "she/her", "2024", "I<3HarryStyles@brown.edu",exampleEmbedding);
+    User sideUser = new User("Emily", "go/crazy", "2024", "yomama@brown.edu", exampleEmbedding);
+    firebase.putDatabase(userRoot, mainUser.getEmailWithoutEdu(), firebase.createNewUser(mainUser));
+    firebase.putDatabase(userRoot, sideUser.getEmailWithoutEdu(), firebase.createNewUser(sideUser));
+
+    String[] putTest = {"users"};
+    //UPDATE:
+    firebase.updateDatabase(putTest, "BBSSS", "hello"); //doesn't do anything because BBSSS doesn't exist in database
 
     //POST: doesn't overwrite, will create a child (Not sure we really need)
 
-    //UPDATE:
-    firebase.updateDatabase(putTest, "BBSSS", "hello");
-
     //DELETE:
+
 
 
     Spark.init();
