@@ -47,10 +47,10 @@ public class Server {
 
     QuestionairreAPIHandler Qhandler = new QuestionairreAPIHandler();
     Spark.get("getQuestionairreResponse", Qhandler);
-    List<String> params = Qhandler.texts;
+    QuestionairreResponse params = Qhandler.t;
     // the parameters will need to be read in from the front end
 
-    Spark.get("getCohereResponse", new CohereAPIHandler("hi", "hello"));
+    Spark.get("getCohereResponse", new CohereAPIHandler("hi", "test"));
 
 //    //Firebase stuff
 //    Firebase firebase = new Firebase();
@@ -64,7 +64,7 @@ public class Server {
 
     //Spark.get("getCohereResponse", new CohereAPIHandler(params.get(0), params.get(1)));
 
-    //Firebase stuff
+   /* //Firebase stuff
     Firebase firebase = new Firebase();
     firebase.initFirebase();
 
@@ -100,7 +100,7 @@ public class Server {
     //DELETE:
 
 
-
+*/
     Spark.init();
     Spark.awaitInitialization();
     System.out.println("Server started.");

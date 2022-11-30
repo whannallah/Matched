@@ -19,12 +19,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.moshi.Moshi;
 
+/*
+
 public class Firebase {
     private FirebaseDatabase firebaseDatabase;
+*/
 /**
    * initialize firebase.
+   *//*
+
    */
-   /**
+/**
    apiKey: "AIzaSyCI_PJl30MJRkgTRKj6C6G97u83RmFQKgw",
      authDomain: "matched-cs320.firebaseapp.com",
      projectId: "matched-cs320",
@@ -33,7 +38,8 @@ public class Firebase {
      appId: "1:352278494548:web:4bc08b9d1dfa39d3909cc1",
      measurementId: "G-BTXZE45XGZ",
      databaseURL: "https://matched-cs320-default-rtdb.firebaseio.com/"
-   */
+   *//*
+
 
   public void initFirebase() throws IOException {
       // .setDatabaseUrl("https://fir-66f50.firebaseio.com") - Firebase project url.
@@ -168,3 +174,4 @@ public class Firebase {
 
 
 }
+*/

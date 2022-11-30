@@ -10,10 +10,11 @@ import spark.Response;
 import spark.Route;
 
 public class QuestionairreAPIHandler extends ExternalAPIHandler implements Route {
-  List<String> texts;
+  QuestionairreResponse t;;
 
   public QuestionairreAPIHandler(){
     super();
+    // this should get exported
   }
 
   /**
@@ -38,10 +39,14 @@ public class QuestionairreAPIHandler extends ExternalAPIHandler implements Route
 //      this.texts = t.getTexts();
 
 
+      Moshi moshi = new Moshi.Builder().build();
       QueryParamsMap qm = request.queryMap();
       String data = qm.value("data-vals");
+      t = moshi.adapter(QuestionairreResponse.class).fromJson(data);
 
       System.out.println(data);
+      System.out.println(t);
+      System.out.println(t.getEmail());
       return data;
 
       //should this be serialize
