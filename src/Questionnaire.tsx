@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import './App.css';
 import { Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
 
 
 
@@ -15,6 +16,8 @@ import * as Yup from 'yup';
 
 
 const Questionnaire = () => {
+
+  const [zip, setZip] = useState("");
   // Note that we have to initialize ALL of fields with values. These
   // could come from props, but since we don’t want to prefill this form,
   // we just use an empty string. If we don’t do this, React will yell
@@ -59,17 +62,12 @@ const Questionnaire = () => {
       }),
     onSubmit: values => {
     
-        let data = JSON.stringify(values, null, 2);
+        const surveyData = JSON.stringify(values, null, 2);
         alert("Survey has been submitted :)")
 
     // send data to backend
 
-        fetch('http://localhost:9000/getQuestionairreResponse', {  // Enter your IP address here
-
-        method: 'POST', 
-        mode: 'cors', 
-        body: data 
-    })
+        fetch('http://localhost:9000/getQuestionairreResponse?data-vals=' + surveyData )
      
     },
   });

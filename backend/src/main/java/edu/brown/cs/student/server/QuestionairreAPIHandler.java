@@ -4,6 +4,7 @@ import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import edu.brown.cs.student.datasource.ExternalAPIHandler;
 import java.util.List;
+import spark.QueryParamsMap;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -28,15 +29,21 @@ public class QuestionairreAPIHandler extends ExternalAPIHandler implements Route
     try {
 
       // first external http request
-      String QuestionairreResponseJson =
-          this.externalGet("localhost fill in");
+//      String QuestionairreResponseJson =
+//          this.externalGet("localhost fill in");
 
-      Moshi moshi = new Moshi.Builder().build();
+//      Moshi moshi = new Moshi.Builder().build();
       // change this to <list<string>> might have to make class
-      QuestionairreResponse t = moshi.adapter(QuestionairreResponse.class).fromJson(QuestionairreResponseJson);
-      this.texts = t.getTexts();
+//      QuestionairreResponse t = moshi.adapter(QuestionairreResponse.class).fromJson(QuestionairreResponseJson);
+//      this.texts = t.getTexts();
 
-      return this.texts;
+
+      QueryParamsMap qm = request.queryMap();
+      String data = qm.value("data-vals");
+
+      System.out.println(data);
+      return data;
+
       //should this be serialize
     } catch (NullPointerException e) {
       // if pr.properties is null or fr.properties is null

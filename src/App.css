@@ -44,3 +44,11 @@ font-size: 400;
   margin: 10px;
   font-size: 15px;
 }
+
+.top-row {
+  background-color: bisque;
+}
+
+#table {
+  margin-top: 100px;
+}

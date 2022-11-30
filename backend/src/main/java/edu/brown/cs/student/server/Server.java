@@ -45,17 +45,17 @@ public class Server {
     Spark.get("getQuestionairreResponse", Qhandler);
     List<String> params = Qhandler.texts;
     // the parameters will need to be read in from the front end
-    Spark.get("getCohereResponse", new CohereAPIHandler(params.get(0), params.get(1)));
+    Spark.get("getCohereResponse", new CohereAPIHandler("hi", "hello"));
 
-    //Firebase stuff
-    Firebase firebase = new Firebase();
-    firebase.initFirebase();
-    String[] test = {"users"};
-    String[] badTest = {"noname"};
-    String[] putTest = {"users"};
-    String[] putTest2 = {"users", "575746"};
-    System.out.println(firebase.readDatabase(test) + "here");
-    ;
+//    //Firebase stuff
+//    Firebase firebase = new Firebase();
+//    firebase.initFirebase();
+//    String[] test = {"users"};
+//    String[] badTest = {"noname"};
+//    String[] putTest = {"users"};
+//    String[] putTest2 = {"users", "575746"};
+//    System.out.println(firebase.readDatabase(test) + "here");
+//    ;
 
     //PUT: overwrites if the key already exists
 //    firebase.putDatabase(putTest, "38346", "dumb");
@@ -65,7 +65,7 @@ public class Server {
     //POST: doesn't overwrite, will create a child (Not sure we really need)
 
     //UPDATE:
-    firebase.updateDatabase(putTest, "BBSSS", "hello");
+//    firebase.updateDatabase(putTest, "BBSSS", "hello");
 
     //DELETE:
 
