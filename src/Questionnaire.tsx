@@ -64,7 +64,7 @@ const Questionnaire = () => {
 
     // send data to backend
 
-        fetch('http://------------:8080/', {  // Enter your IP address here
+        fetch('http://localhost:9000/getQuestionairreResponse', {  // Enter your IP address here
 
         method: 'POST', 
         mode: 'cors', 
