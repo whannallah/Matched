@@ -152,6 +152,10 @@ public class Firebase {
         return dataResponse.body();
     }
 
+    public void deleteFromDatabase(String[] args, String key) {
+
+    }
+
     public void postDatabase() {
 
   }
