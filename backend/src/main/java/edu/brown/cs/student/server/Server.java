@@ -21,6 +21,7 @@ import spark.Spark;
 public class Server {
 
   public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
+    FormData object = new FormData();
     Spark.port(9000);
     /*
        Setting CORS headers to allow cross-origin requests from the client; this is necessary for the client to
@@ -45,12 +46,10 @@ public class Server {
           response.header("Access-Control-Allow-Methods", "*");
         });
 
-    QuestionairreAPIHandler Qhandler = new QuestionairreAPIHandler();
+    QuestionairreAPIHandler Qhandler = new QuestionairreAPIHandler(object);
     Spark.get("getQuestionairreResponse", Qhandler);
-    QuestionairreResponse params = Qhandler.t;
-    // the parameters will need to be read in from the front end
 
-    Spark.get("getCohereResponse", new CohereAPIHandler("hi", "test"));
+    Spark.get("getCohereResponse", new CohereAPIHandler(object));
 
 //    //Firebase stuff
 //    Firebase firebase = new Firebase();

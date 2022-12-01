@@ -59,3 +59,4 @@ public class User {
     return this.email.split("@")[0];
   }
 }
+

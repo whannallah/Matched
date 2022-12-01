@@ -1,6 +1,7 @@
 package edu.brown.cs.student.server;
 import com.squareup.moshi.Moshi;
 import edu.brown.cs.student.datasource.ExternalAPIHandler;
+import spark.QueryParamsMap;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -9,17 +10,15 @@ import java.util.List;
 
 public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 
-  private String responseq1;
-  private String responseq2;
+  private FormData dataObject;
 
   /**
    * Constructor of CohereAPIHandler.
    * takes in the responses of a user
    */
-  public CohereAPIHandler(String responseq1, String responseq2) {
+  public CohereAPIHandler(FormData data) {
     super();
-    this.responseq1 = responseq1;
-    this.responseq2 = responseq2;
+    this.dataObject = data;
   }
 
   /**
@@ -32,32 +31,48 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
    */
   @Override
   public Object handle(Request request, Response response) throws Exception {
-    try {
+    System.out.println("loaded");
 
-      // first external http request
-      String CohereResponseJson =
-          this.externalPost("https://api.cohere.ai/embed", "{\"texts\":[\"" + responseq1 + "\",\"" + responseq2 +"\"]}");
-
+    if(this.dataObject.getBooleanLoaded())
+    {
+      String dataJson =  this.dataObject.returnData();
       Moshi moshi = new Moshi.Builder().build();
-      CohereResponse CohereReturn =
-          moshi.adapter(CohereResponse.class).fromJson(CohereResponseJson);
-      List<List<Float>> embeddings = CohereReturn.getEmbeddings();
+      QuestionairreResponse t = moshi.adapter(QuestionairreResponse.class).fromJson(dataJson);
 
-      //System.out.println(embeddings.get(0).get(0));
+      try {
+        System.out.println(t.getDreamVac());
 
-      // embedding will need to be written to database, along with unique identifier, name, year, etc
-      return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
+        // first external http request
+        String CohereResponseJson =
+            this.externalPost("https://api.cohere.ai/embed", "{\"texts\":[\"" + t.getDreamVac() + "\",\"" + t.getHobby() +"\"]}");
+
+        Moshi moshi2 = new Moshi.Builder().build();
+        CohereResponse CohereReturn =
+            moshi2.adapter(CohereResponse.class).fromJson(CohereResponseJson);
+        List<List<Float>> embeddings = CohereReturn.getEmbeddings();
+
+        System.out.println(embeddings.get(0).get(0));
+
+        // embedding will need to be written to database, along with unique identifier, name, year, etc
+        return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
 
 
-    } catch (NullPointerException e) {
-      // if pr.properties is null or fr.properties is null
-      // i.e. an error from NWS API with points or gridpoints request
-      return new ErrBadJsonResponse().serialize();
-    } catch (Exception e) {
-      // add message later
-      e.printStackTrace();
-      throw e;
+      } catch (NullPointerException e) {
+        // if pr.properties is null or fr.properties is null
+        // i.e. an error from NWS API with points or gridpoints request
+        return new ErrBadJsonResponse().serialize();
+      } catch (Exception e) {
+        // add message later
+        e.printStackTrace();
+        throw e;
+      }
+
+
     }
+    else {
+      return null; //need to fix this
+    }
+
   }
 
   /**

@@ -3,6 +3,9 @@ package edu.brown.cs.student.server;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import edu.brown.cs.student.datasource.ExternalAPIHandler;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 import spark.QueryParamsMap;
 import spark.Request;
@@ -10,10 +13,12 @@ import spark.Response;
 import spark.Route;
 
 public class QuestionairreAPIHandler extends ExternalAPIHandler implements Route {
-  QuestionairreResponse t;;
+  QuestionairreResponse t;
+  private FormData dataObject;
 
-  public QuestionairreAPIHandler(){
+  public QuestionairreAPIHandler(FormData object){
     super();
+    this.dataObject = object;
     // this should get exported
   }
 
@@ -42,11 +47,19 @@ public class QuestionairreAPIHandler extends ExternalAPIHandler implements Route
       Moshi moshi = new Moshi.Builder().build();
       QueryParamsMap qm = request.queryMap();
       String data = qm.value("data-vals");
+      this.dataObject.loadData(data);
+      this.dataObject.dataLoaded(true);
+      System.out.println(dataObject.getBooleanLoaded());
+
+      CohereAPIHandler handler = new CohereAPIHandler(dataObject);
+      handler.handle(request, response);
       t = moshi.adapter(QuestionairreResponse.class).fromJson(data);
 
       System.out.println(data);
       System.out.println(t);
       System.out.println(t.getEmail());
+      String[] args = {t.getEmail()};
+
       return data;
 
       //should this be serialize
