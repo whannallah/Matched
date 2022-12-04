@@ -10,12 +10,12 @@ import axios from 'axios';
 // inspired from https://codesandbox.io/s/formik-v2-tutorial-final-ge1pt?file=/src/index.js
 // and https://formik.org/docs/tutorial
 
-// Questionnaire PAGE
+// Date Questionnaire PAGE
 
 
 
 
-const Questionnaire = () => {
+const QuestionnaireD = () => {
 
   const [zip, setZip] = useState("");
   // Note that we have to initialize ALL of fields with values. These
@@ -28,9 +28,9 @@ const Questionnaire = () => {
       pronouns: '',
       classYear: '',
       email: '',
-      perfSat: '',
-      dreamVac: '',
-      hobby: '',
+      perfDate: '',
+      expectations: '',
+      passions: '',
       reasoning: ''
     },
     validationSchema: Yup.object({
@@ -47,13 +47,13 @@ const Questionnaire = () => {
         email: Yup.string()
           .email('Invalid email address')
           .required('Required'),
-        perfSat: Yup.string()
+        perfDate: Yup.string()
           .max(100, "Must be 100 character or less")
           .required("Required"),
-        dreamVac: Yup.string()
+        expectations: Yup.string()
           .max(100, "Must be 100 character or less")
           .required("Required"),
-        hobby: Yup.string()
+        passions: Yup.string()
           .max(100, "Must be 100 character or less")
           .required("Required"),
         reasoning: Yup.string()
@@ -63,11 +63,11 @@ const Questionnaire = () => {
     onSubmit: values => {
     
         const surveyData = JSON.stringify(values, null, 2);
-        alert("Survey has been submitted :)")
+        alert(surveyData)
 
     // send data to backend
 
-        fetch('http://localhost:9000/getQuestionairreResponse?data-vals=' + surveyData )
+        fetch('http://localhost:9000/getQuestionairreResponse?data-vals=' + surveyData + '?Qtype=date')
      
     },
   });
@@ -131,43 +131,43 @@ const Questionnaire = () => {
          <div>{formik.errors.email}</div>
        ) : null}
 
-      <label className="labelForm" htmlFor="perfSat">Describe your perfect Saturday at Brown: </label>
+      <label className="labelForm" htmlFor="perfDate">Describe your perfect date: </label>
       <input
-        id="perfSat"
-        name="perfSat"
+        id="perfDate"
+        name="perfDate"
         type="text"
         onChange={formik.handleChange}
-        value={formik.values.perfSat}
+        value={formik.values.perfDate}
       />
 
-        {formik.touched.perfSat && formik.errors.perfSat ? (
-         <div>{formik.errors.perfSat}</div>
+        {formik.touched.perfDate && formik.errors.perfDate ? (
+         <div>{formik.errors.perfDate}</div>
        ) : null}
 
-      <label className="labelForm" htmlFor="dreamVac">Describe your dream vacation: </label>
+      <label className="labelForm" htmlFor="expectations">Describe your expectations in a romantic relationship: </label>
       <input
-        id="dreamVac"
-        name="dreamVac"
+        id="expectations"
+        name="expectations"
         type="text"
         onChange={formik.handleChange}
-        value={formik.values.dreamVac}
+        value={formik.values.expectations}
       />
 
-        {formik.touched.dreamVac && formik.errors.dreamVac ? (
-         <div>{formik.errors.dreamVac}</div>
+        {formik.touched.expectations && formik.errors.expectations ? (
+         <div>{formik.errors.expectations}</div>
        ) : null}
 
-      <label className="labelForm" htmlFor="hobby">Talk about something you enjoy that you wish you had more time to do. (This could be a sport, hobby, or any sort of activity) </label>
+      <label className="labelForm" htmlFor="passions">Talk about something you are passionate about:) </label>
       <input
-        id="hobby"
-        name="hobby"
+        id="passions"
+        name="passions"
         type="text"
         onChange={formik.handleChange}
-        value={formik.values.hobby}
+        value={formik.values.passions}
       />
 
-        {formik.touched.hobby && formik.errors.hobby ? (
-         <div>{formik.errors.hobby}</div>
+        {formik.touched.passions && formik.errors.passions ? (
+         <div>{formik.errors.passions}</div>
        ) : null}
 
       <label className="labelForm" htmlFor="reasoning">What is your reasoning for filling out this questionnaire? </label>
@@ -190,4 +190,4 @@ const Questionnaire = () => {
 
 
 
-export default Questionnaire;
+export default QuestionnaireD;
