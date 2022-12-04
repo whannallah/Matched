@@ -11,7 +11,6 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 
   private FormData dataObject;
   private String CohereResponseJson;
-  private FriendQuestionnaireResponse t;
 
   /**
    * Constructor of CohereAPIHandler.
@@ -34,68 +33,84 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
   public Object handle(Request request, Response response) throws Exception {
     System.out.println("loaded");
 
-    if(this.dataObject.getBooleanLoaded())
-    {
-      String dataJson =  this.dataObject.returnData();
+      String dataJson = this.dataObject.returnData();
       String Qtype = this.dataObject.getQtype();
       System.out.println(Qtype);
 
       Moshi moshi = new Moshi.Builder().build();
 
-      if (Qtype.equals("friend")){
-        t = moshi.adapter(FriendQuestionnaireResponse.class).fromJson(dataJson);
+      if (Qtype.equals("friend")) {
+        FriendQuestionnaireResponse t =
+            moshi.adapter(FriendQuestionnaireResponse.class).fromJson(dataJson);
+
+        try {
+          System.out.println(t.getDreamVac());
+          CohereResponseJson =
+              this.externalPost("https://api.cohere.ai/embed",
+                  "{\"texts\":[\"" + t.getPerfSat() + "\",\"" + t.getDreamVac() + "\",\"" + t.getHobby() + "\",\"" + t.getReasoning() + "\"]}");
+          //api call where individual answers are passed in
+
+          Moshi moshi2 = new Moshi.Builder().build();
+          CohereResponse CohereReturn =
+              moshi2.adapter(CohereResponse.class).fromJson(CohereResponseJson);
+          List<List<Float>> embeddings =
+              CohereReturn.getEmbeddings(); //vector embedding of semantic meaning of text
+
+          System.out.println(embeddings.get(0).get(0));
+
+          //creating a user to add to the database
+          User userToDatabase =
+              new User(Qtype, t.getName(), t.getPronouns(), t.getClassYear(), t.getEmail(),
+                  embeddings);
+          Firebase firebase = new Firebase();
+          firebase.initFirebase();
+          String[] userRoot = {"users"};
+          //adding user to database
+          firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
+              firebase.createNewUser(userToDatabase));
+
+          return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
+
+        } catch (NullPointerException e) {
+          return new ErrBadJsonResponse().serialize();
+        } catch (Exception e) {
+          // add message later
+          e.printStackTrace();
+          throw e;
+        }
       }
 
-      //parses the data into QuestionaireResponse class so that individual answers can be passed
-      //in to the cohereAPI call
+    if (Qtype.equals("date")) {
+      DateQuestionnaireResponse t =
+          moshi.adapter(DateQuestionnaireResponse.class).fromJson(dataJson);
 
       try {
-        System.out.println(t.getDreamVac());
-
-
-        //add if statemts for cohereapi call depending on type
-
-        if (Qtype.equals("friend")){
-          CohereResponseJson =
-              this.externalPost("https://api.cohere.ai/embed", "{\"texts\":[\"" + t.getDreamVac() + "\",\"" + t.getHobby() +"\"]}");
-          //api call where individual answers are passed in
-        }
-
-        if (Qtype.equals("date")){
-          //change for date questions
-          CohereResponseJson =
-              this.externalPost("https://api.cohere.ai/embed", "{\"texts\":[\"" + t.getDreamVac() + "\",\"" + t.getHobby() +"\"]}");
-          //api call where individual answers are passed in
-        }
-
-        if (Qtype.equals("study")){
-          //change for study questions
-          CohereResponseJson =
-              this.externalPost("https://api.cohere.ai/embed", "{\"texts\":[\"" + t.getDreamVac() + "\",\"" + t.getHobby() +"\"]}");
-          //api call where individual answers are passed in
-        }
-
-        // first external http request
-
+        System.out.println(t.getPerfDate());
+        CohereResponseJson =
+            this.externalPost("https://api.cohere.ai/embed",
+                "{\"texts\":[\"" + t.getPerfDate() + "\",\"" + t.getPassions() + "\",\"" + t.getExpectations() + "\",\"" + t.getReasoning() + "\"]}");
+        //api call where individual answers are passed in
 
         Moshi moshi2 = new Moshi.Builder().build();
         CohereResponse CohereReturn =
             moshi2.adapter(CohereResponse.class).fromJson(CohereResponseJson);
-        List<List<Float>> embeddings = CohereReturn.getEmbeddings(); //vector embedding of semantic meaning of text
+        List<List<Float>> embeddings =
+            CohereReturn.getEmbeddings(); //vector embedding of semantic meaning of text
 
         System.out.println(embeddings.get(0).get(0));
 
         //creating a user to add to the database
-        User userToDatabase = new User(Qtype, t.getName(),t.getPronouns(),t.getClassYear(),t.getEmail(),embeddings);
-
+        User userToDatabase =
+            new User(Qtype, t.getName(), t.getPronouns(), t.getClassYear(), t.getEmail(),
+                embeddings);
         Firebase firebase = new Firebase();
         firebase.initFirebase();
         String[] userRoot = {"users"};
         //adding user to database
-        firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(), firebase.createNewUser(userToDatabase));
+        firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
+            firebase.createNewUser(userToDatabase));
 
         return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
-
 
       } catch (NullPointerException e) {
         return new ErrBadJsonResponse().serialize();
@@ -104,13 +119,51 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
         e.printStackTrace();
         throw e;
       }
+    }
 
+    if (Qtype.equals("study")) {
+      StudyQuestionnaireResponse t =
+          moshi.adapter(StudyQuestionnaireResponse.class).fromJson(dataJson);
 
+      try {
+        System.out.println(t.getStudyHabs());
+        CohereResponseJson =
+            this.externalPost("https://api.cohere.ai/embed",
+                "{\"texts\":[\"" + t.getStudyHabs() + "\",\"" + t.getClasses() + "\",\"" + t.getStudySpot() + "\",\"" + t.getReasoning() + "\"]}");
+        //api call where individual answers are passed in
+
+        Moshi moshi2 = new Moshi.Builder().build();
+        CohereResponse CohereReturn =
+            moshi2.adapter(CohereResponse.class).fromJson(CohereResponseJson);
+        List<List<Float>> embeddings =
+            CohereReturn.getEmbeddings(); //vector embedding of semantic meaning of text
+
+        System.out.println(embeddings.get(0).get(0));
+
+        //creating a user to add to the database
+        User userToDatabase =
+            new User(Qtype, t.getName(), t.getPronouns(), t.getClassYear(), t.getEmail(),
+                embeddings);
+        Firebase firebase = new Firebase();
+        firebase.initFirebase();
+        String[] userRoot = {"users"};
+        //adding user to database
+        firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
+            firebase.createNewUser(userToDatabase));
+
+        return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
+
+      } catch (NullPointerException e) {
+        return new ErrBadJsonResponse().serialize();
+      } catch (Exception e) {
+        // add message later
+        e.printStackTrace();
+        throw e;
+      }
     }
     else {
-      return null; //need to fix this
+      return "invalid Query param"; //this case should never be reached
     }
-
   }
 
   /**
