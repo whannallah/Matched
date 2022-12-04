@@ -4,7 +4,9 @@ import Home from './Home';
 import Login from './Login';
 import Profile from './Profile';
 import MatchOptions from './MatchOptions';
-import Questionnaire from './Questionnaire';
+import QuestionnaireF from './QuestionnaireFriend';
+import QuestionnaireS from './QuestionnaireStudy';
+import QuestionnaireD from './QuestionnaireDate';
 
 
 function Main(){
@@ -16,7 +18,9 @@ return (
       <Route path='/Login' element={<Login/>} />
       <Route path='/Profile' element={<Profile/>} />
       <Route path='/MatchOptions' element={<MatchOptions/>} />
-      <Route path='/Questionnaire' element={<Questionnaire/>} />
+      <Route path='/QuestionnaireFriend' element={<QuestionnaireF/>} />
+      <Route path='/QuestionnaireStudy' element={<QuestionnaireS/>} />
+      <Route path='/QuestionnaireDate' element={<QuestionnaireD/>} />
     </Routes>
 );
 }
