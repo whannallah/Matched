@@ -67,7 +67,7 @@ const QuestionnaireD = () => {
 
     // send data to backend
 
-        fetch('http://localhost:9000/getQuestionairreResponse?data-vals=' + surveyData + '?Qtype=date')
+        fetch('http://localhost:9000/getQuestionairreResponse?data-vals=' + surveyData + '&Qtype=date')
      
     },
   });
