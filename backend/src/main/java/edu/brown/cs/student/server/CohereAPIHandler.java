@@ -38,6 +38,7 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
     {
       String dataJson =  this.dataObject.returnData();
       String Qtype = this.dataObject.getQtype();
+      System.out.println(Qtype);
 
       Moshi moshi = new Moshi.Builder().build();
 

@@ -37,6 +37,7 @@ public class QuestionnaireAPIHandler extends ExternalAPIHandler implements Route
       QueryParamsMap qm = request.queryMap();
       String data = qm.value("data-vals"); //json data of response answers
       String QType = qm.value("Qtype"); //questionnaire type
+      System.out.println(QType);
       this.dataObject.loadData(data);
       this.dataObject.dataLoaded(true);
       this.dataObject.setQtype(QType);
