@@ -1,7 +1,6 @@
 package edu.brown.cs.student.server;
 import com.squareup.moshi.Moshi;
 import edu.brown.cs.student.datasource.ExternalAPIHandler;
-import spark.QueryParamsMap;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -11,6 +10,8 @@ import java.util.List;
 public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 
   private FormData dataObject;
+  private String CohereResponseJson;
+  private FriendQuestionnaireResponse t;
 
   /**
    * Constructor of CohereAPIHandler.
@@ -36,30 +37,66 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
     if(this.dataObject.getBooleanLoaded())
     {
       String dataJson =  this.dataObject.returnData();
+      String Qtype = this.dataObject.getQtype();
+
       Moshi moshi = new Moshi.Builder().build();
-      QuestionairreResponse t = moshi.adapter(QuestionairreResponse.class).fromJson(dataJson);
+
+      if (Qtype.equals("friend")){
+        t = moshi.adapter(FriendQuestionnaireResponse.class).fromJson(dataJson);
+      }
+
+      //parses the data into QuestionaireResponse class so that individual answers can be passed
+      //in to the cohereAPI call
 
       try {
         System.out.println(t.getDreamVac());
 
+
+        //add if statemts for cohereapi call depending on type
+
+        if (Qtype.equals("friend")){
+          CohereResponseJson =
+              this.externalPost("https://api.cohere.ai/embed", "{\"texts\":[\"" + t.getDreamVac() + "\",\"" + t.getHobby() +"\"]}");
+          //api call where individual answers are passed in
+        }
+
+        if (Qtype.equals("date")){
+          //change for date questions
+          CohereResponseJson =
+              this.externalPost("https://api.cohere.ai/embed", "{\"texts\":[\"" + t.getDreamVac() + "\",\"" + t.getHobby() +"\"]}");
+          //api call where individual answers are passed in
+        }
+
+        if (Qtype.equals("study")){
+          //change for study questions
+          CohereResponseJson =
+              this.externalPost("https://api.cohere.ai/embed", "{\"texts\":[\"" + t.getDreamVac() + "\",\"" + t.getHobby() +"\"]}");
+          //api call where individual answers are passed in
+        }
+
         // first external http request
-        String CohereResponseJson =
-            this.externalPost("https://api.cohere.ai/embed", "{\"texts\":[\"" + t.getDreamVac() + "\",\"" + t.getHobby() +"\"]}");
+
 
         Moshi moshi2 = new Moshi.Builder().build();
         CohereResponse CohereReturn =
             moshi2.adapter(CohereResponse.class).fromJson(CohereResponseJson);
-        List<List<Float>> embeddings = CohereReturn.getEmbeddings();
+        List<List<Float>> embeddings = CohereReturn.getEmbeddings(); //vector embedding of semantic meaning of text
 
         System.out.println(embeddings.get(0).get(0));
 
-        // embedding will need to be written to database, along with unique identifier, name, year, etc
+        //creating a user to add to the database
+        User userToDatabase = new User(Qtype, t.getName(),t.getPronouns(),t.getClassYear(),t.getEmail(),embeddings);
+
+        Firebase firebase = new Firebase();
+        firebase.initFirebase();
+        String[] userRoot = {"users"};
+        //adding user to database
+        firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(), firebase.createNewUser(userToDatabase));
+
         return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
 
 
       } catch (NullPointerException e) {
-        // if pr.properties is null or fr.properties is null
-        // i.e. an error from NWS API with points or gridpoints request
         return new ErrBadJsonResponse().serialize();
       } catch (Exception e) {
         // add message later

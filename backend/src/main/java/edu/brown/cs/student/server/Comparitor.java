@@ -24,7 +24,7 @@ public class Comparitor {
     exampleEmbedding.add(singleList2);
 
     //name, pronouns, and year will come from database
-    mainUser = new User("Whitney", "she/her", "2024", "example@brown.edu",exampleEmbedding);
+    mainUser = new User("friend", "Whitney", "she/her", "2024", "example@brown.edu",exampleEmbedding);
   }
 
   private User Compare(){
@@ -44,9 +44,10 @@ public class Comparitor {
     //update comparerUserTemp with each iteration
     //calculate cosine similarity between comparerUserTemp and mainUser
     //keep track of max similarity and store max similarity User in comparerUserFinal
+    //priority queue
 
-    User comparerUserFinal = new User("Sam", "she/her", "2025", "example@brown.edu" ,exampleEmbedding);
-    User comparerUserTemp = new User("Sam", "she/her", "2025", "example@brown.edu", exampleEmbedding);
+    User comparerUserFinal = new User("friend", "Sam", "she/her", "2025", "example@brown.edu" ,exampleEmbedding);
+    User comparerUserTemp = new User("friend", "Sam", "she/her", "2025", "example@brown.edu", exampleEmbedding);
     return comparerUserFinal;
   }
 }

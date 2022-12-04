@@ -2,7 +2,10 @@ package edu.brown.cs.student.server;
 
 import java.util.List;
 
-public class QuestionairreResponse {
+/**
+ * class that stores a questionnaireResponse for a new friend
+ */
+public class FriendQuestionnaireResponse {
 
   private String name;
   private String pronouns;
@@ -13,8 +16,8 @@ public class QuestionairreResponse {
   private String hobby;
   private String reasoning;
 
-  public QuestionairreResponse(List<String> t){
-    //this.texts = t;
+  public FriendQuestionnaireResponse(){
+
   }
 
   public String getName() {

@@ -19,11 +19,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.moshi.Moshi;
 
-/*
 
 public class Firebase {
     private FirebaseDatabase firebaseDatabase;
-*/
+
 /**
    * initialize firebase.
    *//*
@@ -38,7 +37,7 @@ public class Firebase {
      appId: "1:352278494548:web:4bc08b9d1dfa39d3909cc1",
      measurementId: "G-BTXZE45XGZ",
      databaseURL: "https://matched-cs320-default-rtdb.firebaseio.com/"
-   *//*
+   */
 
 
   public void initFirebase() throws IOException {
@@ -174,4 +173,4 @@ public class Firebase {
 
 
 }
-*/
+

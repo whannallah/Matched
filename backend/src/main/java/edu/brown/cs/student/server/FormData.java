@@ -6,20 +6,21 @@ import java.util.List;
 public class FormData {
   private String data;
   private Boolean loaded;
+  private String Qtype;
 
   /**
-   * Instantiates the List for parsed contents to be stored and sets the loaded boolean to false
-   * as no file has been loaded yet.
+   * Shared state class for loaded form data from the API from front end.
    */
   public FormData()
   {
     this.data = "";
     this.loaded = false;
+    this.Qtype = "";
   }
 
   /**
    * Loads data from the parsed file into the class
-   * @param d - a List<List<String>> from a parsed csv
+   * @param d - a List<List<String>>
    */
   public void loadData(String d)
   {
@@ -45,12 +46,28 @@ public class FormData {
   }
 
   /**
-   * Called when a class needs the contents of the parsed csv
-   * @return - a List<List<String>> representing the parsed contents
+   * Called when a class needs the contents of the data
+   * @return - a List<List<String>> representing the data
    */
   public String returnData()
   {
     return this.data;
+  }
+
+  /**
+   * sets the questionnaire type
+   * @param q
+   */
+  public void setQtype(String q){
+    this.Qtype=q;
+  }
+
+  /**
+   * gets the quesionnaire type
+   * @return
+   */
+  public String getQtype(){
+    return this.Qtype;
   }
 }
 

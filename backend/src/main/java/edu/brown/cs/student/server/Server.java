@@ -4,11 +4,7 @@ import static spark.Spark.after;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
-import com.squareup.moshi.Moshi;
 import spark.Spark;
 
 /**
@@ -46,7 +42,7 @@ public class Server {
           response.header("Access-Control-Allow-Methods", "*");
         });
 
-    QuestionairreAPIHandler Qhandler = new QuestionairreAPIHandler(object);
+    QuestionnaireAPIHandler Qhandler = new QuestionnaireAPIHandler(object);
     Spark.get("getQuestionairreResponse", Qhandler);
 
     Spark.get("getCohereResponse", new CohereAPIHandler(object));
