@@ -4,12 +4,12 @@ import java.util.List;
 
 public class User {
 
-  private String questionnaireType;
-  private String name;
-  private String pronouns;
   private String classYear;
   private String email;
   private List<List<Float>> embedding;
+  private String name;
+  private String pronouns;
+  private String questionnaireType;
 
   public User(String Qtype, String name, String pronouns, String classYear, String e, List<List<Float>> emb){
     this.name = name;
