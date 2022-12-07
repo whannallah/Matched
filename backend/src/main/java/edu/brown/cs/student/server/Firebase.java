@@ -195,13 +195,14 @@ public class Firebase {
 
   }
 
+  //dont forget to not include mainUser !!
   public void loop(String root, User mainUser)
       throws URISyntaxException, IOException, InterruptedException {
     System.out.println("got into loop");
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     // Get a reference to the "users" location in the database
-    DatabaseReference usersRef = database.getReference("users-date");
+    DatabaseReference usersRef = database.getReference(root);
 
     // Query the database for all child nodes under the root node
     usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -241,6 +242,7 @@ public class Firebase {
 
         }
         System.out.println("got to end of loop");
+        notify();
       }
 
       @Override

@@ -15,6 +15,7 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
   private String CohereResponseJson;
   Firebase firebase = new Firebase();
 
+  private static Object LOCK = new Object();
 
   /**
    * Constructor of CohereAPIHandler.
@@ -147,7 +148,8 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
         firebase.loop("users-date", userToDatabase);
         System.out.println("exited loop");
 
-        Thread.sleep(10000);
+        //Thread.sleep(10000);
+        LOCK.wait();
         System.out.println(firebase.getMostCompatible());
 
         //firebase.unInitFirebase();
