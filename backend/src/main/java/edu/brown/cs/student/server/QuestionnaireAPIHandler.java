@@ -51,7 +51,8 @@ public class QuestionnaireAPIHandler extends ExternalAPIHandler implements Route
       System.out.println(dataObject.getBooleanLoaded());
 
       CohereAPIHandler handler = new CohereAPIHandler(dataObject); //api call to cohereAPI with shared dataObject
-      Object toReturn = handler.handle(request, response);
+      handler.handle(request, response);
+      Object toReturn = handler.firebase.getMostCompatible();
 
       return this.serialize(toReturn);
 
@@ -68,6 +69,8 @@ public class QuestionnaireAPIHandler extends ExternalAPIHandler implements Route
     Moshi moshi = new Moshi.Builder().build();
     JsonAdapter<Object> jsonAdapter = moshi.adapter(
         (Object.class));
+    System.out.println(jsonAdapter.toJson(o));
+
     return jsonAdapter.toJson(o);
   }
 }
