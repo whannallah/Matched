@@ -45,11 +45,6 @@ public class QuestionnaireAPIHandler extends ExternalAPIHandler implements Route
 
       CohereAPIHandler handler = new CohereAPIHandler(dataObject); //api call to cohereAPI with shared dataObject
       handler.handle(request, response);
-      t = moshi.adapter(FriendQuestionnaireResponse.class).fromJson(data); //not necessary only for print purposes
-
-      System.out.println(data);
-      System.out.println(t);
-      System.out.println(t.getEmail());
 
       return data;
 

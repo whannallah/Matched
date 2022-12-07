@@ -5,20 +5,27 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 
   private FormData dataObject;
   private String CohereResponseJson;
+  Firebase firebase = new Firebase();
+
 
   /**
    * Constructor of CohereAPIHandler.
    * takes in the responses of a user
    */
-  public CohereAPIHandler(FormData data) {
+  public CohereAPIHandler(FormData data) throws IOException {
     super();
     this.dataObject = data;
+    //firebase.unInitFirebase();
+
+
   }
 
   /**
@@ -58,16 +65,32 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 
           System.out.println(embeddings.get(0).get(0));
 
+          List<Float> singleList1 = new ArrayList();
+          singleList1.add(Float.parseFloat("1.3"));
+          singleList1.add(Float.parseFloat("2.3"));
+          List<Float> singleList2 = new ArrayList();
+          singleList2.add(Float.parseFloat("3.3"));
+          singleList2.add(Float.parseFloat("4.3"));
+          List<List<Float>> exampleEmbedding = new ArrayList<List<Float>>();
+          exampleEmbedding.add(singleList1);
+          exampleEmbedding.add(singleList2);
+
           //creating a user to add to the database
           User userToDatabase =
               new User(Qtype, t.getName(), t.getPronouns(), t.getClassYear(), t.getEmail(),
-                  embeddings);
-          Firebase firebase = new Firebase();
+                  exampleEmbedding); //should be embeddings
+
+          String[] userRoot = {"users-friend"};
+
           firebase.initFirebase();
-          String[] userRoot = {"users"};
           //adding user to database
           firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
               firebase.createNewUser(userToDatabase));
+
+          firebase.loop("users-friend", userToDatabase);
+
+          Thread.sleep(10000);
+          System.out.println(firebase.getMostCompatible());
 
           return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
 
@@ -91,6 +114,16 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
                 "{\"texts\":[\"" + t.getPerfDate() + "\",\"" + t.getPassions() + "\",\"" + t.getExpectations() + "\",\"" + t.getReasoning() + "\"]}");
         //api call where individual answers are passed in
 
+        List<Float> singleList1 = new ArrayList();
+        singleList1.add(Float.parseFloat("1.3"));
+        singleList1.add(Float.parseFloat("2.3"));
+        List<Float> singleList2 = new ArrayList();
+        singleList2.add(Float.parseFloat("3.3"));
+        singleList2.add(Float.parseFloat("4.3"));
+        List<List<Float>> exampleEmbedding = new ArrayList<List<Float>>();
+        exampleEmbedding.add(singleList1);
+        exampleEmbedding.add(singleList2);
+
         Moshi moshi2 = new Moshi.Builder().build();
         CohereResponse CohereReturn =
             moshi2.adapter(CohereResponse.class).fromJson(CohereResponseJson);
@@ -102,13 +135,22 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
         //creating a user to add to the database
         User userToDatabase =
             new User(Qtype, t.getName(), t.getPronouns(), t.getClassYear(), t.getEmail(),
-                embeddings);
-        Firebase firebase = new Firebase();
+                exampleEmbedding);
+
         firebase.initFirebase();
-        String[] userRoot = {"users"};
+        String[] userRoot = {"users-date"};
         //adding user to database
         firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
             firebase.createNewUser(userToDatabase));
+
+        System.out.println("got into date");
+        firebase.loop("users-date", userToDatabase);
+        System.out.println("exited loop");
+
+        Thread.sleep(10000);
+        System.out.println(firebase.getMostCompatible());
+
+        //firebase.unInitFirebase();
 
         return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
 
@@ -140,16 +182,32 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 
         System.out.println(embeddings.get(0).get(0));
 
+        List<Float> singleList1 = new ArrayList();
+        singleList1.add(Float.parseFloat("1.3"));
+        singleList1.add(Float.parseFloat("2.3"));
+        List<Float> singleList2 = new ArrayList();
+        singleList2.add(Float.parseFloat("3.3"));
+        singleList2.add(Float.parseFloat("4.3"));
+        List<List<Float>> exampleEmbedding = new ArrayList<List<Float>>();
+        exampleEmbedding.add(singleList1);
+        exampleEmbedding.add(singleList2);
+
         //creating a user to add to the database
         User userToDatabase =
             new User(Qtype, t.getName(), t.getPronouns(), t.getClassYear(), t.getEmail(),
-                embeddings);
-        Firebase firebase = new Firebase();
-        firebase.initFirebase();
-        String[] userRoot = {"users"};
+                exampleEmbedding);
+
+        String[] userRoot = {"users-study"};
         //adding user to database
+        firebase.initFirebase();
         firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
             firebase.createNewUser(userToDatabase));
+
+        firebase.loop("users-study", userToDatabase);
+        System.out.println("exited loop");
+
+        Thread.sleep(10000);
+        System.out.println(firebase.getMostCompatible());
 
         return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
 
