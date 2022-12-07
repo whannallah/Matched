@@ -68,6 +68,7 @@ const QuestionnaireF = () => {
     // send data to backend
 
         fetch('http://localhost:9000/getQuestionairreResponse?data-vals=' + surveyData + '&Qtype=friend')
+        .then(response => {return response.json()});
      
     },
   });
