@@ -1,8 +1,6 @@
 package edu.brown.cs.student.server;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.net.*;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -12,9 +10,9 @@ import java.util.concurrent.CountDownLatch;
 
 
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.common.base.Splitter;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.moshi.Moshi;
@@ -40,7 +38,7 @@ public class Firebase {
    */
 
 
-  public void initFirebase() throws IOException {
+  public void initFirebase() throws IOException, URISyntaxException, InterruptedException {
       // .setDatabaseUrl("https://fir-66f50.firebaseio.com") - Firebase project url.
       // .setServiceAccount(new FileInputStream(new File("filepath"))) - Firebase private key file path.
       FileInputStream serviceAccount = new FileInputStream("./backend/matched-cs320-firebase-adminsdk-qt8u9-0a35976e64.json");
@@ -89,6 +87,60 @@ public class Firebase {
       HttpResponse<String> dataResponse = HttpClient.newBuilder().build().send(retrieveData, HttpResponse.BodyHandlers.ofString());
       return dataResponse.body();
   }
+
+  //put("Test-User", "embeddings", chunk1)
+  public void exp(String[] args, String key, String value) throws IOException {
+      int chunkSize = 400;
+      if (value.length() > chunkSize) {
+          System.out.println("bigger than chunk size");
+          Iterable<String> chunks = Splitter.fixedLength(chunkSize).split(value);
+          ArrayList<String> oldArgs = new ArrayList<>(Arrays.asList(args));
+          oldArgs.add("embeddings");
+          //String oldKey = key;
+          for (String chunk : chunks) {
+              System.out.println(chunk);
+              putDatabase2(oldArgs, "data", chunk);
+              oldArgs.add("dataNext");
+//              System.out.println(oldArgs);
+//              oldArgs.add(chunk);
+//              putDatabase2(oldArgs, "embeddings", "empty");
+          }
+          //putDatabase(args, key,);
+      }
+
+//      BufferedReader br = new BufferedReader(new StringReader(value));
+//      String line = br.readLine();
+//      while (line != null) {
+//          System.out.println(line);
+//          line = br.readLine();
+//      }
+//      br.close();
+  }
+    public void putDatabase2(ArrayList<String> args, String key, Object value) {
+        try {
+            StringBuilder endpoint = new StringBuilder();
+            for (String eachString : args) {
+                endpoint.append(eachString).append("/");
+            }
+            DatabaseReference ref = firebaseDatabase.getReference(endpoint +"/" + key);
+            final CountDownLatch latch = new CountDownLatch(1);
+            System.out.println("key: " + ref.getKey());
+            System.out.println("root: " + ref.getRoot());
+            System.out.println("parent: " + ref.getParent());
+            ref.setValue(value, (databaseError, databaseReference) -> {
+                if (databaseError != null) {
+                    System.out.println("Data could not be saved " + databaseError.getMessage());
+                    latch.countDown();
+                } else {
+                    System.out.println("Data saved successfully.");
+                    latch.countDown();
+                }
+            });
+            latch.await();
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
   //replaces existing
   public void putDatabase(String[] args, String key, Object value) {
@@ -144,11 +196,7 @@ public class Firebase {
                 }));
                 latch.await();
             }
-        } catch(InterruptedException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch(InterruptedException | URISyntaxException | IOException e) {
             e.printStackTrace();
         }
     }

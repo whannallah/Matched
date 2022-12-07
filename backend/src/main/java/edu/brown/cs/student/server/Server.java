@@ -19,6 +19,22 @@ public class Server {
   public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
     FormData object = new FormData();
     Spark.port(9000);
+    Firebase firebase = new Firebase();
+    firebase.initFirebase();
+    String[] data = {"PerfectDate", "Test-User"};
+    firebase.putDatabase(data, "embeddings", "empty");
+    String testData = "Lorem ipsum dolor sit amet, id nec ferri dicta deterruisset, no vim sale laboramus efficiantur. Eligendi moderatius neglegentur his eu, eam novum bonorum ponderum ei, cum ut saperet salutatus vulputate. Alterum tractatos cum te, usu mucius veritus concludaturque at. Has ne veniam malorum scripserit. Ex ornatus consequat similique pro, dolores sadipscing ei nam.\n" +
+            "\n" +
+            "Esse minimum ad eum. Sed gubergren aliquando consetetur ut, mollis aliquip scriptorem cu per. Natum mucius percipit sea at. Ei aperiri accusata per, pro ut accusata perpetua.\n" +
+            "\n" +
+            "Vidit denique commune ne ius, ei movet equidem vulputate vim. Nibh libris primis in mel, vix no nominati iudicabit, vidit movet patrioque id eos. At mea verterem tincidunt. Dicam patrioque est id, erat inermis eloquentiam ea vel, summo dolor luptatum eum an. Cum an utroque recteque maluisset, ut placerat aliquando quo, usu suas hendrerit at.\n" +
+            "\n" +
+            "Eu sit legere labores. Eos definiebas elaboraret ne, ius mutat fugit definitiones et. Duo ut aliquid facilis fuisset, no graeco indoctum his. Enim utamur accusam sit et, ea maiorum vivendum vulputate pro. Impetus volumus ea vel, ei stet soluta vulputate sit.\n" +
+            "\n" +
+            "Vis id tantas viderer neglegentur, ad congue nostrum officiis mea, nam ex affert maluisset. Feugait imperdiet vis ex, ex per solet nostrud. Ex eum erat assum. No vix eloquentiam mediocritatem, ex mei partem voluptua, sit alii consulatu et.";
+    firebase.exp(data, "embeddings", testData);
+    //firebase.exp("lots and lots and lots of data \nfhdkskdjnc");
+
     /*
        Setting CORS headers to allow cross-origin requests from the client; this is necessary for the client to
        be able to make requests to the server.
@@ -46,6 +62,8 @@ public class Server {
     Spark.get("getQuestionairreResponse", Qhandler);
 
     Spark.get("getCohereResponse", new CohereAPIHandler(object));
+
+
 
 //    //Firebase stuff
 //    Firebase firebase = new Firebase();
@@ -96,8 +114,12 @@ public class Server {
 
 
 */
+
     Spark.init();
     Spark.awaitInitialization();
     System.out.println("Server started.");
   }
+
+
+
 }

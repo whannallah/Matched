@@ -1,5 +1,9 @@
 package edu.brown.cs.student.server;
 
+import com.google.firebase.database.DatabaseReference;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,4 +54,6 @@ public class Comparitor {
     User comparerUserTemp = new User("friend", "Sam", "she/her", "2025", "example@brown.edu", exampleEmbedding);
     return comparerUserFinal;
   }
+
+
 }
