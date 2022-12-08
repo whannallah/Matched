@@ -10,11 +10,11 @@ function MatchOptions (){
     return (
 
         <div>
-             <p style ={{padding: 100}}> Match options below: </p>
+             <p id="text"> Match options below: </p>
             
-            <Link to='/QuestionnaireStudy'><Button style ={{margin: 100}} variant="outlined">Study Buddy</Button></Link>
-            <Link to='/QuestionnaireFriend'><Button style ={{margin: 100}} variant="outlined">Friend</Button></Link>
-            <Link to='/QuestionnaireDate'><Button style ={{margin: 100}} variant="outlined">Date</Button></Link>
+            <Link to='/QuestionnaireStudy'><Button id ="button-style" variant="contained">Study Buddy</Button></Link>
+            <Link to='/QuestionnaireFriend'><Button id="button-style" variant="contained">Friend</Button></Link>
+            <Link to='/QuestionnaireDate'><Button id="button-style" variant="contained">Date</Button></Link>
         </div>
         
         ) 
