@@ -9,7 +9,7 @@ import { Link} from 'react-router-dom';
 function MatchOptions (){
     return (
 
-        <div style={{ display: 'inline',  color:"blue" }}>
+        <div>
              <p style ={{padding: 100}}> Match options below: </p>
             
             <Link to='/QuestionnaireStudy'><Button style ={{margin: 100}} variant="outlined">Study Buddy</Button></Link>
