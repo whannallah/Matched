@@ -92,7 +92,7 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 
           Thread.sleep(10000);
           String[] place = {"users-friend-matches"};
-          firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), firebase.getMostCompatible());
+          firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), firebase.createNewUser(firebase.getMostCompatible()));
 
 
 
@@ -154,7 +154,7 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
         Thread.sleep(10000);
         //LOCK.wait();
         String[] place = {"users-date-matches"};
-        firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), firebase.getMostCompatible());
+        firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), firebase.createNewUser(firebase.getMostCompatible()));
         //firebase.unInitFirebase();
 
         return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
@@ -213,7 +213,7 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 
         Thread.sleep(10000);
         String[] place = {"users-study-matches"};
-        firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), firebase.getMostCompatible());
+        firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), firebase.createNewUser(firebase.getMostCompatible()));
 
         return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
 
