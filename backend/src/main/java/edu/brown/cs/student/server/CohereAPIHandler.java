@@ -63,7 +63,9 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
           List<List<Float>> embeddings =
               CohereReturn.getEmbeddings(); //vector embedding of semantic meaning of text
 
-          System.out.println(embeddings.get(0).get(0));
+          //System.out.println(embeddings.get(0).get(0));
+          System.out.println(embeddings);
+          //firebase.putEmbeddingInDatabase();
 
           List<Float> singleList1 = new ArrayList();
           singleList1.add(Float.parseFloat("1.3"));
@@ -78,7 +80,7 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
           //creating a user to add to the database
           User userToDatabase =
               new User(Qtype, t.getName(), t.getPronouns(), t.getClassYear(), t.getEmail(),
-                  exampleEmbedding); //should be embeddings
+                  embeddings); //should be embeddings
 
           String[] userRoot = {"users-friend"};
 
@@ -89,8 +91,10 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 
           firebase.loop("users-friend", userToDatabase);
 
+
+
           Thread.sleep(10000);
-          System.out.println(firebase.getMostCompatible());
+          System.out.println("Most compatible: " + firebase.getMostCompatible());
 
           return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
 

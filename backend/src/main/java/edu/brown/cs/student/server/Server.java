@@ -4,6 +4,9 @@ import static spark.Spark.after;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import spark.Spark;
 
@@ -21,18 +24,23 @@ public class Server {
     Spark.port(9000);
     Firebase firebase = new Firebase();
     firebase.initFirebase();
+    String[] temp = {"users-friend"};
+    firebase.deleteFromDatabase(temp, "kamrm");
+    //firebase.testLoop();
     String[] data = {"PerfectDate", "Test-User"};
-    firebase.putDatabase(data, "embeddings", "empty");
-    String testData = "Lorem ipsum dolor sit amet, id nec ferri dicta deterruisset, no vim sale laboramus efficiantur. Eligendi moderatius neglegentur his eu, eam novum bonorum ponderum ei, cum ut saperet salutatus vulputate. Alterum tractatos cum te, usu mucius veritus concludaturque at. Has ne veniam malorum scripserit. Ex ornatus consequat similique pro, dolores sadipscing ei nam.\n" +
-            "\n" +
-            "Esse minimum ad eum. Sed gubergren aliquando consetetur ut, mollis aliquip scriptorem cu per. Natum mucius percipit sea at. Ei aperiri accusata per, pro ut accusata perpetua.\n" +
-            "\n" +
-            "Vidit denique commune ne ius, ei movet equidem vulputate vim. Nibh libris primis in mel, vix no nominati iudicabit, vidit movet patrioque id eos. At mea verterem tincidunt. Dicam patrioque est id, erat inermis eloquentiam ea vel, summo dolor luptatum eum an. Cum an utroque recteque maluisset, ut placerat aliquando quo, usu suas hendrerit at.\n" +
-            "\n" +
-            "Eu sit legere labores. Eos definiebas elaboraret ne, ius mutat fugit definitiones et. Duo ut aliquid facilis fuisset, no graeco indoctum his. Enim utamur accusam sit et, ea maiorum vivendum vulputate pro. Impetus volumus ea vel, ei stet soluta vulputate sit.\n" +
-            "\n" +
-            "Vis id tantas viderer neglegentur, ad congue nostrum officiis mea, nam ex affert maluisset. Feugait imperdiet vis ex, ex per solet nostrud. Ex eum erat assum. No vix eloquentiam mediocritatem, ex mei partem voluptua, sit alii consulatu et.";
-    firebase.exp(data, "embeddings", testData);
+//    firebase.putDatabase(data, "embedding", "empty");
+   List<List<Double>> testData2 = List.of(List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(17.5, 28.4, 3566.3), List.of(48.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),
+           List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),
+           List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),
+           List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),
+           List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),
+           List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3),List.of(1.5, 2.4, 3.3), List.of(4.3, 5.3, 3.3));
+
+    String testData = "[[Lorem ipsum dolor sit amet,],[id nec ferri dicta deterruisset, no vim sale laboramus efficiantur. Eligendi moderatius neglegentur his eu, eam novum bonorum ponderum ei, cum ut saperet salutatus vulputate. Alterum tractatos cum te, usu mucius veritus concludaturque at. Has ne veniam malorum scripserit. Ex ornatus consequat similique pro, dolores sadipscing ei nam.],[Esse minimum ad eum. Sed gubergren aliquando consetetur ut, mollis][aliquip scriptorem cu per. Natum mucius percipit sea at. Ei aperiri accusata per, pro ut accusata perpetua]," +
+            "[Vidit denique commune ne ius, ei movet equidem vulputate vim. Nibh libris primis in mel, vix no nominati iudicabit, vidit movet patrioque id eos. At mea verterem tincidunt. Dicam pat][rioque est id, erat inermis eloquentiam ea vel, summo dolor luptatum eum an. Cum an utroque recteque maluisset, ut placerat aliquando quo, usu suas hendrerit at.]" +
+            "[Eu sit legere labores. Eos definiebas elaboraret ne, ius mutat fugit definitiones et. Duo ut aliquid facilis fuisset, no graeco indoctum his. Enim utamur a],[ccusam sit et, ea maiorum vivendum vulputate pro. Impetus volumus ea vel, ei stet soluta vulputate sit.]," +
+            "[Vis id tantas viderer neglegentur, ad congue nostrum officiis mea, nam ex affert maluisset. Feugait imperdiet vis ex, ex per solet nostrud. Ex e],[um erat assum. No vix eloquentiam mediocritatem, ex mei partem voluptua, sit alii consulatu et.]]";
+    //firebase.exp(data, "embedding", testData2.toString());
     //firebase.exp("lots and lots and lots of data \nfhdkskdjnc");
 
     /*

@@ -9,7 +9,6 @@ import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
 
-
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.base.Splitter;
 import com.google.firebase.FirebaseApp;
@@ -21,7 +20,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firestore.v1.Document;
+import com.squareup.moshi.JsonReader;
 import com.squareup.moshi.Moshi;
+import org.apache.commons.codec.binary.StringUtils;
 
 
 public class Firebase {
@@ -103,6 +105,7 @@ public class Firebase {
     return moshi.adapter(User.class).toJson(user);
   }
 
+  //Returns THE JSON; does not use moshi so as to make the read fxn more generally useful
   public String readDatabase(String[] args)
       throws URISyntaxException, IOException, InterruptedException {
     String startURL = "https://matched-cs320-default-rtdb.firebaseio.com/";
@@ -117,34 +120,6 @@ public class Firebase {
     return dataResponse.body();
   }
 
-  //put("Test-User", "embeddings", chunk1)
-  public void exp(String[] args, String key, String value) throws IOException {
-      int chunkSize = 400;
-      if (value.length() > chunkSize) {
-          System.out.println("bigger than chunk size");
-          Iterable<String> chunks = Splitter.fixedLength(chunkSize).split(value);
-          ArrayList<String> oldArgs = new ArrayList<>(Arrays.asList(args));
-          oldArgs.add("embeddings");
-          //String oldKey = key;
-          for (String chunk : chunks) {
-              System.out.println(chunk);
-              putDatabase2(oldArgs, "data", chunk);
-              oldArgs.add("dataNext");
-//              System.out.println(oldArgs);
-//              oldArgs.add(chunk);
-//              putDatabase2(oldArgs, "embeddings", "empty");
-          }
-          //putDatabase(args, key,);
-      }
-
-//      BufferedReader br = new BufferedReader(new StringReader(value));
-//      String line = br.readLine();
-//      while (line != null) {
-//          System.out.println(line);
-//          line = br.readLine();
-//      }
-//      br.close();
-  }
     public void putDatabase2(ArrayList<String> args, String key, Object value) {
         try {
             StringBuilder endpoint = new StringBuilder();
@@ -245,30 +220,57 @@ public class Firebase {
   }
 
   public void deleteFromDatabase(String[] args, String key) {
+      try {
+        StringBuilder endpoint = new StringBuilder();
+        for (String eachString : args) {
+          endpoint.append(eachString).append("/");
+        }
+        DatabaseReference userRef = firebaseDatabase.getReference(endpoint + "/" + key);
+        final CountDownLatch latch = new CountDownLatch(1);
+        System.out.println("key: " + userRef.getKey());
+        System.out.println("root: " + userRef.getRoot());
+        System.out.println("parent: " + userRef.getParent());
+        userRef.removeValue( (databaseError, databaseReference) -> {
+          if (databaseError != null) {
+            System.out.println("User could not be deleted:  " + databaseError.getMessage());
+            latch.countDown();
+          } else {
+            System.out.println("User deleted successfully.");
+            latch.countDown();
+          }
+        });
+        latch.await();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
 
-  }
+
+
+
+
 
   public void loop(String root, User mainUser)
       throws URISyntaxException, IOException, InterruptedException {
-    System.out.println("got into loop");
+    //System.out.println("got into loop");
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     // Get a reference to the "users" location in the database
-    DatabaseReference usersRef = database.getReference("users-date");
+    DatabaseReference usersRef = database.getReference("users-friend");
 
     // Query the database for all child nodes under the root node
     usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
       @Override
       public void onDataChange(DataSnapshot snapshot) {
-        System.out.println("got to inner loop");
+        //System.out.println("got to inner loop");
         double maxCosSim = -2.0;
 
         // Loop through all child nodes
         for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-          System.out.println("got here");
+
           // Get the user object from the snapshot
-          System.out.println(userSnapshot.getValue().toString());
+          //System.out.println(userSnapshot.getValue().toString());
           Moshi moshi2 = new Moshi.Builder().build();
           try {
             User user =
@@ -281,7 +283,7 @@ public class Firebase {
             }
 
             // Do something with the field
-            System.out.println(CompEmbedding.get(0).get(0));
+            //System.out.println(CompEmbedding.get(0).get(0));
 
           } catch (IOException e) {
 
@@ -343,7 +345,87 @@ public class Firebase {
   }
 
   public User getMostCompatible(){
+    System.out.println("Most compatible (name): " + this.mostCompatible.getName());
     return this.mostCompatible;
   }
 }
 
+
+
+
+//  public void testLoop(String root, User mainUser) {
+//    FirebaseDatabase database = FirebaseDatabase.getInstance();
+//
+//    // Get a reference to the "users" location in the database
+//    DatabaseReference usersRef = database.getReference("PerfectDate/Test-User");
+//
+//    // Query the database for all child nodes under the root node
+//    usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//
+//      @Override
+//      public void onDataChange(DataSnapshot snapshot) {
+//        double maxCosSim = -2.0;
+//        // Loop through all child nodes
+//        for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+//          String[] newStrings = userSnapshot.getValue().toString().split("dataNext=" + "\\{" + "data=");
+//          StringBuilder stringBuilder = new StringBuilder();
+//          for (String each: newStrings) {
+//            String newString = each.substring(0, each.length() - 2);
+//            stringBuilder.append(newString);
+//          }
+//          String newString = stringBuilder.toString().replace("=", ":").split("}")[0];
+//          String newerString = newString.replace("{data:", "");
+//          newerString += ",\"classYear\":\"2024\",\"email\":\"whi@gmail.edu\",\"name\":\"w\",\"pronouns\":\"she\",\"questionnaireType\":\"date\"";
+//          newerString += "}";
+//          newerString = "{\"embedding\":" + newerString;
+//          Moshi moshi2 = new Moshi.Builder().build();
+//          try {
+//            /**
+//             * Here is where the changed embedding format needs to be accounted for
+//             */
+//            System.out.println(newerString);
+//            User user = moshi2.adapter(User.class)
+//                    .fromJson(newerString);
+//            assert user != null;
+//            List<List<Float>> CompEmbedding = user.getEmbedding();
+//            double cosineSim = cosineSimAverage(mainUser.getEmbedding(), CompEmbedding);
+//            if (cosineSim > maxCosSim) {
+//              maxCosSim = cosineSim;
+//              mostCompatible = user;
+//            }
+//          } catch (IOException e) {
+//            e.printStackTrace();
+//          }
+//          // Access the specific field you are interested in
+//          //List<List<Float>> embedding = user.getEmbedding();
+//          // Do something with the field
+//          //System.out.println(embedding.get(0).get(0));
+//        }
+//        System.out.println("got to end of loop");
+//      }
+//      @Override
+//      public void onCancelled(DatabaseError error) {
+//        System.out.println("got to error");
+//        return;
+//      }
+//    });System.out.println("got out of nest");
+//  }
+
+//  public void putEmbeddingInDatabase(String[] args, String key, String value) throws IOException {
+//    int chunkSize = 400;
+//    if (value.length() > chunkSize) {
+//      System.out.println("bigger than chunk size");
+//      Iterable<String> chunks = Splitter.fixedLength(chunkSize).split(value);
+//      ArrayList<String> oldArgs = new ArrayList<>(Arrays.asList(args));
+//      oldArgs.add("embedding");
+//      for (String chunk : chunks) {
+//        System.out.println(chunk);
+//        putDatabase2(oldArgs, "data", chunk);
+//        oldArgs.add("dataNext");
+//      }
+//    }
+//    else {
+//      ArrayList<String> newArgs = new ArrayList<>(Arrays.asList(args));
+//      putDatabase2(newArgs, "data", value);
+//    }
+//  }
