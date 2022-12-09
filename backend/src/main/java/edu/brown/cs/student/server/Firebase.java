@@ -27,6 +27,7 @@ public class Firebase {
   private FirebaseDatabase firebaseDatabase;
   private User mostCompatible; //change this to a queue at some point
   private Boolean hasBeenInitiated=false;
+  List<User> usersToReturn = new LinkedList<>();
 
 /**
  * initialize firebase.
@@ -204,6 +205,7 @@ public class Firebase {
     // Get a reference to the "users" location in the database
     DatabaseReference usersRef = database.getReference(root);
 
+    final CountDownLatch latch = new CountDownLatch(1);
     // Query the database for all child nodes under the root node
     usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -212,6 +214,16 @@ public class Firebase {
         System.out.println("got to inner loop");
         double maxCosSim = -2.0;
 
+        Comparator<Map.Entry<User, Double>> comparator = new Comparator<Map.Entry<User, Double>>() {
+          @Override
+          public int compare(Map.Entry<User, Double> e1, Map.Entry<User, Double> e2) {
+            return e1.getValue().compareTo(e2.getValue());
+          }
+        };
+
+        // Create a priority queue using the Comparator
+        PriorityQueue<Map.Entry<User, Double>> pq = new PriorityQueue<>(comparator);
+        HashMap<User, Double> map = new HashMap<>();
         // Loop through all child nodes
         for (DataSnapshot userSnapshot : snapshot.getChildren()) {
           System.out.println("got here");
@@ -223,10 +235,9 @@ public class Firebase {
                 moshi2.adapter(User.class).fromJson(userSnapshot.getValue().toString());
             List<List<Float>> CompEmbedding = user.getEmbedding();
             double cosineSim = cosineSimAverage(mainUser.getEmbedding(), CompEmbedding);
-            if (cosineSim > maxCosSim) {
-              maxCosSim = cosineSim;
-              mostCompatible = user;
-            }
+            map.put(user, cosineSim);
+            System.out.println("map size" + map.size());
+
             // Do something with the field
             System.out.println(CompEmbedding.get(0).get(0));
 
@@ -242,7 +253,21 @@ public class Firebase {
 
         }
         System.out.println("got to end of loop");
-        notify();
+        System.out.println(usersToReturn.size());
+        pq.addAll(map.entrySet());
+        System.out.println(usersToReturn.size());
+        Map.Entry<User, Double> entry = pq.poll();
+        System.out.println(entry);
+        usersToReturn.add(entry.getKey());
+        System.out.println(usersToReturn.size());
+
+        Map.Entry<User, Double> entry2 = pq.poll();
+        System.out.println(entry2);
+        usersToReturn.add(entry2.getKey());
+
+        System.out.println(usersToReturn.size());
+
+        latch.countDown();
       }
 
       @Override
@@ -252,6 +277,7 @@ public class Firebase {
       }
     }
     );
+    latch.await();
     System.out.println("got out of nest");
   }
 
@@ -289,8 +315,8 @@ public class Firebase {
     return cosineSimilarity;
   }
 
-  public User getMostCompatible(){
-    return this.mostCompatible;
+  public List<User> getUsersToReturn(){
+    return this.usersToReturn;
   }
 }
 

@@ -53,10 +53,8 @@ public class QuestionnaireAPIHandler extends ExternalAPIHandler implements Route
 
       CohereAPIHandler handler = new CohereAPIHandler(dataObject); //api call to cohereAPI with shared dataObject
       handler.handle(request, response);
-      Object toReturn = handler.firebase.getMostCompatible();
+      Object toReturn = handler.firebase.getUsersToReturn();
 
-      System.out.println(this.serialize(toReturn));
-      System.out.println("here it is");
       return this.serialize(toReturn);
 
     } catch (NullPointerException e) {

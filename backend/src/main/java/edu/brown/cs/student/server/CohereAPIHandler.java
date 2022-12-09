@@ -7,7 +7,9 @@ import spark.Route;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 
@@ -90,10 +92,13 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 
           firebase.loop("users-friend", userToDatabase);
 
-          Thread.sleep(10000);
+          //Thread.sleep(10000);
           String[] place = {"users-friend-matches"};
-          firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), firebase.createNewUser(firebase.getMostCompatible()));
-
+          List toReturn = new LinkedList();
+          for (int i=0; i<2;i++){
+            toReturn.add(firebase.createNewUser(firebase.getUsersToReturn().get(i)));
+          }
+          firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), toReturn);
 
 
           return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
@@ -151,10 +156,19 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
         firebase.loop("users-date", userToDatabase);
         System.out.println("exited loop");
 
-        Thread.sleep(10000);
+        //Thread.sleep(10000);
         //LOCK.wait();
         String[] place = {"users-date-matches"};
-        firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), firebase.createNewUser(firebase.getMostCompatible()));
+
+        List toReturn = new LinkedList();
+
+        //have it as top 2 users right now
+        for (int i=0; i<2;i++){
+          toReturn.add(firebase.createNewUser(firebase.getUsersToReturn().get(i)));
+        }
+
+
+        firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), toReturn);
         //firebase.unInitFirebase();
 
         return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
@@ -211,9 +225,14 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
         firebase.loop("users-study", userToDatabase);
         System.out.println("exited loop");
 
-        Thread.sleep(10000);
+        //Thread.sleep(10000);
         String[] place = {"users-study-matches"};
-        firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), firebase.createNewUser(firebase.getMostCompatible()));
+        List toReturn = new LinkedList();
+        for (int i=0; i<2;i++){
+          toReturn.add(firebase.createNewUser(firebase.getUsersToReturn().get(i)));
+        }
+
+        firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), toReturn);
 
         return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
 
