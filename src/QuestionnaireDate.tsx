@@ -11,10 +11,6 @@ import axios from 'axios';
 // and https://formik.org/docs/tutorial
 
 // Date Questionnaire PAGE
-
-
-
-
 const QuestionnaireD = () => {
 
   const [zip, setZip] = useState("");
@@ -60,21 +56,23 @@ const QuestionnaireD = () => {
           .max(100, "Must be 100 character or less")
           .required("Required"),
       }),
-    onSubmit: values => {
+    onSubmit: async values => {
     
         const surveyData = JSON.stringify(values, null, 2);
-        alert(surveyData)
 
     // send data to backend
 
-        fetch('http://localhost:9000/getQuestionairreResponse?data-vals=' + surveyData + '&Qtype=date')
-        .then(response => {return response.json()});
+      fetch('http://localhost:9000/getQuestionairreResponse?data-vals=' + surveyData + '&Qtype=date')
+      // .then(response => {return response.json()});
+
+        alert(surveyData)
+
      
     },
   });
   
   return (
-    <form style ={{margin: 200, fontSize: 28, fontFamily: "Georgia", position: "relative"}} onSubmit={formik.handleSubmit}>
+    <form style={{ margin: 200, fontSize: 28, fontFamily: "Georgia", position: "relative" }} onSubmit={formik.handleSubmit}>
       <label className="labelForm" htmlFor="name">Name: </label>
       <input
         id="name"
@@ -82,12 +80,11 @@ const QuestionnaireD = () => {
         type="text"
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        value={formik.values.name}
-      />
+        value={formik.values.name} />
 
-    {formik.touched.name && formik.errors.name ? (
-         <div>{formik.errors.name}</div>
-       ) : null}
+      {formik.touched.name && formik.errors.name ? (
+        <div>{formik.errors.name}</div>
+      ) : null}
 
       <label className="labelForm" htmlFor="pronouns">Pronouns: </label>
       <input
@@ -96,12 +93,11 @@ const QuestionnaireD = () => {
         type="text"
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        value={formik.values.pronouns}
-      />
+        value={formik.values.pronouns} />
 
-        {formik.touched.pronouns && formik.errors.pronouns ? (
-         <div>{formik.errors.pronouns}</div>
-       ) : null}
+      {formik.touched.pronouns && formik.errors.pronouns ? (
+        <div>{formik.errors.pronouns}</div>
+      ) : null}
 
 
       <label className="labelForm" htmlFor="classYear">Class year: </label>
@@ -111,12 +107,11 @@ const QuestionnaireD = () => {
         type="text"
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        value={formik.values.classYear}
-      />
+        value={formik.values.classYear} />
 
-        {formik.touched.classYear && formik.errors.classYear ? (
-         <div>{formik.errors.classYear}</div>
-       ) : null}
+      {formik.touched.classYear && formik.errors.classYear ? (
+        <div>{formik.errors.classYear}</div>
+      ) : null}
 
 
       <label className="labelForm" htmlFor="email">Email: </label>
@@ -125,12 +120,11 @@ const QuestionnaireD = () => {
         name="email"
         type="email"
         onChange={formik.handleChange}
-        value={formik.values.email}
-      />
+        value={formik.values.email} />
 
       {formik.touched.email && formik.errors.email ? (
-         <div>{formik.errors.email}</div>
-       ) : null}
+        <div>{formik.errors.email}</div>
+      ) : null}
 
       <label className="labelForm" htmlFor="perfDate">Describe your perfect date: </label>
       <input
@@ -138,12 +132,11 @@ const QuestionnaireD = () => {
         name="perfDate"
         type="text"
         onChange={formik.handleChange}
-        value={formik.values.perfDate}
-      />
+        value={formik.values.perfDate} />
 
-        {formik.touched.perfDate && formik.errors.perfDate ? (
-         <div>{formik.errors.perfDate}</div>
-       ) : null}
+      {formik.touched.perfDate && formik.errors.perfDate ? (
+        <div>{formik.errors.perfDate}</div>
+      ) : null}
 
       <label className="labelForm" htmlFor="expectations">Describe your expectations in a romantic relationship: </label>
       <input
@@ -151,44 +144,43 @@ const QuestionnaireD = () => {
         name="expectations"
         type="text"
         onChange={formik.handleChange}
-        value={formik.values.expectations}
-      />
+        value={formik.values.expectations} />
 
-        {formik.touched.expectations && formik.errors.expectations ? (
-         <div>{formik.errors.expectations}</div>
-       ) : null}
+      {formik.touched.expectations && formik.errors.expectations ? (
+        <div>{formik.errors.expectations}</div>
+      ) : null}
 
-      <label className="labelForm" htmlFor="passions">Talk about something you are passionate about:) </label>
+      <label className="labelForm" htmlFor="passions">Talk about something you are passionate about: ) </label>
       <input
         id="passions"
         name="passions"
         type="text"
         onChange={formik.handleChange}
-        value={formik.values.passions}
-      />
+        value={formik.values.passions} />
 
-        {formik.touched.passions && formik.errors.passions ? (
-         <div>{formik.errors.passions}</div>
-       ) : null}
+      {formik.touched.passions && formik.errors.passions ? (
+        <div>{formik.errors.passions}</div>
+      ) : null}
 
-      <label className="labelForm" htmlFor="reasoning">What is your reasoning for filling out this questionnaire? </label>
+      <label className="labelForm" htmlFor="reasoning">What is your reasoning for filling out this questionnaire?</label>
       <input
         id="reasoning"
         name="reasoning"
         type="text"
         onChange={formik.handleChange}
-        value={formik.values.reasoning}
-      />
+        value={formik.values.reasoning} />
 
-        {formik.touched.reasoning && formik.errors.reasoning ? (
-         <div>{formik.errors.reasoning}</div>
-       ) : null}
+      {formik.touched.reasoning && formik.errors.reasoning ? (
+        <div>{formik.errors.reasoning}</div>
+      ) : null}
 
       <button className="labelForm" type="submit">Submit</button>
-    </form>
+    
+      </form>
+  
   );
 };
 
-
-
 export default QuestionnaireD;
+
+

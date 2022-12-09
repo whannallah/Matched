@@ -30,6 +30,7 @@ public class Firebase {
   private FirebaseDatabase firebaseDatabase;
   private User mostCompatible; //change this to a queue at some point
   private Boolean hasBeenInitiated=false;
+  List<User> usersToReturn = new LinkedList<>();
 
 /**
  * initialize firebase.
@@ -250,14 +251,16 @@ public class Firebase {
 
 
 
+  //dont forget to not include mainUser !!
   public void loop(String root, User mainUser)
       throws URISyntaxException, IOException, InterruptedException {
     //System.out.println("got into loop");
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     // Get a reference to the "users" location in the database
-    DatabaseReference usersRef = database.getReference("users-friend");
+    DatabaseReference usersRef = database.getReference(root);
 
+    final CountDownLatch latch = new CountDownLatch(1);
     // Query the database for all child nodes under the root node
     usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -266,6 +269,16 @@ public class Firebase {
         //System.out.println("got to inner loop");
         double maxCosSim = -2.0;
 
+        Comparator<Map.Entry<User, Double>> comparator = new Comparator<Map.Entry<User, Double>>() {
+          @Override
+          public int compare(Map.Entry<User, Double> e1, Map.Entry<User, Double> e2) {
+            return e2.getValue().compareTo(e1.getValue());
+          }
+        };
+
+        // Create a priority queue using the Comparator
+        PriorityQueue<Map.Entry<User, Double>> pq = new PriorityQueue<>(comparator);
+        HashMap<User, Double> map = new HashMap<>();
         // Loop through all child nodes
         for (DataSnapshot userSnapshot : snapshot.getChildren()) {
 
@@ -277,10 +290,9 @@ public class Firebase {
                 moshi2.adapter(User.class).fromJson(userSnapshot.getValue().toString());
             List<List<Float>> CompEmbedding = user.getEmbedding();
             double cosineSim = cosineSimAverage(mainUser.getEmbedding(), CompEmbedding);
-            if (cosineSim > maxCosSim) {
-              maxCosSim = cosineSim;
-              mostCompatible = user;
-            }
+            map.put(user, cosineSim);
+            System.out.println("map size" + map.size());
+
 
             // Do something with the field
             //System.out.println(CompEmbedding.get(0).get(0));
@@ -298,6 +310,21 @@ public class Firebase {
 
         }
         System.out.println("got to end of loop");
+        pq.addAll(map.entrySet());
+        Map.Entry<User, Double> entry = pq.poll();
+        System.out.println(entry.getValue());
+        usersToReturn.add(entry.getKey());
+
+
+        Map.Entry<User, Double> entry2 = pq.poll();
+        System.out.println(entry2.getValue());
+        usersToReturn.add(entry2.getKey());
+
+        while (!pq.isEmpty()) {
+          System.out.println(pq.poll());
+        }
+
+        latch.countDown();
       }
 
       @Override
@@ -307,6 +334,7 @@ public class Firebase {
       }
     }
     );
+    latch.await();
     System.out.println("got out of nest");
   }
 
@@ -318,39 +346,41 @@ public class Firebase {
     return score / mainUser.size();
   }
 
-  public double cosineSimilarity(List<Float> A, List<Float> B) {
-    // Calculate the dot product of the vectors
-    double dotProduct = 0;
-    for (int i = 0; i < A.size(); i++) {
-      dotProduct += A.get(i) * B.get(i);
+    public static double cosineSimilarity(List<Float> vec1, List<Float> vec2) {
+      int commonElements = 0;
+      double dotProduct = 0;
+      double sum1 = 0;
+      double sum2 = 0;
+
+      for (int i = 0; i < vec1.size() && i < vec2.size(); i++) {
+        dotProduct += vec1.get(i) * vec2.get(i);
+        sum1 += vec1.get(i) * vec1.get(i);
+        sum2 += vec2.get(i) * vec2.get(i);
+        commonElements++;
+      }
+
+      for (int i = commonElements; i < vec1.size(); i++) {
+        sum1 += vec1.get(i) * vec1.get(i);
+      }
+
+      for (int i = commonElements; i < vec2.size(); i++) {
+        sum2 += vec2.get(i) * vec2.get(i);
+      }
+
+      double magnitude = Math.sqrt(sum1) * Math.sqrt(sum2);
+
+      if (magnitude == 0) {
+        return 0;
+      }
+
+      return dotProduct / magnitude;
     }
 
-    // Calculate the length of vector A
-    double A_length = 0;
-    for (int i = 0; i < A.size(); i++) {
-      A_length += A.get(i) * A.get(i);
-    }
-    A_length = Math.sqrt(A_length);
+  public List<User> getUsersToReturn(){
+    return this.usersToReturn;
 
-    // Calculate the length of vector B
-    double B_length = 0;
-    for (int i = 0; i < B.size(); i++) {
-      B_length += B.get(i) * B.get(i);
-    }
-    B_length = Math.sqrt(B_length);
-
-    // Calculate the cosine similarity
-    double cosineSimilarity = dotProduct / (A_length * B_length);
-    return cosineSimilarity;
-  }
-
-  public User getMostCompatible(){
-    System.out.println("Most compatible (name): " + this.mostCompatible.getName());
-    return this.mostCompatible;
   }
 }
-
-
 
 
 //  public void testLoop(String root, User mainUser) {

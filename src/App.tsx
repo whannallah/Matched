@@ -16,9 +16,9 @@ function App(){
      
       <ul >
         <ol >
-          <Link to='/' style = {{color: "grey",   margin: 100, textDecorationLine: 'none', fontSize: 28, fontFamily: "Georgia", position: "relative", top:70}}>HOME</Link>
-          <Link to='/MatchOptions' style = {{color: "grey",  margin: 100,  textDecorationLine: 'none', fontSize: 28, fontFamily: "Georgia", position: "relative", top:70}} >NEW MATCHES </Link>
-          <Link to='/Profile' style = {{color: "grey",  margin: 100,  textDecorationLine: 'none', fontSize: 28, fontFamily: "Georgia", position: "relative", top:70}}>MY MATCHES</Link> 
+          <Link to='/' id="nav-bar" >HOME</Link>
+          <Link to='/MatchOptions' id="nav-bar" >NEW MATCHES </Link>
+          <Link to='/Profile' id="nav-bar" >MY MATCHES</Link> 
         </ol>
       </ul>
      
