@@ -81,7 +81,7 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
           //creating a user to add to the database
           User userToDatabase =
               new User(Qtype, t.getName(), t.getPronouns(), t.getClassYear(), t.getEmail(),
-                  exampleEmbedding); //should be embeddings
+                  embeddings); //should be embeddings
 
           String[] userRoot = {"users-friend"};
 

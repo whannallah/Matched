@@ -70,7 +70,6 @@ public class QuestionnaireAPIHandler extends ExternalAPIHandler implements Route
     Moshi moshi = new Moshi.Builder().build();
     JsonAdapter<Object> jsonAdapter = moshi.adapter(
         (Object.class));
-    System.out.println(jsonAdapter.toJson(o));
 
     return jsonAdapter.toJson(o);
   }
