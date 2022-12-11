@@ -16,14 +16,16 @@ import java.util.Map;
 public class QuestionnaireAPIHandler extends ExternalAPIHandler implements Route {
   FriendQuestionnaireResponse t;
   private FormData dataObject;
+  private Firebase firebase;
 
   /**
    * handler for the API of getting questionnaire data from front end
    * @param object
    */
-  public QuestionnaireAPIHandler(FormData object){
+  public QuestionnaireAPIHandler(FormData object, Firebase firebase){
     super();
     this.dataObject = object;
+    this.firebase = firebase;
   }
 
   /**
@@ -51,7 +53,7 @@ public class QuestionnaireAPIHandler extends ExternalAPIHandler implements Route
       System.out.println(dataObject.getBooleanLoaded());
 
 
-      CohereAPIHandler handler = new CohereAPIHandler(dataObject); //api call to cohereAPI with shared dataObject
+      CohereAPIHandler handler = new CohereAPIHandler(dataObject, this.firebase); //api call to cohereAPI with shared dataObject
       handler.handle(request, response);
       Object toReturn = handler.firebase.getUsersToReturn();
 

@@ -15,17 +15,19 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 
   private FormData dataObject;
   private String CohereResponseJson;
-  Firebase firebase = new Firebase();
+  Firebase firebase;
 
   private static Object LOCK = new Object();
+
 
   /**
    * Constructor of CohereAPIHandler.
    * takes in the responses of a user
    */
-  public CohereAPIHandler(FormData data) throws IOException {
+  public CohereAPIHandler(FormData data, Firebase firebase) throws IOException {
     super();
     this.dataObject = data;
+    this.firebase = firebase;
     //firebase.unInitFirebase();
 
 
@@ -87,21 +89,21 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 
           String[] userRoot = {"users-friend"};
 
-          firebase.initFirebase();
+          //firebase.initFirebase();
           //adding user to database
-          firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
-              firebase.createNewUser(userToDatabase));
+          this.firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
+             this.firebase.createNewUser(userToDatabase));
 
-          firebase.loop("users-friend", userToDatabase);
+          //this.firebase.loop("users-friend", userToDatabase);
 
 
           //Thread.sleep(10000);
           String[] place = {"users-friend-matches"};
           List toReturn = new LinkedList();
           for (int i=0; i<2;i++){
-            toReturn.add(firebase.createNewUser(firebase.getUsersToReturn().get(i)));
+            toReturn.add(this.firebase.createNewUser(this.firebase.getUsersToReturn().get(i)));
           }
-          firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), toReturn);
+          this.firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), toReturn);
 
 
           return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
@@ -149,15 +151,15 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
             new User(Qtype, t.getName(), t.getPronouns(), t.getClassYear(), t.getEmail(),
                 exampleEmbedding);
 
-        firebase.initFirebase();
+        //firebase.initFirebase();
         String[] userRoot = {"users-date"};
         //adding user to database
-        firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
-            firebase.createNewUser(userToDatabase));
+        this.firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
+            this.firebase.createNewUser(userToDatabase));
 
-        System.out.println("got into date");
-        firebase.loop("users-date", userToDatabase);
-        System.out.println("exited loop");
+
+        //this.firebase.loop("users-date", userToDatabase);
+
 
         //Thread.sleep(10000);
         //LOCK.wait();
@@ -167,11 +169,11 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 
         //have it as top 2 users right now
         for (int i=0; i<2;i++){
-          toReturn.add(firebase.createNewUser(firebase.getUsersToReturn().get(i)));
+          toReturn.add(this.firebase.createNewUser(this.firebase.getUsersToReturn().get(i)));
         }
 
 
-        firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), toReturn);
+        this.firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), toReturn);
         //firebase.unInitFirebase();
 
         return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
@@ -221,21 +223,21 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 
         String[] userRoot = {"users-study"};
         //adding user to database
-        firebase.initFirebase();
-        firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
-            firebase.createNewUser(userToDatabase));
+        //firebase.initFirebase();
+        this.firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
+            this.firebase.createNewUser(userToDatabase));
 
-        firebase.loop("users-study", userToDatabase);
+        //this.firebase.loop("users-study", userToDatabase);
         System.out.println("exited loop");
 
         //Thread.sleep(10000);
         String[] place = {"users-study-matches"};
         List toReturn = new LinkedList();
         for (int i=0; i<2;i++){
-          toReturn.add(firebase.createNewUser(firebase.getUsersToReturn().get(i)));
+          toReturn.add(this.firebase.createNewUser(this.firebase.getUsersToReturn().get(i)));
         }
 
-        firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), toReturn);
+        this.firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), toReturn);
 
         return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
 
