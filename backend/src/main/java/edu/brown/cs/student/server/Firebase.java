@@ -52,21 +52,15 @@ public class Firebase {
 
 
   public void initFirebase() throws IOException {
-    // .setDatabaseUrl("https://fir-66f50.firebaseio.com") - Firebase project url.
-    // .setServiceAccount(new FileInputStream(new File("filepath"))) - Firebase private key file path.
     FileInputStream serviceAccount =
         new FileInputStream("backend/matched-cs320-firebase-adminsdk-qt8u9-0a35976e64.json");
-    GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount); //might need
-    //
+    GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
     FirebaseOptions firebaseOptions = new FirebaseOptions.Builder()
         .setDatabaseUrl("https://matched-cs320-default-rtdb.firebaseio.com/")
         //.setAPIKey("AIzaSyCI_PJl30MJRkgTRKj6C6G97u83RmFQKgw")
         //.setServiceAccount(new FileInputStream(new File("C:\\Users\\Vicky\\Documents\\NetBeansProjects\\Examples\\src\\com\\javaquery\\google\\firebase\\Firebase-30f95674f4d5.json")))
-        .setCredentials(credentials) //might need
+        .setCredentials(credentials)
         .build();
-
-
-
       FirebaseApp.initializeApp(firebaseOptions);
 
 
@@ -80,7 +74,6 @@ public class Firebase {
   public void unInitFirebase() {
     // Get the Firebase app instance
     FirebaseApp app = FirebaseApp.getInstance();
-
     // Delete the app instance and disconnect from the Firebase database
     app.delete();
   }
