@@ -18,15 +18,11 @@ public class GetMatchesAPIHandler extends ExternalAPIHandler implements Route {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        Moshi moshi = new Moshi.Builder().build();
         QueryParamsMap qm = request.queryMap();
         String userKey = qm.value("user-key");
 
         String QType = qm.value("Qtype"); //questionnaire type
-        String[] temp = {QType, userKey};
-        String userData = this.firebase.readDatabase(temp);
-        User mainUser = moshi.adapter(User.class).fromJson(userData);
-        firebase.loop(QType, mainUser);
+        firebase.otherLoop(QType, userKey);
         return null;
     }
 }

@@ -66,14 +66,8 @@ public class Server {
     formsAvailable.add("users-study");
 
     Spark.get("getFilledOutQs", new FilledOutQAPIHandler(firebase, formsAvailable));
-    Moshi moshi = new Moshi.Builder().build();
-    String[] temp = {"users-friend", "sally"};
-    String userData = firebase.readDatabase(temp);
 
-    System.out.println(userData);
-
-    User mainUser = moshi.adapter(User.class).fromJson(userData);
-    //firebase.loop("users-friend", mainUser);
+    //firebase.otherLoop("users-friend", "kam");
 
     Spark.init();
     Spark.awaitInitialization();

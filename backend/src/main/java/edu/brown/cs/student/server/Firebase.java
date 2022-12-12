@@ -331,6 +331,94 @@ public class Firebase {
     System.out.println("got out of nest");
   }
 
+  public void otherLoop(String root, String mainUserKey)
+          throws URISyntaxException, IOException, InterruptedException {
+    //System.out.println("got into loop");
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    // Get a reference to the "users" location in the database
+    DatabaseReference usersRef = database.getReference(root);
+
+    final CountDownLatch latch = new CountDownLatch(1);
+    // Query the database for all child nodes under the root node
+    usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+      @Override
+      public void onDataChange(DataSnapshot snapshot) {
+        //System.out.println("got to inner loop");
+        double maxCosSim = -2.0;
+        Comparator<Map.Entry<User, Double>> comparator = new Comparator<Map.Entry<User, Double>>() {
+          @Override
+          public int compare(Map.Entry<User, Double> e1, Map.Entry<User, Double> e2) {
+            return e2.getValue().compareTo(e1.getValue());
+          }
+        };
+        // Create a priority queue using the Comparator
+        PriorityQueue<Map.Entry<User, Double>> pq = new PriorityQueue<>(comparator);
+        HashMap<User, Double> map = new HashMap<>();
+        Moshi moshi2 = new Moshi.Builder().build();
+        User mainUser = null;
+        User user = null;
+
+        //find mainUser
+        for (DataSnapshot userSnapshot: snapshot.getChildren()) {
+          if (Objects.equals(userSnapshot.getKey(), mainUserKey)) {
+            try {
+              mainUser = moshi2.adapter(User.class).fromJson(userSnapshot.getValue().toString());
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+          }
+        }
+        // Loop through all child nodes
+        for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+          // Get the user object from the snapshot
+          //System.out.println(userSnapshot.getValue().toString());
+
+          try {
+
+            if (!Objects.equals(userSnapshot.getKey(), mainUserKey)) {
+              user = moshi2.adapter(User.class).fromJson(userSnapshot.getValue().toString());
+            }
+            if (mainUser != null && user != null) {
+              List<List<Float>> CompEmbedding = user.getEmbedding();
+              double cosineSim = cosineSimAverage(mainUser.getEmbedding(), CompEmbedding);
+              map.put(user, cosineSim);
+              System.out.println("map size" + map.size());
+            }
+            // Do something with the field
+            //System.out.println(CompEmbedding.get(0).get(0));
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+          // Access the specific field you are interested in
+          //List<List<Float>> embedding = user.getEmbedding();
+          // Do something with the field
+          //System.out.println(embedding.get(0).get(0));
+        }
+        System.out.println("got to end of loop");
+        pq.addAll(map.entrySet());
+        Map.Entry<User, Double> entry = pq.poll();
+        System.out.println(entry.getValue());
+        usersToReturn.add(entry.getKey());
+        Map.Entry<User, Double> entry2 = pq.poll();
+        System.out.println(entry2.getValue());
+        usersToReturn.add(entry2.getKey());
+        while (!pq.isEmpty()) {
+          System.out.println(pq.poll());
+        }
+        latch.countDown();
+      }
+      @Override
+      public void onCancelled(DatabaseError error) {
+        System.out.println("got to error");
+        return;
+      }
+    });
+    latch.await();
+    System.out.println("got out of nest");
+  }
+
   public double cosineSimAverage(List<List<Float>> mainUser, List<List<Float>> compUser) {
     Double score = 0.0;
     for (int i = 0; i < mainUser.size(); i++) {
