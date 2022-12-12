@@ -331,7 +331,7 @@ public class Firebase {
     System.out.println("got out of nest");
   }
 
-  public void otherLoop(String root, String mainUserKey)
+  public List<User> otherLoop(String root, String mainUserKey)
           throws URISyntaxException, IOException, InterruptedException {
     //System.out.println("got into loop");
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -373,10 +373,7 @@ public class Firebase {
         // Loop through all child nodes
         for (DataSnapshot userSnapshot : snapshot.getChildren()) {
           // Get the user object from the snapshot
-          //System.out.println(userSnapshot.getValue().toString());
-
           try {
-
             if (!Objects.equals(userSnapshot.getKey(), mainUserKey)) {
               user = moshi2.adapter(User.class).fromJson(userSnapshot.getValue().toString());
             }
@@ -417,6 +414,7 @@ public class Firebase {
     });
     latch.await();
     System.out.println("got out of nest");
+    return usersToReturn;
   }
 
   public double cosineSimAverage(List<List<Float>> mainUser, List<List<Float>> compUser) {

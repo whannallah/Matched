@@ -7,6 +7,8 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.util.List;
+
 public class GetMatchesAPIHandler extends ExternalAPIHandler implements Route {
 
     private final Firebase firebase;
@@ -22,7 +24,10 @@ public class GetMatchesAPIHandler extends ExternalAPIHandler implements Route {
         String userKey = qm.value("user-key");
 
         String QType = qm.value("Qtype"); //questionnaire type
-        firebase.otherLoop(QType, userKey);
-        return null;
+        List<User> topMatches = firebase.otherLoop(QType, userKey);
+        for (User match: topMatches) {
+            System.out.println(match.getName());
+        }
+        return topMatches;
     }
 }
