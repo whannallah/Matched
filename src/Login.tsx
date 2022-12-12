@@ -10,14 +10,16 @@ import Main from './Main';
 
 import { GoogleLogin, GoogleLogout} from 'react-google-login';
 import {gapi} from 'gapi-script';
+import { EmailOutlined } from "@mui/icons-material";
 
 
 
 // LOGIN PAGE
 
-function Login (){
+export default function Login (){
     const clientId = "952054202634-sh0ga8ll4khean9j7gfvcmqkdak5ssaq.apps.googleusercontent.com"
-        const [profile, setProfile] = useState(null);
+    const [profile, setProfile] = useState(null);
+    const [emailID, setEmailID] = useState(null);
     
     //   const[header, setHeader] = useState("");
     
@@ -33,8 +35,10 @@ function Login (){
     
       const onSuccess = (res: any) => {
         setProfile(res.profileObj)
+        setEmailID(res.profileObj.email)
         
       }
+
     
       const onFailure = (err: any) => {
           console.log('failed', err);
@@ -42,6 +46,7 @@ function Login (){
     
       const logOut = () => {
           setProfile(null);
+          setEmailID(null)
         
       }
     
@@ -50,7 +55,7 @@ function Login (){
       return (
           <div >
              <h1>
-              React auth
+              React Auth
              </h1>
              {profile ? (
                         <div>
@@ -65,7 +70,7 @@ function Login (){
                            
                             <GoogleLogout 
                                 clientId={clientId} 
-                                buttonText = "Log out" 
+                                buttonText = "Log Out" 
                                 onLogoutSuccess={logOut}
                                  />
                              <Main/>   
@@ -75,7 +80,7 @@ function Login (){
                 
                     <GoogleLogin    
                         clientId = {clientId}
-                        buttonText = "sign in with google"
+                        buttonText = "Sign in with Google"
                         onSuccess={onSuccess}
                         onFailure={onFailure}
                         cookiePolicy={'single_host_origin'}
@@ -101,5 +106,3 @@ function Login (){
         
 
 }
-
-export default Login;

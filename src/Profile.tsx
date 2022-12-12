@@ -7,10 +7,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import Login from './Login';
+import emailID from "./Login"
+
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref, set, onValue } from "firebase/database"
-import { createNull, isNonNullExpression } from 'typescript';
+import { createNull, isFunctionDeclaration, isNonNullExpression } from 'typescript';
+import { Button } from '@mui/material';
 
 //MY MATCHES PAGE
 
@@ -19,9 +23,6 @@ import { createNull, isNonNullExpression } from 'typescript';
 
 
 function Profile (){
-
-  let DisplayData = null;
-
 
   function createData(
     matchType: string,
@@ -32,19 +33,15 @@ function Profile (){
     return { matchType, name, pronouns, email };
   }
 
-        
+
    const rows = [
     createData('Study Buddy', 'Sam', 'she/her', 'samantha_shulman@brown.edu'),
-    createData('Date',  'Emily', 'she/her', 'emily_perelman@brown.edu'),
-    createData('Friend',  'Whitney', 'she/her', 'N/A'),
-    createData('Date',  'Kam', 'he/him', 'N/A')
+    // createData('Date',  'Emily', 'she/her', 'emily_perelman@brown.edu'),
+    // createData('Friend',  'Whitney', 'she/her', 'N/A'),
+    // createData('Date',  'Kam', 'he/him', 'N/A')
    ];
 
-   
-   const loginID = "samantha_shulman"
 
-
-  // const [matches, setMatches] = useState(rows);
 
   // useEffect(() => {
   //   // Update the data with a listener onto realtime database
@@ -56,37 +53,59 @@ function Profile (){
   // });
 
 
-    async function handleSubmit() {
-      let matchData = await fetch ('http://localhost:9000/getMatches?ID-val=' + loginID)
-      .then(response => {
-        return response.json()
-    })  
+   let DisplayData = rows.map((row)=> (
+    <TableRow
+    key={row.matchType}
+    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+    >
+      <TableCell >
+      {row.matchType}
+      </TableCell>
+      <TableCell >{row.name}</TableCell>
+      <TableCell align="right">{row.pronouns}</TableCell>
+      <TableCell align="right">{row.email}</TableCell>
+    </TableRow>
+   ));
 
-      DisplayData = matchData.map((row: any)=>{
-          return(
-              <TableRow
-                key={row.matchType}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell >
-                  {row.matchType}
-                </TableCell>
-                <TableCell >{row.name}</TableCell>
-                <TableCell align="right">{row.pronouns}</TableCell>
-                <TableCell align="right">{row.email}</TableCell>
-              </TableRow>
-          )
-        }
-      )
+
+   const [matches, setMatches] = useState(null);
+
+
+   const handleSubmit = () => {
+      fetch ('http://localhost:9000/getMatches?user-key=samantha_shulman&Qtype=users-date')
+        .then((response) => response.json())
+        .then((response) => {
+          setMatches(response.status);
+        }) 
+
+      alert("hii")
+
+      // DisplayData = rows.map((row)=> (
+      //   <TableRow
+      //   key={row.matchType}
+      //   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+      //   >
+      //     <TableCell >
+      //     {row.matchType}
+      //     </TableCell>
+      //     <TableCell >{row.name}</TableCell>
+      //     <TableCell align="right">{row.pronouns}</TableCell>
+      //     <TableCell align="right">{row.email}</TableCell>
+      //   </TableRow>
+      // )
+      // )
+
     }
+
+
 
   return (
 
     <div>
-    <form onSubmit={handleSubmit}>
-        <label htmlFor="usernameInput">Click for matches:</label>
-        <button type="submit">Submit</button>
-    </form>
+    {/* <Button onClick={() => setMatches(DisplayData2)}> */}
+    <Button onClick={() => handleSubmit}>
+        <label htmlFor="usernameInput">Click for matches</label>
+    </Button>
 
     <TableContainer component={Paper}>
         <Table id="table" sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -100,9 +119,7 @@ function Profile (){
           </TableHead>
           <TableBody>
             
-            {DisplayData}
-
-            {/* {rows.map((row) => (
+            {rows.map((row) => (
               <TableRow
                 key={row.matchType}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -114,7 +131,7 @@ function Profile (){
                 <TableCell align="right">{row.pronouns}</TableCell>
                 <TableCell align="right">{row.email}</TableCell>
               </TableRow>
-            ))} */}
+            ))}
 
           </TableBody>
         </Table>
