@@ -72,10 +72,10 @@ public class TestGetMatchesHandler extends ExternalAPIHandler {
         CohereReturn.getEmbeddings();
 
     User userToDatabase =
-        new User("friend", "whitney", "she/her", "2024", "whitney_hannallah@brown.edu",
+        new User("date", "whitney", "she/her", "2024", "whitney_hannallah@brown.edu",
             embeddings);
 
-    String[] userRoot = {"users-friend-test"};
+    String[] userRoot = {"users-date"};
     //adding user to database
     //firebase.initFirebase();
     this.firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
@@ -85,7 +85,7 @@ public class TestGetMatchesHandler extends ExternalAPIHandler {
   {
     URL requestURL =
         new URL("http://localhost:" + Spark.port() +
-            "/getMatches?user-key=w&Qtype=users-friend");
+            "/getMatches?user-key=w&Qtype=users-study");
     //this should be user-key: whitney_hannallah and type users-friend-test but that was giving an infinite loop
     HttpURLConnection clientConnection = (HttpURLConnection) requestURL.openConnection();
     clientConnection.connect();
@@ -94,9 +94,9 @@ public class TestGetMatchesHandler extends ExternalAPIHandler {
 
     Moshi moshi = new Moshi.Builder().build();
     // success case
-    GetMatchesAPIHandler response =
+    Object response =
         moshi
-            .adapter(GetMatchesAPIHandler.class)
+            .adapter(Object.class)
             .fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
 
     assertEquals("hi",response.toString());
