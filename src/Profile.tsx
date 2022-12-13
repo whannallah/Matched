@@ -6,6 +6,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Button, makeStyles } from '@mui/material';
+import { TableRowsTwoTone } from '@mui/icons-material';
+
 
 import Login from './Login';
 import emailID from "./Login"
@@ -14,8 +17,6 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref, set, onValue } from "firebase/database"
 import { createNull, isFunctionDeclaration, isNonNullExpression } from 'typescript';
-import { Button } from '@mui/material';
-import { TableRowsTwoTone } from '@mui/icons-material';
 
 //MY MATCHES PAGE
 
@@ -24,6 +25,7 @@ import { TableRowsTwoTone } from '@mui/icons-material';
 
 
 function Profile (){
+
 
   function createData(
     matchType: string,
@@ -63,7 +65,6 @@ function Profile (){
 
 
    function handleSubmitDate() {
-    
       // fetch('http://localhost:9000/getMatches?user-key=" + emailID + "&Qtype=users-date')
       fetch('http://localhost:9000/getMatches?user-key=samantha_shulman&Qtype=users-date')
         .then((response) => response.json())
@@ -90,14 +91,73 @@ function Profile (){
               <TableCell align="right">{row.email}</TableCell>
             </TableRow>
           )))
-
           }
-
-
           )}
+
+    function handleSubmitFriend() {
+          // fetch('http://localhost:9000/getMatches?user-key=" + emailID + "&Qtype=users-date')
+          fetch('http://localhost:9000/getMatches?user-key=samantha_shulman&Qtype=users-friend')
+            .then((response) => response.json())
+            .then((response) => {
+              alert(response);
+              console.log(response[0])
+              console.log(emailID)
+              console.log(response.length);
+              console.log(rows)
+              for (let i = 0; i < response.length; i++){
+                rows.push(createData(response[i].questionnaireType, response[i].name, response[i].pronouns, response[i].email))
+              }
+              
+              setDisData(rows.map((row) => (
+                <TableRow
+                  key={row.matchType}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell >
+                    {row.matchType}
+                  </TableCell>
+                  <TableCell >{row.name}</TableCell>
+                  <TableCell align="right">{row.pronouns}</TableCell>
+                  <TableCell align="right">{row.email}</TableCell>
+                </TableRow>
+              )))
+              }
+              )}
+
+    function handleSubmitStudy() {
+            // fetch('http://localhost:9000/getMatches?user-key=" + emailID + "&Qtype=users-date')
+            fetch('http://localhost:9000/getMatches?user-key=samantha_shulman&Qtype=users-study')
+              .then((response) => response.json())
+              .then((response) => {
+                alert(response);
+                console.log(response[0])
+                console.log(emailID)
+                console.log(response.length);
+                console.log(rows)
+                for (let i = 0; i < response.length; i++){
+                  rows.push(createData(response[i].questionnaireType, response[i].name, response[i].pronouns, response[i].email))
+                }
+                
+                setDisData(rows.map((row) => (
+                  <TableRow
+                    key={row.matchType}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell >
+                      {row.matchType}
+                    </TableCell>
+                    <TableCell >{row.name}</TableCell>
+                    <TableCell align="right">{row.pronouns}</TableCell>
+                    <TableCell align="right">{row.email}</TableCell>
+                  </TableRow>
+                )))
+                }
+                )}
 
 
   return (
+
+    
 
     <div>
     
@@ -105,9 +165,13 @@ function Profile (){
     <Button onClick={handleSubmitDate}>
         <label htmlFor="usernameInput">Click for DATE matches</label>
     </Button>
+           
+    <Button onClick={handleSubmitFriend}>
+        <label htmlFor="usernameInput">Click for FRIEND matches</label>
+    </Button>
 
-    <Button onClick={handleSubmit}>
-        <label htmlFor="usernameInput">Click for DATE matches</label>
+    <Button onClick={handleSubmitStudy}>
+        <label htmlFor="usernameInput">Click for STUDY matches</label>
     </Button>
 
     <TableContainer component={Paper}>
