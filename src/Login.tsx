@@ -53,26 +53,31 @@ export default function Login (){
     
       return (
           <div >
-             <h1>
+             {/* <h1>
               React Auth
-             </h1>
+             </h1> */}
              {profile ? (
-                        <div>
+                        <div className="navbar-container">
                               <ul >
                                     <ol >
-                                        <Link to='/' style = {{color: "grey",   margin: 100, textDecorationLine: 'none', fontSize: 28, fontFamily: "Georgia", position: "relative", top:70}}>HOME</Link>
-                                        <Link to='/MatchOptions' style = {{color: "grey",  margin: 100,  textDecorationLine: 'none', fontSize: 28, fontFamily: "Georgia", position: "relative", top:70}} >NEW MATCHES </Link>
-                                        <Link to='/Profile' style = {{color: "grey",  margin: 100,  textDecorationLine: 'none', fontSize: 28, fontFamily: "Georgia", position: "relative", top:70}}>MY MATCHES</Link> 
+                                        {/* style = {{color: "grey",   margin: 100, textDecorationLine: 'none', fontSize: 28, fontFamily: "Georgia", position: "relative", top:70}} */}
+                                        <Link className="nav-link" to='/' >HOME</Link>
+                                        <Link className="nav-link" to='/MatchOptions'  >NEW MATCHES </Link>
+                                        <Link className="nav-link" to='/Profile' >MY MATCHES</Link> 
+                                        
+                                        <GoogleLogout 
+                                            clientId={clientId} 
+                                            buttonText = "Log Out" 
+                                            onLogoutSuccess={logOut}
+                                            style={{ width:50, height:50, margin: 10 }}
+                                        />
+                                          
                                     </ol>
                                     </ul>
                             {/* <IconButton style = {{position: 'absolute', right: 90, display: 'inline'}} onClick= {()=> logOut()}> <LogoutIcon /> </IconButton> */}
-                           
-                            <GoogleLogout 
-                                clientId={clientId} 
-                                buttonText = "Log Out" 
-                                onLogoutSuccess={logOut}
-                                 />
-                             <Main/>   
+                            <Main/> 
+                            
+                             
                         </div>
                         
                    ) :(
@@ -84,6 +89,7 @@ export default function Login (){
                         onFailure={onFailure}
                         cookiePolicy={'single_host_origin'}
                         isSignedIn={true}
+                        style={{ width:50, height:50, margin: 10 }}
                         
                         
                         />
