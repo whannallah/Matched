@@ -35,8 +35,7 @@ export default function Login (){
     
       const onSuccess = (res: any) => {
         setProfile(res.profileObj)
-        setEmailID(res.profileObj.email)
-        
+        console.log(res.profileObj.email)
       }
 
     
