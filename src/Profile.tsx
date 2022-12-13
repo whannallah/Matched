@@ -65,7 +65,7 @@ function Profile (){
    function handleSubmitDate() {
     
       // fetch('http://localhost:9000/getMatches?user-key=" + emailID + "&Qtype=users-date')
-      fetch('http://localhost:9000/getMatches?user-key=samantha_shulman&Qtype=users-date')
+      fetch('http://localhost:9000/getMatches?user-key=kam&Qtype=users-friend')
         .then((response) => response.json())
         .then((response) => {
           alert(response);

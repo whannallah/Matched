@@ -32,7 +32,7 @@ public class TestGetMatchesHandler extends ExternalAPIHandler {
   @BeforeAll
   public static void spark_port_setup() throws IOException {
     System.out.println("port setup called.");
-    Spark.port(0);
+    Spark.port(9000);
     Logger.getLogger("").setLevel(Level.WARNING);
     firebase.initFirebase();
   }
