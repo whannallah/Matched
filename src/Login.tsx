@@ -9,7 +9,8 @@ import {Link } from 'react-router-dom'; //Redirect
 import Main from './Main';
 
 import { GoogleLogin, GoogleLogout} from 'react-google-login';
-import {gapi} from 'gapi-script';
+import {gapi, loadAuth2} from 'gapi-script';
+import { auth } from "firebase-admin";
 
 
 
@@ -18,8 +19,8 @@ import {gapi} from 'gapi-script';
 function Login (){
     const clientId = "952054202634-sh0ga8ll4khean9j7gfvcmqkdak5ssaq.apps.googleusercontent.com"
         const [profile, setProfile] = useState(null);
-    
-    //   const[header, setHeader] = useState("");
+
+    //  const[header, setHeader] = useState("");
     
       useEffect(() => {
           const initClient = () => {
@@ -33,7 +34,7 @@ function Login (){
     
       const onSuccess = (res: any) => {
         setProfile(res.profileObj)
-        
+        //console.log(res.profileObj.email)
       }
     
       const onFailure = (err: any) => {
