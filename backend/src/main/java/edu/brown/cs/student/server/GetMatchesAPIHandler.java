@@ -28,9 +28,10 @@ public class GetMatchesAPIHandler extends ExternalAPIHandler implements Route {
         List<User> topMatches = firebase.otherLoop(QType, userKey);
         for (User match: topMatches) {
             System.out.println(match.getName());
-            System.out.println("this is the match above:");
+            System.out.println("this is the match list above:");
 
         }
+        System.out.println("all the matches");
         return this.serialize(topMatches);
     }
 
