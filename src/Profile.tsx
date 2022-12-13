@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useState, useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -7,9 +7,25 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import Login from './Login';
+import emailID from "./Login"
+
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getDatabase, ref, set, onValue } from "firebase/database"
+import { createNull, isFunctionDeclaration, isNonNullExpression } from 'typescript';
+import { Button } from '@mui/material';
+import { TableRowsTwoTone } from '@mui/icons-material';
+
 //MY MATCHES PAGE
 
-function createData(
+
+ 
+
+
+function Profile (){
+
+  function createData(
     matchType: string,
     name: string,
     pronouns: string,
@@ -17,18 +33,84 @@ function createData(
   ) {
     return { matchType, name, pronouns, email };
   }
-  
-  // going to be accessed from database 
-  const rows = [
-    createData('Study Buddy', 'Sam', 'she/her', 'samantha_shulman@brown.edu'),
-    createData('Date',  'Emily', 'she/her', 'emily_perelman@brown.edu'),
-    createData('Friend',  'Whitney', 'she/her', 'N/A'),
-    createData('Date',  'Kam', 'he/him', 'N/A')
-  ];
 
-function Profile (){
-    return (
-        <TableContainer component={Paper}>
+
+   const rows = [
+    createData('', '', '', ''),
+    // createData('Date',  'Emily', 'she/her', 'emily_perelman@brown.edu'),
+    // createData('Friend',  'Whitney', 'she/her', 'N/A'),
+    // createData('Date',  'Kam', 'he/him', 'N/A')
+   ];
+
+
+
+
+   let DisplayData = rows.map((row)=> (
+    <TableRow
+    key={row.matchType}
+    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+    >
+      <TableCell >
+      {row.matchType}
+      </TableCell>
+      <TableCell >{row.name}</TableCell>
+      <TableCell align="right">{row.pronouns}</TableCell>
+      <TableCell align="right">{row.email}</TableCell>
+    </TableRow>
+   ));
+
+   const [disData, setDisData] = useState(DisplayData)
+
+
+   function handleSubmitDate() {
+    
+      // fetch('http://localhost:9000/getMatches?user-key=" + emailID + "&Qtype=users-date')
+      fetch('http://localhost:9000/getMatches?user-key=samantha_shulman&Qtype=users-date')
+        .then((response) => response.json())
+        .then((response) => {
+          alert(response);
+          console.log(response[0])
+          console.log(emailID)
+          console.log(response.length);
+          console.log(rows)
+          for (let i = 0; i < response.length; i++){
+            rows.push(createData(response[i].questionnaireType, response[i].name, response[i].pronouns, response[i].email))
+          }
+          
+          setDisData(rows.map((row) => (
+            <TableRow
+              key={row.matchType}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell >
+                {row.matchType}
+              </TableCell>
+              <TableCell >{row.name}</TableCell>
+              <TableCell align="right">{row.pronouns}</TableCell>
+              <TableCell align="right">{row.email}</TableCell>
+            </TableRow>
+          )))
+
+          }
+
+
+          )}
+
+
+  return (
+
+    <div>
+    
+    
+    <Button onClick={handleSubmitDate}>
+        <label htmlFor="usernameInput">Click for DATE matches</label>
+    </Button>
+
+    <Button onClick={handleSubmit}>
+        <label htmlFor="usernameInput">Click for DATE matches</label>
+    </Button>
+
+    <TableContainer component={Paper}>
         <Table id="table" sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
           <TableHead>
             <TableRow className="top-row">
@@ -39,22 +121,14 @@ function Profile (){
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow
-                key={row.matchType}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.matchType}
-                </TableCell>
-                <TableCell >{row.name}</TableCell>
-                <TableCell align="right">{row.pronouns}</TableCell>
-                <TableCell align="right">{row.email}</TableCell>
-              </TableRow>
-            ))}
+           
+
+            {disData}
+
           </TableBody>
         </Table>
-      </TableContainer>
+    </TableContainer>
+    </div>
     
     )
 }

@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import './App.css';
 import { Link} from 'react-router-dom';
 
-
 // MATCH OPTIONS PAGE
 
 function MatchOptions (){

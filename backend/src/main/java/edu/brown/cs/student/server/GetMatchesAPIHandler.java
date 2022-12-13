@@ -1,5 +1,6 @@
 package edu.brown.cs.student.server;
 
+import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import edu.brown.cs.student.datasource.ExternalAPIHandler;
 import spark.QueryParamsMap;
@@ -32,7 +33,18 @@ public class GetMatchesAPIHandler extends ExternalAPIHandler implements Route {
         this.topMatches = firebase.otherLoop(QType, userKey);
         for (User match: topMatches) {
             System.out.println(match.getName());
+            System.out.println("this is the match list above:");
+
         }
-        return topMatches;
+        System.out.println("all the matches");
+        return this.serialize(topMatches);
+    }
+
+    private String serialize(Object o) {
+        Moshi moshi = new Moshi.Builder().build();
+        JsonAdapter<Object> jsonAdapter = moshi.adapter(
+            (Object.class));
+
+        return jsonAdapter.toJson(o);
     }
 }
