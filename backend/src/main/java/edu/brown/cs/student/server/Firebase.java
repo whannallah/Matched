@@ -53,7 +53,7 @@ public class Firebase {
 
   public void initFirebase() throws IOException {
     FileInputStream serviceAccount =
-        new FileInputStream("matched-cs320-firebase-adminsdk-qt8u9-0a35976e64.json");
+        new FileInputStream("backend/matched-cs320-firebase-adminsdk-qt8u9-0a35976e64.json");
     GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
     FirebaseOptions firebaseOptions = new FirebaseOptions.Builder()
         .setDatabaseUrl("https://matched-cs320-default-rtdb.firebaseio.com/")
