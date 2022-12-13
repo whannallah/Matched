@@ -7,14 +7,21 @@ import MatchOptions from './MatchOptions';
 import QuestionnaireF from './QuestionnaireFriend';
 import QuestionnaireS from './QuestionnaireStudy';
 import QuestionnaireD from './QuestionnaireDate';
+import styled from "styled-components";
+
 
 
 function Main(){
+
+  
     //console.log("hi")
 return (    
+
+
+  <div className="navbar-container">
     
     <Routes>
-      <Route path='/' element={<Home/>} />
+      <Route  path='/' element={<Home/>} />
       <Route path='/Login' element={<Login/>} />
       <Route path='/Profile' element={<Profile/>} />
       <Route path='/MatchOptions' element={<MatchOptions/>} />
@@ -22,6 +29,8 @@ return (
       <Route path='/QuestionnaireStudy' element={<QuestionnaireS/>} />
       <Route path='/QuestionnaireDate' element={<QuestionnaireD/>} />
     </Routes>
+
+  </div>
 );
 }
 export default Main;

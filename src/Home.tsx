@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-// NEW MATCH PAGE 
+// HOME PAGE 
 
 function Home(){
     return (

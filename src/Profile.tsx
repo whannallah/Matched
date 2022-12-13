@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, makeStyles } from '@mui/material';
+import Button from '@mui/material/Button';
 import { TableRowsTwoTone } from '@mui/icons-material';
 
 
@@ -161,18 +161,19 @@ function Profile (){
 
     <div>
     
-    
-    <Button onClick={handleSubmitDate}>
+    <div className = "button-div">
+    <Button id ="button-style2" variant="outlined" onClick={handleSubmitDate}>
         <label htmlFor="usernameInput">Click for DATE matches</label>
     </Button>
            
-    <Button onClick={handleSubmitFriend}>
+    <Button id ="button-style2" variant="outlined"onClick={handleSubmitFriend}>
         <label htmlFor="usernameInput">Click for FRIEND matches</label>
     </Button>
 
-    <Button onClick={handleSubmitStudy}>
+    <Button id ="button-style2" variant="outlined" onClick={handleSubmitStudy}>
         <label htmlFor="usernameInput">Click for STUDY matches</label>
     </Button>
+    </div>
 
     <TableContainer component={Paper}>
         <Table id="table" sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
