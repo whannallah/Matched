@@ -16,9 +16,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import spark.Spark;
 
+import java.awt.geom.Arc2D;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,10 +74,10 @@ public class TestGetMatchesHandler extends ExternalAPIHandler {
         CohereReturn.getEmbeddings();
 
     User userToDatabase =
-        new User("date", "whitney", "she/her", "2024", "whitney_hannallah@brown.edu",
+        new User("friend", "whitney", "she/her", "2024", "whitney_hannallah@brown.edu",
             embeddings);
 
-    String[] userRoot = {"users-date"};
+    String[] userRoot = {"users-friend-test"};
     //adding user to database
     //firebase.initFirebase();
     this.firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
@@ -85,7 +87,7 @@ public class TestGetMatchesHandler extends ExternalAPIHandler {
   {
     URL requestURL =
         new URL("http://localhost:" + Spark.port() +
-            "/getMatches?user-key=w&Qtype=users-study");
+            "/getMatches?user-key=whitney_hannallah&Qtype=users-friend-test");
     //this should be user-key: whitney_hannallah and type users-friend-test but that was giving an infinite loop
     HttpURLConnection clientConnection = (HttpURLConnection) requestURL.openConnection();
     clientConnection.connect();
@@ -99,7 +101,50 @@ public class TestGetMatchesHandler extends ExternalAPIHandler {
             .adapter(Object.class)
             .fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
 
-    assertEquals("hi",response.toString());
+    //is the only user, so will have no matches
+    //assertEquals("[]",response.toString());
+
+    //creating and adding user samantha_shulman to database
+    CohereResponseJson =
+        this.externalPost("https://api.cohere.ai/embed",
+            "{\"texts\":[\"" + "I would go to Plant city to get coffee. Then I would go for a run during sunset and go out to a party at night. " + "\",\""
+                + "I would explore all around Europe because they have great food and I love trying new foods. I also would want to spend time outside and explore the nature there" +
+                "\",\"" + "I want to further explore my creative side. I don't do a lot of art now, but I want to try painting, sculpture, and pottery" + "\",\"" + "I am looking for someone new to walk around campus and explore Providence" + "\"]}");
+
+    Moshi moshi3 = new Moshi.Builder().build();
+    CohereReturn =
+        moshi3.adapter(CohereResponse.class).fromJson(CohereResponseJson);
+    embeddings =
+        CohereReturn.getEmbeddings();
+
+    userToDatabase =
+        new User("friend", "sam", "she/her", "2025", "samantha_shulman@brown.edu",
+            embeddings);
+
+    //adding user to database
+    //firebase.initFirebase();
+    this.firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
+        this.firebase.createNewUser(userToDatabase));
+
+    requestURL =
+        new URL("http://localhost:" + Spark.port() +
+            "/getMatches?user-key=whitney_hannallah&Qtype=users-friend-test");
+    //this should be user-key: whitney_hannallah and type users-friend-test but that was giving an infinite loop
+    clientConnection = (HttpURLConnection) requestURL.openConnection();
+    clientConnection.connect();
+    assertEquals(200, clientConnection.getResponseCode());
+    System.out.println("got here");
+
+    Moshi moshi4 = new Moshi.Builder().build();
+    // success case
+    response =
+        moshi4
+            .adapter(Object.class)
+            .fromJson(new Buffer().readFrom(clientConnection.getInputStream()));
+
+    //is the only user, so will have no matches
+    assertEquals("[{classYear=2025, email=samantha_shulman@brown.edu",response.toString().substring(0,50));
+
 
     clientConnection.disconnect();
   }

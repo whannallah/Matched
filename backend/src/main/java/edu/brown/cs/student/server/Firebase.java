@@ -401,14 +401,13 @@ public class Firebase {
         }
         System.out.println("got to end of loop");
         pq.addAll(map.entrySet());
-        Map.Entry<User, Double> entry = pq.poll();
-        System.out.println(entry.getValue());
-        usersToReturn.add(entry.getKey());
-        Map.Entry<User, Double> entry2 = pq.poll();
-        System.out.println(entry2.getValue());
-        usersToReturn.add(entry2.getKey());
-        while (!pq.isEmpty()) {
-          System.out.println(pq.poll());
+        System.out.println(map.size());
+
+        for (int i=0; i<3; i++){
+          if(!pq.isEmpty()){
+            Map.Entry<User, Double> entry = pq.poll();
+            usersToReturn.add(entry.getKey());
+          }
         }
 
         latch.countDown();

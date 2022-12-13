@@ -28,6 +28,7 @@ public class GetMatchesAPIHandler extends ExternalAPIHandler implements Route {
         this.topMatches.clear();
         QueryParamsMap qm = request.queryMap();
         String userKey = qm.value("user-key");
+        System.out.println(userKey);
 
         String QType = qm.value("Qtype"); //questionnaire type
         this.topMatches = firebase.otherLoop(QType, userKey);
