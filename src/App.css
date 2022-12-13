@@ -107,7 +107,7 @@ font-size: 400;
 .navbar-container {
     width: 100%;
     height:50px;
-    background-color: white;
+    background-color: rgb(146, 146, 255);
     display: flex;
     flex-direction: column;
 }
