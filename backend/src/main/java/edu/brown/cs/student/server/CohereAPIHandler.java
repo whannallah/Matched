@@ -68,21 +68,6 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
           List<List<Float>> embeddings =
               CohereReturn.getEmbeddings(); //vector embedding of semantic meaning of text
 
-          //System.out.println(embeddings.get(0).get(0));
-          System.out.println(embeddings);
-          //firebase.putEmbeddingInDatabase();
-
-          List<Float> singleList1 = new ArrayList();
-          singleList1.add(Float.parseFloat("1.3"));
-          singleList1.add(Float.parseFloat("2.3"));
-          List<Float> singleList2 = new ArrayList();
-          singleList2.add(Float.parseFloat("3.3"));
-          singleList2.add(Float.parseFloat("4.3"));
-          List<List<Float>> exampleEmbedding = new ArrayList<List<Float>>();
-          exampleEmbedding.add(singleList1);
-          exampleEmbedding.add(singleList2);
-
-          //creating a user to add to the database
           User userToDatabase =
               new User(Qtype, t.getName(), t.getPronouns(), t.getClassYear(), t.getEmail(),
                   embeddings); //should be embeddings
@@ -92,18 +77,7 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
           //firebase.initFirebase();
           //adding user to database
           this.firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
-             this.firebase.createNewUser(userToDatabase));
-
-          //this.firebase.loop("users-friend", userToDatabase);
-
-
-          //Thread.sleep(10000);
-          String[] place = {"users-friend-matches"};
-          List toReturn = new LinkedList();
-          for (int i=0; i<2;i++){
-            toReturn.add(this.firebase.createNewUser(this.firebase.getUsersToReturn().get(i)));
-          }
-          this.firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), toReturn);
+              this.firebase.createNewUser(userToDatabase));
 
 
           return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
@@ -128,15 +102,6 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
                 "{\"texts\":[\"" + t.getPerfDate() + "\",\"" + t.getPassions() + "\",\"" + t.getExpectations() + "\",\"" + t.getReasoning() + "\"]}");
         //api call where individual answers are passed in
 
-        List<Float> singleList1 = new ArrayList();
-        singleList1.add(Float.parseFloat("1.3"));
-        singleList1.add(Float.parseFloat("2.3"));
-        List<Float> singleList2 = new ArrayList();
-        singleList2.add(Float.parseFloat("3.3"));
-        singleList2.add(Float.parseFloat("4.3"));
-        List<List<Float>> exampleEmbedding = new ArrayList<List<Float>>();
-        exampleEmbedding.add(singleList1);
-        exampleEmbedding.add(singleList2);
 
         Moshi moshi2 = new Moshi.Builder().build();
         CohereResponse CohereReturn =
@@ -144,12 +109,9 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
         List<List<Float>> embeddings =
             CohereReturn.getEmbeddings(); //vector embedding of semantic meaning of text
 
-        System.out.println(embeddings.get(0).get(0));
-
-        //creating a user to add to the database
         User userToDatabase =
             new User(Qtype, t.getName(), t.getPronouns(), t.getClassYear(), t.getEmail(),
-                exampleEmbedding);
+                embeddings);
 
         //firebase.initFirebase();
         String[] userRoot = {"users-date"};
@@ -157,24 +119,6 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
         this.firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
             this.firebase.createNewUser(userToDatabase));
 
-
-        //this.firebase.loop("users-date", userToDatabase);
-
-
-        //Thread.sleep(10000);
-        //LOCK.wait();
-        String[] place = {"users-date-matches"};
-
-        List toReturn = new LinkedList();
-
-        //have it as top 2 users right now
-        for (int i=0; i<2;i++){
-          toReturn.add(this.firebase.createNewUser(this.firebase.getUsersToReturn().get(i)));
-        }
-
-
-        this.firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), toReturn);
-        //firebase.unInitFirebase();
 
         return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
 
@@ -204,22 +148,9 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
         List<List<Float>> embeddings =
             CohereReturn.getEmbeddings(); //vector embedding of semantic meaning of text
 
-        System.out.println(embeddings.get(0).get(0));
-
-        List<Float> singleList1 = new ArrayList();
-        singleList1.add(Float.parseFloat("1.3"));
-        singleList1.add(Float.parseFloat("2.3"));
-        List<Float> singleList2 = new ArrayList();
-        singleList2.add(Float.parseFloat("3.3"));
-        singleList2.add(Float.parseFloat("4.3"));
-        List<List<Float>> exampleEmbedding = new ArrayList<List<Float>>();
-        exampleEmbedding.add(singleList1);
-        exampleEmbedding.add(singleList2);
-
-        //creating a user to add to the database
         User userToDatabase =
             new User(Qtype, t.getName(), t.getPronouns(), t.getClassYear(), t.getEmail(),
-                exampleEmbedding);
+                embeddings);
 
         String[] userRoot = {"users-study"};
         //adding user to database
@@ -227,17 +158,7 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
         this.firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
             this.firebase.createNewUser(userToDatabase));
 
-        //this.firebase.loop("users-study", userToDatabase);
-        System.out.println("exited loop");
 
-        //Thread.sleep(10000);
-        String[] place = {"users-study-matches"};
-        List toReturn = new LinkedList();
-        for (int i=0; i<2;i++){
-          toReturn.add(this.firebase.createNewUser(this.firebase.getUsersToReturn().get(i)));
-        }
-
-        this.firebase.putDatabase(place, userToDatabase.getEmailWithoutEdu(), toReturn);
 
         return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
 
