@@ -106,9 +106,9 @@ function Profile (){
         <label htmlFor="usernameInput">Click for DATE matches</label>
     </Button>
 
-    <Button onClick={handleSubmit}>
+    {/* <Button onClick={handleSubmit}>
         <label htmlFor="usernameInput">Click for DATE matches</label>
-    </Button>
+    </Button> */}
 
     <TableContainer component={Paper}>
         <Table id="table" sx={{ minWidth: 650 }} size="small" aria-label="a dense table">

@@ -358,23 +358,29 @@ public class Firebase {
         HashMap<User, Double> map = new HashMap<>();
         Moshi moshi2 = new Moshi.Builder().build();
         User mainUser = null;
-        User user = null;
+
 
         //find mainUser
         for (DataSnapshot userSnapshot: snapshot.getChildren()) {
           if (Objects.equals(userSnapshot.getKey(), mainUserKey)) {
             try {
               mainUser = moshi2.adapter(User.class).fromJson(userSnapshot.getValue().toString());
+              break;
             } catch (IOException e) {
               e.printStackTrace();
             }
           }
         }
+        //http://localhost:9000/getMatches?user-key=samantha_shulman&Qtype=users-date
         // Loop through all child nodes
         for (DataSnapshot userSnapshot : snapshot.getChildren()) {
           // Get the user object from the snapshot
           try {
-            if (!Objects.equals(userSnapshot.getKey(), mainUserKey)) {
+            User user = null;
+            if (Objects.equals(userSnapshot.getKey(), mainUserKey)) {
+              continue;
+            }
+            else {
               user = moshi2.adapter(User.class).fromJson(userSnapshot.getValue().toString());
             }
             if (mainUser != null && user != null) {
@@ -404,6 +410,7 @@ public class Firebase {
         while (!pq.isEmpty()) {
           System.out.println(pq.poll());
         }
+
         latch.countDown();
       }
       @Override
@@ -414,6 +421,7 @@ public class Firebase {
     });
     latch.await();
     System.out.println("got out of nest");
+
     return usersToReturn;
   }
 

@@ -31,12 +31,11 @@ public class GetMatchesAPIHandler extends ExternalAPIHandler implements Route {
 
         String QType = qm.value("Qtype"); //questionnaire type
         this.topMatches = firebase.otherLoop(QType, userKey);
+        System.out.println("Match names (below):");
         for (User match: topMatches) {
             System.out.println(match.getName());
-            System.out.println("this is the match list above:");
-
         }
-        System.out.println("all the matches");
+
         return this.serialize(topMatches);
     }
 
