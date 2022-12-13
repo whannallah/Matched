@@ -18,7 +18,7 @@ function Main(){
 return (    
 
 
-  <div className="navbar-container">
+  <div >
     
     <Routes>
       <Route  path='/' element={<Home/>} />

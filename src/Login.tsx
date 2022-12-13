@@ -69,6 +69,7 @@ export default function Login (){
                                             clientId={clientId} 
                                             buttonText = "Log Out" 
                                             onLogoutSuccess={logOut}
+                                            style={{ width:50, height:50, margin: 10 }}
                                         />
                                           
                                     </ol>
@@ -88,7 +89,6 @@ export default function Login (){
                         onFailure={onFailure}
                         cookiePolicy={'single_host_origin'}
                         isSignedIn={true}
-
                         style={{ width:50, height:50, margin: 10 }}
                         
                         
