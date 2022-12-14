@@ -14,8 +14,10 @@ import { EmailOutlined, FreeBreakfastSharp } from "@mui/icons-material";
 import { fontSize } from "@mui/system";
 import { relative } from "path/posix";
 
-
 // LOGIN PAGE
+
+let mainuseremail = ""
+export {mainuseremail}
 
 export default function Login (){
     const clientId = "952054202634-sh0ga8ll4khean9j7gfvcmqkdak5ssaq.apps.googleusercontent.com"
@@ -40,6 +42,7 @@ export default function Login (){
         if (res.profileObj.email.endsWith('@brown.edu')){
             setProfile(res.profileObj)
             setEmailID(res.profileObj.email)
+            mainuseremail = res.profileObj.email
        }
       }
 

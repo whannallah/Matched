@@ -39,7 +39,7 @@ public class Firebase {
 
   public void initFirebase() throws IOException {
     FileInputStream serviceAccount =
-        new FileInputStream("matched-cs320-firebase-adminsdk-qt8u9-0a35976e64.json");
+        new FileInputStream("backend/matched-cs320-firebase-adminsdk-qt8u9-0a35976e64.json");
     GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
     FirebaseOptions firebaseOptions = new FirebaseOptions.Builder()
         .setDatabaseUrl("https://matched-cs320-default-rtdb.firebaseio.com/")
@@ -202,9 +202,7 @@ public class Firebase {
     }
 
 
-  public List<User> otherLoop(String root, String mainUserKey)
-          throws URISyntaxException, IOException, InterruptedException {
-    //System.out.println("got into loop");
+  public List<User> otherLoop(String root, String mainUserKey) throws InterruptedException {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     // Get a reference to the "users" location in the database
@@ -230,7 +228,6 @@ public class Firebase {
         Moshi moshi2 = new Moshi.Builder().build();
         User mainUser = null;
 
-
         //find mainUser
         for (DataSnapshot userSnapshot: snapshot.getChildren()) {
           if (Objects.equals(userSnapshot.getKey(), mainUserKey)) {
@@ -242,7 +239,6 @@ public class Firebase {
             }
           }
         }
-        //http://localhost:9000/getMatches?user-key=samantha_shulman&Qtype=users-date
         // Loop through all child nodes
         for (DataSnapshot userSnapshot : snapshot.getChildren()) {
           // Get the user object from the snapshot
@@ -259,6 +255,10 @@ public class Firebase {
               double cosineSim = cosineSimAverage(mainUser.getEmbedding(), CompEmbedding);
               map.put(user, cosineSim);
               System.out.println("map size" + map.size());
+              System.out.println(mainUser.getName());
+              System.out.println(user.getName());
+              System.out.println(snapshot.getChildrenCount());
+
             }
           } catch (IOException e) {
             e.printStackTrace();
