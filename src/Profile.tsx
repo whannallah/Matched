@@ -132,7 +132,9 @@ function Profile (){
 
     function handleSubmitStudy() {
           //console.log(mainuseremail.split("@")[0])
+          console.log("here")
           let fullURL = "http://localhost:9000/getMatches?user-key=" + mainuseremail.split("@")[0] + "&Qtype=users-study"
+          console.log(fullURL)
             fetch(fullURL)
               .then((response) => response.json())
               .then((response) => {

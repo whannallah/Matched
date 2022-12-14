@@ -229,7 +229,7 @@ public class Firebase {
         User mainUser = null;
 
         //find mainUser
-        for (DataSnapshot userSnapshot: snapshot.getChildren()) {
+        for (DataSnapshot userSnapshot : snapshot.getChildren()) {
           if (Objects.equals(userSnapshot.getKey(), mainUserKey)) {
             try {
               mainUser = moshi2.adapter(User.class).fromJson(userSnapshot.getValue().toString());
@@ -246,8 +246,7 @@ public class Firebase {
             User user = null;
             if (Objects.equals(userSnapshot.getKey(), mainUserKey)) {
               continue;
-            }
-            else {
+            } else {
               user = moshi2.adapter(User.class).fromJson(userSnapshot.getValue().toString());
             }
             if (mainUser != null && user != null) {
@@ -271,12 +270,13 @@ public class Firebase {
         pq.addAll(map.entrySet());
         System.out.println(map.size());
 
-        for (int i=0; i<3; i++){
-          if(!pq.isEmpty()){
+        for (int i = 0; i < 3; i++) {
+          if (!pq.isEmpty()) {
             Map.Entry<User, Double> entry = pq.poll();
             usersToReturn.add(entry.getKey());
           }
         }
+
 
         System.out.println("got to latch countdown");
         latch.countDown();
@@ -335,7 +335,7 @@ public class Firebase {
     return this.usersToReturn;
 
   }
-}
+        }
 
 //  public void putEmbeddingInDatabase(String[] args, String key, String value) throws IOException {
 //    int chunkSize = 400;
