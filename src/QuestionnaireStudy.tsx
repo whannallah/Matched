@@ -192,6 +192,9 @@ const QuestionnaireS = () => {
 
       </div> */}
 
+    <p>By submitting this form, I consent to having my data been analyzed and my name, pronouns, and email being
+        shared with my prospective matches.</p>
+
       <button className="labelForm" type="submit">Submit</button>
     </form>
     </div>
