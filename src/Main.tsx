@@ -7,7 +7,7 @@ import MatchOptions from './MatchOptions';
 import QuestionnaireF from './QuestionnaireFriend';
 import QuestionnaireS from './QuestionnaireStudy';
 import QuestionnaireD from './QuestionnaireDate';
-import styled from "styled-components";
+//import styled from "styled-components";
 
 
 
