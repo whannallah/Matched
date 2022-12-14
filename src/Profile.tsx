@@ -160,6 +160,7 @@ function Profile (){
 
 
    function handleSubmitDate() {
+    if (avail.includes("users-date")){
       let fullURL = "http://localhost:9000/getMatches?user-key=" + mainuseremail.split("@")[0] + "&Qtype=users-date"
       fetch(fullURL)
         .then((response) => response.json())
@@ -185,10 +186,14 @@ function Profile (){
             </TableRow>
           )))
           }
-          )}
+          )} else {
+            alert("You haven't filled out the date questionnaire. Please do so by naviagting to the New Matches page.")
+          }
+        
+        }
 
     function handleSubmitFriend() {
-
+      if (avail.includes("users-friend")){
           let fullURL = "http://localhost:9000/getMatches?user-key=" + mainuseremail.split("@")[0] + "&Qtype=users-friend"
           fetch(fullURL)
             .then((response) => response.json())
@@ -213,7 +218,13 @@ function Profile (){
                 </TableRow>
               )))
               }
-              )}
+              )} else {
+              alert("You haven't filled out the friend questionnaire. Please do so by naviagting to the New Matches page.")
+            }
+            
+            }
+
+
 
     function handleSubmitStudy() {
       if (avail.includes("users-study")){
@@ -240,8 +251,7 @@ function Profile (){
                 <TableCell align="right">{row.email}</TableCell>
               </TableRow>
             )))
-            })
-        } else {
+            })} else {
           alert("You haven't filled out the study questionnaire. Please do so by naviagting to the New Matches page.")
         }
       }
