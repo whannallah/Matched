@@ -2,8 +2,8 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import './App.css';
 import { Link} from 'react-router-dom';
-import pencil from './images/pencil.png'
-import friend from './images/friend.png'
+import pencil from './images/pencil.png';
+import friend from './images/friend.png' 
 import heart from './images/heart.png'
 
 // MATCH OPTIONS PAGE
