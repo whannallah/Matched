@@ -12,7 +12,8 @@ import { TableRowsTwoTone } from '@mui/icons-material';
 
 import Login from './Login';
 import emailID from "./Login"
-import mainuseremail from "./Login"
+import { mainuseremail } from './Login';
+import { GoogleLogin, GoogleLogout} from 'react-google-login';
 
 
 import { initializeApp } from "firebase/app";
@@ -67,15 +68,15 @@ function Profile (){
 
 
    function handleSubmitDate() {
-      fetch('http://localhost:9000/getMatches?user-key=kammirf&Qtype=users-date')
-      //fetch('http://localhost:9000/getMatches?user-key=" + emailID + "&Qtype=users-date')
+      let fullURL = "http://localhost:9000/getMatches?user-key=" + mainuseremail.split("@")[0] + "&Qtype=users-date"
+      fetch(fullURL)
         .then((response) => response.json())
         .then((response) => {
           alert(response);
           console.log(response[0])
         
-          console.log(emailID)
-          console.log("EMAIL IS HERE: " + mainuseremail)
+          console.log(mainuseremail)
+          
           console.log(response.length);
           console.log(rows)
           for (let i = 0; i < response.length; i++){
@@ -100,7 +101,8 @@ function Profile (){
 
     function handleSubmitFriend() {
           // fetch('http://localhost:9000/getMatches?user-key=" + emailID + "&Qtype=users-date')
-          fetch('http://localhost:9000/getMatches?user-key=samantha_shulman&Qtype=users-friend')
+          let fullURL = "http://localhost:9000/getMatches?user-key=" + mainuseremail.split("@")[0] + "&Qtype=users-friend"
+          fetch(fullURL)
             .then((response) => response.json())
             .then((response) => {
               alert(response);
@@ -129,8 +131,9 @@ function Profile (){
               )}
 
     function handleSubmitStudy() {
-      // fetch('http://localhost:9000/getMatches?user-key=samantha_shulman&Qtype=users-study')
-            fetch('http://localhost:9000/getMatches?user-key=" + emailID + "&Qtype=users-study')
+          //console.log(mainuseremail.split("@")[0])
+          let fullURL = "http://localhost:9000/getMatches?user-key=" + mainuseremail.split("@")[0] + "&Qtype=users-study"
+            fetch(fullURL)
               .then((response) => response.json())
               .then((response) => {
                 alert(response);

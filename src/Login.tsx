@@ -13,14 +13,15 @@ import {gapi} from 'gapi-script';
 import { EmailOutlined, FreeBreakfastSharp } from "@mui/icons-material";
 
 
-
 // LOGIN PAGE
 
+let mainuseremail = ""
+export {mainuseremail}
 export default function Login (){
-    let mainuseremail = ""
     const clientId = "952054202634-sh0ga8ll4khean9j7gfvcmqkdak5ssaq.apps.googleusercontent.com"
     const [profile, setProfile] = useState(null);
     const [emailID, setEmailID] = useState(null);
+    
     
     //   const[header, setHeader] = useState("");
     
@@ -38,6 +39,7 @@ export default function Login (){
         console.log(res.profileObj.email)
         if (res.profileObj.email.endsWith('@brown.edu')){
             setProfile(res.profileObj)
+            setEmailID(res.profileObj.email)
             mainuseremail = res.profileObj.email
        }
       }
