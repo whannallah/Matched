@@ -31,38 +31,27 @@ function Profile (){
 
 
   function createData(
-    matchType: string,
+    // matchType: string,
     name: string,
     pronouns: string,
     email: string
   ) {
-    return { matchType, name, pronouns, email };
+    return {name, pronouns, email };
   }
 
-
-   const rows = [
-    createData('', '', '', ''),
-    // createData('Date',  'Emily', 'she/her', 'emily_perelman@brown.edu'),
-    // createData('Friend',  'Whitney', 'she/her', 'N/A'),
-    // createData('Date',  'Kam', 'he/him', 'N/A')
+   const rowsStudy = [
+    createData('', '', ''),
    ];
 
+   const rowsFriend = [
+    createData('', '', ''),
+   ];
 
-
-
-   
-  let avail = ""
-  let fullURL =  "http://localhost:9000/getFilledOutQs?user-key=" + mainuseremail.split("@")[0]
-  fetch(fullURL)
-    .then((response) => response.json())
-    .then((response) => {
-      avail = response;
-      console.log(avail);
-    })
+   const rowsDate = [
+    createData('', '', ''),
+   ];
 
   
-
-
 
   //  function DisplayButtonD() {
 
@@ -140,27 +129,74 @@ function Profile (){
 
 
 
-   let DisplayData = rows.map((row)=> (
+
+
+   
+    const [avail, setAvail] = useState([""])
+
+
+    let fullURL = "http://localhost:9000/getFilledOutQs?user-key=" + mainuseremail.split("@")[0]
+    fetch(fullURL)
+    .then((response) => response.json())
+    .then((response) => {
+      setAvail(response);
+      console.log(avail);
+      console.log(avail.includes("users-date"))
+
+    });
+
+
+    
+  
+
+   let DisplayDataStudy = rowsStudy.map((row)=> (
     <TableRow
-    key={row.matchType}
+    key={row.name}
     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
     >
-      <TableCell >
-      {row.matchType}
-      </TableCell>
-      <TableCell >{row.name}</TableCell>
+      {/* <TableCell >{row.matchType}</TableCell> */}
+      {/* <TableCell >{row.name}</TableCell> */}
       <TableCell align="right">{row.pronouns}</TableCell>
       <TableCell align="right">{row.email}</TableCell>
     </TableRow>
    ));
 
-   const [disData, setDisData] = useState(DisplayData)
+   let DisplayDataFriend = rowsFriend.map((row)=> (
+    <TableRow
+    key={row.name}
+    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+    >
+      {/* <TableCell >{row.matchType}</TableCell> */}
+      {/* <TableCell >{row.name}</TableCell> */}
+      <TableCell align="right">{row.pronouns}</TableCell>
+      <TableCell align="right">{row.email}</TableCell>
+    </TableRow>
+   ));
+
+   let DisplayDataDate = rowsDate.map((row)=> (
+    <TableRow
+    key={row.name}
+    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+    >
+      {/* <TableCell >{row.matchType}</TableCell> */}
+      {/* <TableCell >{row.name}</TableCell> */}
+      <TableCell align="right">{row.pronouns}</TableCell>
+      <TableCell align="right">{row.email}</TableCell>
+    </TableRow>
+   ));
+
+  
+  
+   const [disDataS, setDisDataS] = useState(DisplayDataStudy)
+   const [disDataF, setDisDataF] = useState(DisplayDataFriend)
+   const [disDataD, setDisDataD] = useState(DisplayDataDate)
 
 
 
 
    function handleSubmitDate() {
     if (avail.includes("users-date")){
+      
       let fullURL = "http://localhost:9000/getMatches?user-key=" + mainuseremail.split("@")[0] + "&Qtype=users-date"
       fetch(fullURL)
         .then((response) => response.json())
@@ -169,17 +205,16 @@ function Profile (){
 
           console.log(mainuseremail)
           for (let i = 0; i < response.length; i++){
-            rows.push(createData(response[i].questionnaireType, response[i].name, response[i].pronouns, response[i].email))
+            // rows.push(createData(response[i].questionnaireType, response[i].name, response[i].pronouns, response[i].email))
+            rowsDate.push(createData(response[i].name, response[i].pronouns, response[i].email))
           }
           
-          setDisData(rows.map((row) => (
+          setDisDataD(rowsDate.map((row) => (
             <TableRow
-              key={row.matchType}
+              key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell >
-                {row.matchType}
-              </TableCell>
+              {/* <TableCell >{row.matchType}</TableCell> */}
               <TableCell >{row.name}</TableCell>
               <TableCell align="right">{row.pronouns}</TableCell>
               <TableCell align="right">{row.email}</TableCell>
@@ -201,17 +236,16 @@ function Profile (){
               alert(response);
               console.log(mainuseremail)
               for (let i = 0; i < response.length; i++){
-                rows.push(createData(response[i].questionnaireType, response[i].name, response[i].pronouns, response[i].email))
+                // rows.push(createData(response[i].questionnaireType, response[i].name, response[i].pronouns, response[i].email))
+                rowsFriend.push(createData(response[i].name, response[i].pronouns, response[i].email))
               }
               
-              setDisData(rows.map((row) => (
+              setDisDataF(rowsFriend.map((row) => (
                 <TableRow
-                  key={row.matchType}
+                  key={row.name}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell >
-                    {row.matchType}
-                  </TableCell>
+                  {/* <TableCell >{row.matchType}</TableCell> */}
                   <TableCell >{row.name}</TableCell>
                   <TableCell align="right">{row.pronouns}</TableCell>
                   <TableCell align="right">{row.email}</TableCell>
@@ -235,17 +269,17 @@ function Profile (){
             alert(response);
             console.log(mainuseremail)
             for (let i = 0; i < response.length; i++){
-              rows.push(createData(response[i].questionnaireType, response[i].name, response[i].pronouns, response[i].email))
+              // rows.push(createData(response[i].questionnaireType, response[i].name, response[i].pronouns, response[i].email))
+              rowsStudy.push(createData(response[i].name, response[i].pronouns, response[i].email))
+
             }
             
-            setDisData(rows.map((row) => (
+            setDisDataS(rowsStudy.map((row) => (
               <TableRow
-                key={row.matchType}
+                key={row.name}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell >
-                  {row.matchType}
-                </TableCell>
+                {/* <TableCell > {row.matchType}</TableCell> */}
                 <TableCell >{row.name}</TableCell>
                 <TableCell align="right">{row.pronouns}</TableCell>
                 <TableCell align="right">{row.email}</TableCell>
@@ -277,12 +311,12 @@ function Profile (){
       </div>
 
   
-
-      <TableContainer component={Paper}>
+      <h1>Study Matches</h1>
+      <TableContainer component={Paper} id="t-cont">
           <Table id="table" size="small" aria-label="a dense table">
             <TableHead >
               <TableRow className="top-row">
-                <TableCell>Match Type</TableCell>
+                {/* <TableCell>Match Type</TableCell> */}
                 <TableCell>Name</TableCell>
                 <TableCell align="right">Pronouns</TableCell>
                 <TableCell align="right">Email</TableCell>
@@ -291,11 +325,53 @@ function Profile (){
             <TableBody>
             
 
-              {disData}
+              {disDataS}
 
             </TableBody>
           </Table>
       </TableContainer>
+
+      <h1>Friend Matches</h1>
+      <TableContainer component={Paper} id="t-cont">
+          <Table id="table" size="small" aria-label="a dense table">
+            <TableHead >
+              <TableRow className="top-row">
+                {/* <TableCell>Match Type</TableCell> */}
+                <TableCell>Name</TableCell>
+                <TableCell align="right">Pronouns</TableCell>
+                <TableCell align="right">Email</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+            
+
+              {disDataF}
+
+            </TableBody>
+          </Table>
+      </TableContainer>
+
+      <h1>Date Matches</h1>
+      <TableContainer component={Paper} id="t-cont">
+          <Table id="table" size="small" aria-label="a dense table">
+            <TableHead >
+              <TableRow className="top-row">
+                {/* <TableCell>Match Type</TableCell> */}
+                <TableCell>Name</TableCell>
+                <TableCell align="right">Pronouns</TableCell>
+                <TableCell align="right">Email</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+            
+
+              {disDataD}
+
+            </TableBody>
+          </Table>
+      </TableContainer>
+
+      
 
     </div>
     

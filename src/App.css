@@ -46,11 +46,20 @@ font-size: 400;
 }
 
 .top-row {
-  background-color: bisque;
+  background-color: rgb(146, 146, 255);
+  color: white;
+  font-size: 40px;
+
 }
 
 #table {
-  margin-top: 100px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+#t-cont {
+  width: 90%;
+  margin: 1%
 }
 
 #heading {
