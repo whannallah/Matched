@@ -177,8 +177,8 @@ const QuestionnaireD = () => {
         />
       </div> */}
 
-      <p>By submitting this form, I consent to having my data been analyzed and my name, pronouns, and email being
-        shared with my prospective matches.</p>
+      <p>By submitting this form, I consent to the analysis and storage of my data, as well as the sharing of my name, pronouns, and email with my
+    matches.</p>
 
             <button className="labelForm" type="submit">Submit</button>
     
