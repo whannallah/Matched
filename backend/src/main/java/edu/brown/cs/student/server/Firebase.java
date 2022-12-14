@@ -259,6 +259,10 @@ public class Firebase {
               double cosineSim = cosineSimAverage(mainUser.getEmbedding(), CompEmbedding);
               map.put(user, cosineSim);
               System.out.println("map size" + map.size());
+              System.out.println(mainUser.getName());
+              System.out.println(user.getName());
+              System.out.println(snapshot.getChildrenCount());
+
             }
           } catch (IOException e) {
             e.printStackTrace();
