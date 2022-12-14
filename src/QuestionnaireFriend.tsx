@@ -5,6 +5,7 @@ import { Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { mainuseremail } from './Login';
 
 
 
@@ -62,7 +63,7 @@ const QuestionnaireF = () => {
           .required("Required"),
       }),
     onSubmit: values => {
-    
+        values.email = mainuseremail;
         const surveyData = JSON.stringify(values, null, 2);
         alert(surveyData)
 
@@ -119,19 +120,6 @@ const QuestionnaireF = () => {
          <div>{formik.errors.classYear}</div>
        ) : null}
 
-
-      <label className="labelForm" htmlFor="email">Email: </label>
-      <input
-        id="email"
-        name="email"
-        type="email"
-        onChange={formik.handleChange}
-        value={formik.values.email}
-      />
-
-      {formik.touched.email && formik.errors.email ? (
-         <div>{formik.errors.email}</div>
-       ) : null}
 
       <label className="labelForm" htmlFor="perfSat">Describe your perfect Saturday at Brown: </label>
       <input

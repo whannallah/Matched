@@ -5,6 +5,7 @@ import { Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { mainuseremail } from './Login';
 
 
 
@@ -45,9 +46,6 @@ const QuestionnaireD = () => {
           .max(4, "Must be a valid class year")
           .min(4, "Must be a valid class year")
           .required("Required"),
-        email: Yup.string()
-          .email('Invalid email address')
-          .required('Required'),
         perfDate: Yup.string()
           .max(100, "Must be 100 character or less")
           .required("Required"),
@@ -62,8 +60,8 @@ const QuestionnaireD = () => {
           .required("Required"),
       }),
     onSubmit: values => {
-    
-        const surveyData = JSON.stringify(values, null, 2);
+        values.email = mainuseremail;
+        const surveyData = JSON.stringify(values, null, 2)
         alert(surveyData)
 
     // send data to backend
@@ -119,18 +117,6 @@ const QuestionnaireD = () => {
         <div>{formik.errors.classYear}</div>
       ) : null}
 
-
-      <label className="labelForm" htmlFor="email">Email: </label>
-      <input
-        id="email"
-        name="email"
-        type="email"
-        onChange={formik.handleChange}
-        value={formik.values.email} />
-
-      {formik.touched.email && formik.errors.email ? (
-        <div>{formik.errors.email}</div>
-      ) : null}
 
       <label className="labelForm" htmlFor="perfDate">Describe your perfect date: </label>
       <input
