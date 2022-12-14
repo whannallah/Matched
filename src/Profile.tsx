@@ -1,4 +1,5 @@
 import React,{ useState, useEffect } from 'react';
+import ReactDOM from "react-dom";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -24,7 +25,6 @@ import { createNull, isFunctionDeclaration, isNonNullExpression } from 'typescri
 //MY MATCHES PAGE
 
 
- 
 
 
 function Profile (){
@@ -67,18 +67,19 @@ function Profile (){
    const [disData, setDisData] = useState(DisplayData)
 
 
+
+
    function handleSubmitDate() {
       let fullURL = "http://localhost:9000/getMatches?user-key=" + mainuseremail.split("@")[0] + "&Qtype=users-date"
       fetch(fullURL)
         .then((response) => response.json())
         .then((response) => {
           alert(response);
-          console.log(response[0])
-        
+
+          // console.log(response[0])
           console.log(mainuseremail)
-          
-          console.log(response.length);
-          console.log(rows)
+          // console.log(response.length);
+          // console.log(rows)
           for (let i = 0; i < response.length; i++){
             rows.push(createData(response[i].questionnaireType, response[i].name, response[i].pronouns, response[i].email))
           }
@@ -100,14 +101,17 @@ function Profile (){
           )}
 
     function handleSubmitFriend() {
+
+          // fetch('http://localhost:9000/getMatches?user-key=samantha_shulman&Qtype=users-friend')
           // fetch('http://localhost:9000/getMatches?user-key=" + emailID + "&Qtype=users-date')
           let fullURL = "http://localhost:9000/getMatches?user-key=" + mainuseremail.split("@")[0] + "&Qtype=users-friend"
           fetch(fullURL)
+
             .then((response) => response.json())
             .then((response) => {
               alert(response);
               // console.log(response[0])
-              console.log(emailID)
+              console.log(mainuseremail)
               // console.log(response.length);
               // console.log(rows)
               for (let i = 0; i < response.length; i++){
@@ -131,18 +135,16 @@ function Profile (){
               )}
 
     function handleSubmitStudy() {
-          //console.log(mainuseremail.split("@")[0])
-          console.log("here")
           let fullURL = "http://localhost:9000/getMatches?user-key=" + mainuseremail.split("@")[0] + "&Qtype=users-study"
           console.log(fullURL)
             fetch(fullURL)
               .then((response) => response.json())
               .then((response) => {
                 alert(response);
-                console.log(response[0])
-                console.log(emailID)
-                console.log(response.length);
-                console.log(rows)
+                // console.log(response[0])
+                console.log(mainuseremail)
+                // console.log(response.length);
+                // console.log(rows)
                 for (let i = 0; i < response.length; i++){
                   rows.push(createData(response[i].questionnaireType, response[i].name, response[i].pronouns, response[i].email))
                 }

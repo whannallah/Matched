@@ -4,19 +4,21 @@
 // import { Link} from 'react-router-dom';
 
 
-import React, { useState, useEffect , createContext, useContext, Component } from "react";
+import React, { useState, useEffect , createContext, useContext, Component, SetStateAction } from "react";
 import {Link } from 'react-router-dom'; //Redirect
 import Main from './Main';
 
 import { GoogleLogin, GoogleLogout} from 'react-google-login';
 import {gapi} from 'gapi-script';
 import { EmailOutlined, FreeBreakfastSharp } from "@mui/icons-material";
-
+import { fontSize } from "@mui/system";
+import { relative } from "path/posix";
 
 // LOGIN PAGE
 
 let mainuseremail = ""
 export {mainuseremail}
+
 export default function Login (){
     const clientId = "952054202634-sh0ga8ll4khean9j7gfvcmqkdak5ssaq.apps.googleusercontent.com"
     const [profile, setProfile] = useState(null);
@@ -69,6 +71,8 @@ export default function Login (){
                                         <Link className="nav-link" to='/MatchOptions'  >NEW MATCHES </Link>
                                         <Link className="nav-link" to='/Profile' >MY MATCHES</Link> 
                                         
+                                        <p id="emailID" >{emailID}</p>
+
                                         <GoogleLogout 
                                             clientId={clientId} 
                                             buttonText = "Log Out" 
@@ -101,6 +105,8 @@ export default function Login (){
                         )   }
     
           </div>
+
+         
           
           )
     
@@ -111,7 +117,5 @@ export default function Login (){
         //      <p style ={{padding: 100}}> Please login with your Brown credentials below: </p>
         //      <Link to='/'><Button style ={{margin: 100}} variant="outlined">Login</Button></Link>
         // </div>
-        
-        
 
 }
