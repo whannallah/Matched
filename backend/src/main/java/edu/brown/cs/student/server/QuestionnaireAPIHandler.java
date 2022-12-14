@@ -2,16 +2,14 @@ package edu.brown.cs.student.server;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
-import com.squareup.moshi.Types;
+import edu.brown.cs.student.APIresponses.ErrBadJsonResponse;
+import edu.brown.cs.student.APIresponses.FriendQuestionnaireResponse;
 import edu.brown.cs.student.datasource.ExternalAPIHandler;
 
 import spark.QueryParamsMap;
 import spark.Request;
 import spark.Response;
 import spark.Route;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class QuestionnaireAPIHandler extends ExternalAPIHandler implements Route {
   FriendQuestionnaireResponse t;
