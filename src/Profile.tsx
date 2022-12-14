@@ -65,8 +65,8 @@ function Profile (){
 
 
    function handleSubmitDate() {
-      // fetch('http://localhost:9000/getMatches?user-key=" + emailID + "&Qtype=users-date')
-      fetch('http://localhost:9000/getMatches?user-key=samantha_shulman&Qtype=users-date')
+      //  fetch('http://localhost:9000/getMatches?user-key=kam&Qtype=users-friend')
+      fetch('http://localhost:9000/getMatches?user-key=" + emailID + "&Qtype=users-date')
         .then((response) => response.json())
         .then((response) => {
           alert(response);
@@ -100,10 +100,10 @@ function Profile (){
             .then((response) => response.json())
             .then((response) => {
               alert(response);
-              console.log(response[0])
+              // console.log(response[0])
               console.log(emailID)
-              console.log(response.length);
-              console.log(rows)
+              // console.log(response.length);
+              // console.log(rows)
               for (let i = 0; i < response.length; i++){
                 rows.push(createData(response[i].questionnaireType, response[i].name, response[i].pronouns, response[i].email))
               }
@@ -125,8 +125,8 @@ function Profile (){
               )}
 
     function handleSubmitStudy() {
-            // fetch('http://localhost:9000/getMatches?user-key=" + emailID + "&Qtype=users-date')
-            fetch('http://localhost:9000/getMatches?user-key=samantha_shulman&Qtype=users-study')
+      // fetch('http://localhost:9000/getMatches?user-key=samantha_shulman&Qtype=users-study')
+            fetch('http://localhost:9000/getMatches?user-key=" + emailID + "&Qtype=users-date')
               .then((response) => response.json())
               .then((response) => {
                 alert(response);

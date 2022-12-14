@@ -40,11 +40,26 @@ public class GetMatchesAPIHandler extends ExternalAPIHandler implements Route {
         return this.serialize(topMatches);
     }
 
-    private String serialize(Object o) {
+    private List<String> serialize(List<User> users) {
+        System.out.println("got to serialization");
         Moshi moshi = new Moshi.Builder().build();
-        JsonAdapter<Object> jsonAdapter = moshi.adapter(
-            (Object.class));
+        ArrayList<String> temp = new ArrayList<>();
 
-        return jsonAdapter.toJson(o);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (User user: users) {
+            String userData = moshi.adapter(User.class).toJson(user);
+            temp.add(userData);
+            stringBuilder.append(userData);
+        }
+
+        //can return stringBuilder if you need it as a string
+
+        return temp;
+
+
+//        JsonAdapter<Object> jsonAdapter = moshi.adapter(
+//            (Object.class));
+//
+//        return jsonAdapter.toJson(o);
     }
 }

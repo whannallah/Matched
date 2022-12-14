@@ -10,7 +10,7 @@ import Main from './Main';
 
 import { GoogleLogin, GoogleLogout} from 'react-google-login';
 import {gapi} from 'gapi-script';
-import { EmailOutlined } from "@mui/icons-material";
+import { EmailOutlined, FreeBreakfastSharp } from "@mui/icons-material";
 
 
 
@@ -34,8 +34,10 @@ export default function Login (){
       })
     
       const onSuccess = (res: any) => {
-        setProfile(res.profileObj)
         console.log(res.profileObj.email)
+        if (res.profileObj.email.endsWith('@brown.edu')){
+            setProfile(res.profileObj)
+       }
       }
 
     
@@ -48,8 +50,6 @@ export default function Login (){
           setEmailID(null)
         
       }
-    
-    
     
       return (
           <div >
