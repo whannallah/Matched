@@ -176,8 +176,8 @@ function Profile (){
     </div>
 
     <TableContainer component={Paper}>
-        <Table id="table" sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-          <TableHead>
+        <Table id="table" size="small" aria-label="a dense table">
+          <TableHead >
             <TableRow className="top-row">
               <TableCell>Match Type</TableCell>
               <TableCell>Name</TableCell>

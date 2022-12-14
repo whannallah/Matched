@@ -13,7 +13,7 @@ function MatchOptions (){
 
         <div>
             <div id="center-text">
-                <p>Match options below: </p>
+                <p>Select a match option: </p>
             </div>
             
             <div id="button-row">
