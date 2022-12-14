@@ -3,7 +3,10 @@ import Button from '@mui/material/Button';
 import './App.css';
 import { Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
+
 
 
 
@@ -12,6 +15,8 @@ import axios from 'axios';
 
 // Date Questionnaire PAGE
 const QuestionnaireD = () => {
+
+  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
   const [zip, setZip] = useState("");
   // Note that we have to initialize ALL of fields with values. These
@@ -56,15 +61,16 @@ const QuestionnaireD = () => {
           .max(100, "Must be 100 character or less")
           .required("Required"),
       }),
-    onSubmit: async values => {
+    onSubmit: values => {
     
         const surveyData = JSON.stringify(values, null, 2);
+        alert(surveyData)
 
     // send data to backend
 
       fetch('http://localhost:9000/getQuestionairreResponse?data-vals=' + surveyData + '&Qtype=date')
 
-        alert(surveyData)
+       
 
      
     },
@@ -174,7 +180,18 @@ const QuestionnaireD = () => {
         <div>{formik.errors.reasoning}</div>
       ) : null}
 
-      <button className="labelForm" type="submit">Submit</button>
+      <div>
+
+        <FormControlLabel
+          name="acceptance"
+          value="start"
+          control={<Checkbox />}
+          label="I consent to my data being used to find a match"
+          labelPlacement="end"
+        />
+      </div>
+
+            <button className="labelForm" type="submit">Submit</button>
     
       </form>
       </div>

@@ -3,7 +3,8 @@ import Button from '@mui/material/Button';
 import './App.css';
 import { Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 
 
@@ -183,6 +184,17 @@ const QuestionnaireF = () => {
         {formik.touched.reasoning && formik.errors.reasoning ? (
          <div>{formik.errors.reasoning}</div>
        ) : null}
+
+      <div>
+
+      <FormControlLabel
+        name="acceptance"
+        value="start"
+        control={<Checkbox />}
+        label="I consent to my data being used to find a match"
+        labelPlacement="end"
+      />
+      </div>
 
       <button className="labelForm" type="submit">Submit</button>
     </form>

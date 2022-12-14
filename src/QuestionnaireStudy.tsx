@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import './App.css';
-import { Formik, useFormik } from 'formik';
+import { Field, FieldHookConfig, Formik, useField, useFormik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 
 
@@ -17,7 +18,6 @@ import axios from 'axios';
 
 const QuestionnaireS = () => {
 
-  const [zip, setZip] = useState("");
   // Note that we have to initialize ALL of fields with values. These
   // could come from props, but since we don’t want to prefill this form,
   // we just use an empty string. If we don’t do this, React will yell
@@ -31,7 +31,8 @@ const QuestionnaireS = () => {
       studyHabs: '',
       classes: '',
       studySpot: '',
-      reasoning: ''
+      reasoning: '',
+      // acceptanceTerm: false
     },
     validationSchema: Yup.object({
         name: Yup.string()
@@ -59,6 +60,9 @@ const QuestionnaireS = () => {
         reasoning: Yup.string()
           .max(100, "Must be 100 character or less")
           .required("Required"),
+        // acceptanceTerm: Yup.boolean()
+        //   .required("Required")
+        //   .oneOf([false], "You must consent to move forward.")
       }),
     onSubmit: values => {
     
@@ -68,7 +72,7 @@ const QuestionnaireS = () => {
     // send data to backend
 
         fetch('http://localhost:9000/getQuestionairreResponse?data-vals=' + surveyData  + '&Qtype=study')
-        // .then(response => {return response.json()});
+
      
     },
   });
@@ -184,6 +188,24 @@ const QuestionnaireS = () => {
         {formik.touched.reasoning && formik.errors.reasoning ? (
          <div>{formik.errors.reasoning}</div>
        ) : null}
+
+      {/* <div> */}
+
+      {/* <FormControlLabel
+        name="acceptanceTerm"
+        value="start"
+        control={<Checkbox />}
+        label="I consent to my data being used to find a match"
+        labelPlacement="end"
+      />
+
+
+        {formik.touched.acceptanceTerm && formik.errors.acceptanceTerm ? (
+         <div>{formik.errors.acceptanceTerm}</div>
+       ) : null}
+
+
+      </div> */}
 
       <button className="labelForm" type="submit">Submit</button>
     </form>
