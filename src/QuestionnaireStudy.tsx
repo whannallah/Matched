@@ -47,16 +47,16 @@ const QuestionnaireS = () => {
           .min(4, "Must be a valid class year")
           .required("Required"),
         studyHabs: Yup.string()
-          .max(100, "Must be 100 character or less")
+          .max(5000, "Must be 100 character or less")
           .required("Required"),
         classes: Yup.string()
-          .max(100, "Must be 100 character or less")
+          .max(5000, "Must be 100 character or less")
           .required("Required"),
         studySpot: Yup.string()
-          .max(100, "Must be 100 character or less")
+          .max(5000, "Must be 100 character or less")
           .required("Required"),
         reasoning: Yup.string()
-          .max(100, "Must be 100 character or less")
+          .max(5000, "Must be 100 character or less")
           .required("Required"),
         // acceptanceTerm: Yup.boolean()
         //   .required("Required")

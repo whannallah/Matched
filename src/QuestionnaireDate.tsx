@@ -47,16 +47,16 @@ const QuestionnaireD = () => {
           .min(4, "Must be a valid class year")
           .required("Required"),
         perfDate: Yup.string()
-          .max(100, "Must be 100 character or less")
+          .max(5000, "Must be 100 character or less")
           .required("Required"),
         expectations: Yup.string()
-          .max(100, "Must be 100 character or less")
+          .max(5000, "Must be 100 character or less")
           .required("Required"),
         passions: Yup.string()
-          .max(100, "Must be 100 character or less")
+          .max(5000, "Must be 100 character or less")
           .required("Required"),
         reasoning: Yup.string()
-          .max(100, "Must be 100 character or less")
+          .max(5000, "Must be 100 character or less")
           .required("Required"),
       }),
     onSubmit: values => {
