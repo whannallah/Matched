@@ -12,6 +12,8 @@ import { TableRowsTwoTone } from '@mui/icons-material';
 
 import Login from './Login';
 import emailID from "./Login"
+import mainuseremail from "./Login"
+
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -71,7 +73,9 @@ function Profile (){
         .then((response) => {
           alert(response);
           console.log(response[0])
+        
           console.log(emailID)
+          console.log("EMAIL IS HERE: " + mainuseremail)
           console.log(response.length);
           console.log(rows)
           for (let i = 0; i < response.length; i++){
