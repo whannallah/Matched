@@ -186,3 +186,19 @@ font-size: 400;
   font-size: 40;
   border-radius: 10%;
 }
+
+#logout {
+  width:100;
+  height:50;
+  margin: 10%;
+  display: inline;
+
+
+}
+
+#emailID {
+  position: relative;
+  left: 75%;
+  margin: 2%;
+  display: inline;
+}

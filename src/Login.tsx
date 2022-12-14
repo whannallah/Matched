@@ -23,9 +23,7 @@ export default function Login (){
     const clientId = "952054202634-sh0ga8ll4khean9j7gfvcmqkdak5ssaq.apps.googleusercontent.com"
     const [profile, setProfile] = useState(null);
     const [emailID, setEmailID] = useState(null);
-    
-    
-    //   const[header, setHeader] = useState("");
+
     
       useEffect(() => {
           const initClient = () => {
@@ -59,14 +57,10 @@ export default function Login (){
     
       return (
           <div >
-             {/* <h1>
-              React Auth
-             </h1> */}
              {profile ? (
                         <div className="navbar-container">
                               <ul >
                                     <ol >
-                                        {/* style = {{color: "grey",   margin: 100, textDecorationLine: 'none', fontSize: 28, fontFamily: "Georgia", position: "relative", top:70}} */}
                                         <Link className="nav-link" to='/' >HOME</Link>
                                         <Link className="nav-link" to='/MatchOptions'  >NEW MATCHES </Link>
                                         <Link className="nav-link" to='/Profile' >MY MATCHES</Link> 
@@ -77,7 +71,7 @@ export default function Login (){
                                             clientId={clientId} 
                                             buttonText = "Log Out" 
                                             onLogoutSuccess={logOut}
-                                            style={{ width:50, height:50, margin: 10 }}
+                                            className="logout"
                                         />
                                           
                                     </ol>
