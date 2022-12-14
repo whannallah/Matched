@@ -1,6 +1,8 @@
 package edu.brown.cs.student.server;
 
+import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
+import com.squareup.moshi.Types;
 import edu.brown.cs.student.datasource.ExternalAPIHandler;
 import spark.QueryParamsMap;
 import spark.Request;
@@ -8,6 +10,8 @@ import spark.Response;
 import spark.Route;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class FilledOutQAPIHandler extends ExternalAPIHandler implements Route {
@@ -33,6 +37,13 @@ public class FilledOutQAPIHandler extends ExternalAPIHandler implements Route {
                 System.out.println("matches above");
             }
         }
-        return filledOutFormsForUser;
+        return this.serialize(filledOutFormsForUser);
+    }
+
+    private String serialize(List<String> forms) {
+        Moshi moshi = new Moshi.Builder().build();
+        JsonAdapter<List<String>> jsonAdapter = moshi.adapter(
+            Types.newParameterizedType(List.class, String.class));
+        return jsonAdapter.toJson(forms);
     }
 }

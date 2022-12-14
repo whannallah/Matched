@@ -2,9 +2,9 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import './App.css';
 import { Link} from 'react-router-dom';
-// import pencil from './images/pencil.png';
-// import friend from './images/friend.png' 
-// import heart from './images/heart.png'
+//import pencil from 'images/friend.png'
+//import friend from '.images/friend.png'
+//import heart from 'images/heart.png'
 
 // MATCH OPTIONS PAGE
 
@@ -13,7 +13,7 @@ function MatchOptions (){
 
         <div>
             <div id="center-text">
-                <p>Match options below: </p>
+                <p>Select a match option: </p>
             </div>
             
             <div id="button-row">
@@ -22,7 +22,7 @@ function MatchOptions (){
                 <div >
                     <p id ="button-style" >STUDY</p>
                     <div>
-                        {/* <img id="icon-img" src={pencil} alt="pencil"/> */}
+                        <img id="icon-img" alt="pencil"/>
                     </div>
                 </div>
                 </Link>
@@ -31,7 +31,7 @@ function MatchOptions (){
                 <div >
                     <p id="button-style">FRIEND</p>
                     <div>
-                        {/* <img id="icon-img" src={friend} alt="friend"/> */}
+                        <img id="icon-img" alt="friend"/>
                     </div>
                 </div>
                 </Link>
@@ -40,7 +40,7 @@ function MatchOptions (){
                 <div >
                     <p id="button-style" >DATE</p>
                     <div>
-                        {/* <img id="icon-img" src={heart}  alt="heart"/> */}
+                        <img id="icon-img" alt="heart"/>
                     </div>
                 </div>
                 </Link>
