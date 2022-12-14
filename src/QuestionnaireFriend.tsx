@@ -73,7 +73,8 @@ const QuestionnaireF = () => {
   });
   
   return (
-    <form style ={{margin: 200, fontSize: 28, fontFamily: "Georgia", position: "relative"}} onSubmit={formik.handleSubmit}>
+    <div id="form-module">
+    <form style={{margin: 100, padding: 50, position: "relative" }} onSubmit={formik.handleSubmit}>
       <label className="labelForm" htmlFor="name">Name: </label>
       <input
         id="name"
@@ -185,6 +186,7 @@ const QuestionnaireF = () => {
 
       <button className="labelForm" type="submit">Submit</button>
     </form>
+    </div>
   );
 };
 
