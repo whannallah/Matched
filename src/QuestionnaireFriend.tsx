@@ -20,10 +20,7 @@ import { mainuseremail } from './Login';
 const QuestionnaireF = () => {
 
   const [zip, setZip] = useState("");
-  // Note that we have to initialize ALL of fields with values. These
-  // could come from props, but since we don’t want to prefill this form,
-  // we just use an empty string. If we don’t do this, React will yell
-  // at us.
+ 
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -46,9 +43,6 @@ const QuestionnaireF = () => {
           .max(4, "Must be a valid class year")
           .min(4, "Must be a valid class year")
           .required("Required"),
-        email: Yup.string()
-          .email('Invalid email address')
-          .required('Required'),
         perfSat: Yup.string()
           .max(100, "Must be 100 character or less")
           .required("Required"),
@@ -173,7 +167,7 @@ const QuestionnaireF = () => {
          <div>{formik.errors.reasoning}</div>
        ) : null}
 
-      <div>
+      {/* <div>
 
       <FormControlLabel
         name="acceptance"
@@ -182,7 +176,7 @@ const QuestionnaireF = () => {
         label="I consent to my data being used to find a match"
         labelPlacement="end"
       />
-      </div>
+      </div> */}
 
       <button className="labelForm" type="submit">Submit</button>
     </form>

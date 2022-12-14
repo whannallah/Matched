@@ -166,7 +166,7 @@ const QuestionnaireD = () => {
         <div>{formik.errors.reasoning}</div>
       ) : null}
 
-      <div>
+      {/* <div>
 
         <FormControlLabel
           name="acceptance"
@@ -175,7 +175,7 @@ const QuestionnaireD = () => {
           label="I consent to my data being used to find a match"
           labelPlacement="end"
         />
-      </div>
+      </div> */}
 
             <button className="labelForm" type="submit">Submit</button>
     

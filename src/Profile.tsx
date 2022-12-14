@@ -57,86 +57,86 @@ function Profile (){
     .then((response) => response.json())
     .then((response) => {
       avail = response;
-      console.log(avail.length);
+      console.log(avail);
     })
 
   
 
 
 
-   function DisplayButtonD() {
+  //  function DisplayButtonD() {
 
-    return (
-      <div className = "button-div">
-        <Button id ="button-style2" variant="outlined" onClick={handleSubmitDate}>
-            <label htmlFor="usernameInput">Click for DATE matches</label>
-        </Button>
-      </div>
-      )
-   }
+  //   return (
+  //     <div className = "button-div">
+  //       <Button id ="button-style2" variant="outlined" onClick={handleSubmitDate}>
+  //           <label htmlFor="usernameInput">Click for DATE matches</label>
+  //       </Button>
+  //     </div>
+  //     )
+  //  }
 
-   function DisplayButtonS() {
+  //  function DisplayButtonS() {
 
-    return (
-      <div className = "button-div">
-        <Button id ="button-style2" variant="outlined" onClick={handleSubmitStudy}>
-            <label htmlFor="usernameInput">Click for STUDY matches</label>
-        </Button>
-      </div>
-      )
-   }
+  //   return (
+  //     <div className = "button-div">
+  //       <Button id ="button-style2" variant="outlined" onClick={handleSubmitStudy}>
+  //           <label htmlFor="usernameInput">Click for STUDY matches</label>
+  //       </Button>
+  //     </div>
+  //     )
+  //  }
 
-   function DisplayButtonF() {
+  //  function DisplayButtonF() {
 
-    return (
-      <div className = "button-div">
-        <Button id ="button-style2" variant="outlined"onClick={handleSubmitFriend}>
-            <label htmlFor="usernameInput">Click for FRIEND matches</label>
-        </Button>
-      </div>
-      )
-   }
+  //   return (
+  //     <div className = "button-div">
+  //       <Button id ="button-style2" variant="outlined"onClick={handleSubmitFriend}>
+  //           <label htmlFor="usernameInput">Click for FRIEND matches</label>
+  //       </Button>
+  //     </div>
+  //     )
+  //  }
+ 
 
-
-   function DisplayButtons(){
-    if (avail.length === 3) {
-      return (
-        <div className = "button-div">
-          <DisplayButtonD />
-          <DisplayButtonS />
-          <DisplayButtonF />
-        </div>
-      )
-    } else if (avail.length === 1 && avail[0] === "users-date") {
-      return (
-        <div className = "button-div">
-          <DisplayButtonD />
-        </div>
-      ) 
-    } else if (avail.length === 1 && avail[0] === "users-study") {
-      return (
-        <div className = "button-div">
-          <DisplayButtonS />
-        </div>
-      ) 
-    } else if (avail.length === 1 && avail[0] === "users-friend") {
-      return (
-        <div className = "button-div">
-          <DisplayButtonF />
-        </div>
-      ) 
-    }else {
-        return (
-          <div>
-            <p>Please fill out a questionnaire to get matched.</p>
-          </div>
-        )
-      }
-    }
+  //  function DisplayButtons(){
+  //   if (avail.length === 3) {
+  //     return (
+  //       <div className = "button-div">
+  //         <DisplayButtonD />
+  //         <DisplayButtonS />
+  //         <DisplayButtonF />
+  //       </div>
+  //     )
+  //   } else if (avail.length === 1 && avail[0] === "users-date") {
+  //     return (
+  //       <div className = "button-div">
+  //         <DisplayButtonD />
+  //       </div>
+  //     ) 
+  //   } else if (avail.length === 1 && avail[0] === "users-study") {
+  //     return (
+  //       <div className = "button-div">
+  //         <DisplayButtonS />
+  //       </div>
+  //     ) 
+  //   } else if (avail.length === 1 && avail[0] === "users-friend") {
+  //     return (
+  //       <div className = "button-div">
+  //         <DisplayButtonF />
+  //       </div>
+  //     ) 
+  //   }else {
+  //       return (
+  //         <div>
+  //           <p>Please fill out a questionnaire to get matched.</p>
+  //         </div>
+  //       )
+  //     }
+  //   }
   
 
-    // const [buttonShow, setButtonShow] = useState(<DisplayButtons />)
-    // setButtonShow(<DisplayButtons />)
+  //   const [buttonShow, setButtonShow] = useState(<DisplayButtons />)
+  //   setButtonShow(<DisplayButtons />)
 
 
 
@@ -216,32 +216,35 @@ function Profile (){
               )}
 
     function handleSubmitStudy() {
-          let fullURL = "http://localhost:9000/getMatches?user-key=" + mainuseremail.split("@")[0] + "&Qtype=users-study"
-            fetch(fullURL)
-              .then((response) => response.json())
-              .then((response) => {
-                alert(response);
-                console.log(mainuseremail)
-                for (let i = 0; i < response.length; i++){
-                  rows.push(createData(response[i].questionnaireType, response[i].name, response[i].pronouns, response[i].email))
-                }
-                
-                setDisData(rows.map((row) => (
-                  <TableRow
-                    key={row.matchType}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                    <TableCell >
-                      {row.matchType}
-                    </TableCell>
-                    <TableCell >{row.name}</TableCell>
-                    <TableCell align="right">{row.pronouns}</TableCell>
-                    <TableCell align="right">{row.email}</TableCell>
-                  </TableRow>
-                )))
-                }
-          )}
-
+      if (avail.includes("users-study")){
+        let fullURL = "http://localhost:9000/getMatches?user-key=" + mainuseremail.split("@")[0] + "&Qtype=users-study"
+        fetch(fullURL)
+          .then((response) => response.json())
+          .then((response) => {
+            alert(response);
+            console.log(mainuseremail)
+            for (let i = 0; i < response.length; i++){
+              rows.push(createData(response[i].questionnaireType, response[i].name, response[i].pronouns, response[i].email))
+            }
+            
+            setDisData(rows.map((row) => (
+              <TableRow
+                key={row.matchType}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell >
+                  {row.matchType}
+                </TableCell>
+                <TableCell >{row.name}</TableCell>
+                <TableCell align="right">{row.pronouns}</TableCell>
+                <TableCell align="right">{row.email}</TableCell>
+              </TableRow>
+            )))
+            })
+        } else {
+          alert("You haven't filled out the study questionnaire. Please do so by naviagting to the New Matches page.")
+        }
+      }
         
   
 
@@ -263,8 +266,7 @@ function Profile (){
         </Button>
       </div>
 
-        {/* <DisplayButtons /> */}
-
+  
 
       <TableContainer component={Paper}>
           <Table id="table" size="small" aria-label="a dense table">

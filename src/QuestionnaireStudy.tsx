@@ -46,9 +46,6 @@ const QuestionnaireS = () => {
           .max(4, "Must be a valid class year")
           .min(4, "Must be a valid class year")
           .required("Required"),
-        email: Yup.string()
-          .email('Invalid email address')
-          .required('Required'),
         studyHabs: Yup.string()
           .max(100, "Must be 100 character or less")
           .required("Required"),
