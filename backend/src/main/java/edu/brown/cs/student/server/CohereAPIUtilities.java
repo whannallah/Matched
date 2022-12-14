@@ -2,6 +2,7 @@ package edu.brown.cs.student.server;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
+import edu.brown.cs.student.APIresponses.CohereResponse;
 
 import java.io.IOException;
 

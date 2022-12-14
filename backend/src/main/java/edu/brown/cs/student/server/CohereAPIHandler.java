@@ -1,15 +1,17 @@
 package edu.brown.cs.student.server;
 import com.squareup.moshi.Moshi;
+import edu.brown.cs.student.APIresponses.CohereResponse;
+import edu.brown.cs.student.APIresponses.DateQuestionnaireResponse;
+import edu.brown.cs.student.APIresponses.ErrBadJsonResponse;
+import edu.brown.cs.student.APIresponses.FriendQuestionnaireResponse;
+import edu.brown.cs.student.APIresponses.StudyQuestionnaireResponse;
 import edu.brown.cs.student.datasource.ExternalAPIHandler;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 

@@ -1,4 +1,4 @@
-package edu.brown.cs.student.server;
+package edu.brown.cs.student.APIresponses;
 
 import com.squareup.moshi.Moshi;
 

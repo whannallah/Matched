@@ -1,49 +1,55 @@
-package edu.brown.cs.student.server;
+package edu.brown.cs.student.APIresponses;
+
+import java.util.List;
 
 /**
  * class that stores a questionnaireResponse for a new friend
  */
-public class DateQuestionnaireResponse{
+public class FriendQuestionnaireResponse {
 
   private String name;
   private String pronouns;
   private String classYear;
   private String email;
-  private String perfDate;
-  private String expectations;
-  private String passions;
+  private String perfSat;
+  private String dreamVac;
+  private String hobby;
   private String reasoning;
 
-  public DateQuestionnaireResponse(){
+  public FriendQuestionnaireResponse(){
 
   }
+
 
   public String getName() {
     return this.name;
   }
 
+
   public String getPronouns() {
     return this.pronouns;
   }
+
 
   public String getClassYear() {
     return this.classYear;
   }
 
+
   public String getEmail() {
     return this.email;
   }
 
-  public String getPerfDate() {
-    return this.perfDate;
+  public String getPerfSat() {
+    return this.perfSat;
   }
 
-  public String getPassions() {
-    return this.passions;
+  public String getDreamVac() {
+    return this.dreamVac;
   }
 
-  public String getExpectations() {
-    return this.expectations;
+  public String getHobby() {
+    return this.hobby;
   }
 
   public String getReasoning() {

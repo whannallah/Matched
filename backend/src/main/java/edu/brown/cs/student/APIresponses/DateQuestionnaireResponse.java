@@ -1,20 +1,20 @@
-package edu.brown.cs.student.server;
+package edu.brown.cs.student.APIresponses;
 
 /**
  * class that stores a questionnaireResponse for a new friend
  */
-public class StudyQuestionnaireResponse{
+public class DateQuestionnaireResponse{
 
   private String name;
   private String pronouns;
   private String classYear;
   private String email;
-  private String studyHabs;
-  private String classes;
-  private String studySpot;
+  private String perfDate;
+  private String expectations;
+  private String passions;
   private String reasoning;
 
-  public StudyQuestionnaireResponse(){
+  public DateQuestionnaireResponse(){
 
   }
 
@@ -34,16 +34,16 @@ public class StudyQuestionnaireResponse{
     return this.email;
   }
 
-  public String getStudyHabs() {
-    return this.studyHabs;
+  public String getPerfDate() {
+    return this.perfDate;
   }
 
-  public String getClasses() {
-    return this.classes;
+  public String getPassions() {
+    return this.passions;
   }
 
-  public String getStudySpot() {
-    return this.studySpot;
+  public String getExpectations() {
+    return this.expectations;
   }
 
   public String getReasoning() {
