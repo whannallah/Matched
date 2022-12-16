@@ -76,7 +76,6 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 
           String[] userRoot = {"users-friend"};
 
-          //firebase.initFirebase();
           //adding user to database
           this.firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
               this.firebase.createNewUser(userToDatabase));
@@ -104,7 +103,6 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
                 "{\"texts\":[\"" + t.getPerfDate() + "\",\"" + t.getPassions() + "\",\"" + t.getExpectations() + "\",\"" + t.getReasoning() + "\"]}");
         //api call where individual answers are passed in
 
-
         Moshi moshi2 = new Moshi.Builder().build();
         CohereResponse CohereReturn =
             moshi2.adapter(CohereResponse.class).fromJson(CohereResponseJson);
@@ -115,7 +113,6 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
             new User(Qtype, t.getName(), t.getPronouns(), t.getClassYear(), t.getEmail(),
                 embeddings);
 
-        //firebase.initFirebase();
         String[] userRoot = {"users-date"};
         //adding user to database
         this.firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
@@ -156,11 +153,8 @@ public class CohereAPIHandler extends ExternalAPIHandler implements Route {
 
         String[] userRoot = {"users-study"};
         //adding user to database
-        //firebase.initFirebase();
         this.firebase.putDatabase(userRoot, userToDatabase.getEmailWithoutEdu(),
             this.firebase.createNewUser(userToDatabase));
-
-
 
         return new CohereAPIHandler.CohereSuccessResponse(embeddings).serialize();
 

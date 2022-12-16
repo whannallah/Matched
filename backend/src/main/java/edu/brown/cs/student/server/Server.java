@@ -60,7 +60,7 @@ public class Server {
     /**
      * For testing GetMatchedAPIHandler
      */
-    ArrayList<String> formsAvailable = new ArrayList<>(); // temporary fix
+    ArrayList<String> formsAvailable = new ArrayList<>();
     formsAvailable.add("users-friend");
     formsAvailable.add("users-date");
     formsAvailable.add("users-study");

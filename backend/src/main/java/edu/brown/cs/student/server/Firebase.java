@@ -18,7 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.moshi.Moshi;
 
 /**
- * The Firebase class is responsible for all things database. It provides functions to read, write, update, and delete
+ * The Firebase class is responsible for all things, database. It provides functions to read, write, update, and delete
  * users from the database. It also is responsible for calculating the cosine similarity scores for each user.
  */
 public class Firebase {
@@ -38,7 +38,7 @@ public class Firebase {
    */
 
   /**
-   * This fucntion is responsible for initializing the firebase with the correct credentials; called upon
+   * This function is responsible for initializing the firebase with the correct credentials; called upon
    * server start
    * @throws IOException
    */
@@ -67,7 +67,7 @@ public class Firebase {
 
   /**
    * Helper function used when putting new users in the database
-   * @param user
+   * @param user user to be transformed to JSON
    * @return a JSON representation of the param user
    */
   public Object createNewUser(User user) {
@@ -75,32 +75,25 @@ public class Firebase {
     return moshi.adapter(User.class).toJson(user);
   }
 
-  //Returns THE JSON; does not use moshi so as to make the read fxn more generally useful
-
   /**
    * This function allows for reading data from the database
    * @param args an array of Strings that represents the path of the data in the database
    * @return the data held within the key specified in args, as a JSON (does not moshi it) to
    * make the read function more generally useful
-   * @throws URISyntaxException
-   * @throws IOException
-   * @throws InterruptedException
    */
-  public String readDatabase(String[] args)
-      throws URISyntaxException, IOException, InterruptedException {
-    String startURL = "https://matched-cs320-default-rtdb.firebaseio.com/";
-    StringBuilder URLTemplate = new StringBuilder();
-    for (String eachString : args) {
-      URLTemplate.append(eachString).append("/");
+  public String readDatabase(String[] args) {
+    try {
+      String startURL = "https://matched-cs320-default-rtdb.firebaseio.com/";
+      URI fullURL = new URI(startURL + endpointBuilder(args) + ".json");
+      HttpRequest retrieveData = HttpRequest.newBuilder().uri(fullURL).GET().build();
+      HttpResponse<String> dataResponse =
+              HttpClient.newBuilder().build().send(retrieveData, HttpResponse.BodyHandlers.ofString());
+      return dataResponse.body();
+    } catch (Exception e) {
+      return new GeneralErrFirebase().serialize();
     }
-    URI fullURL = new URI(startURL + URLTemplate + ".json");
-    HttpRequest retrieveData = HttpRequest.newBuilder().uri(fullURL).GET().build();
-    HttpResponse<String> dataResponse =
-        HttpClient.newBuilder().build().send(retrieveData, HttpResponse.BodyHandlers.ofString());
-    return dataResponse.body();
-  }
 
-  //replaces existing
+  }
 
   /**
    * This function allows for putting new users in the database, replacing an existing key-value pair
@@ -112,18 +105,15 @@ public class Firebase {
    */
   public String putDatabase(String[] args, String key, Object value) {
     //Firebase does not allow some chars in keys
-    ArrayList<Character> forbiddenChars = new ArrayList<Character>(List.of('.', '#', '$', '[', ']'));
+    ArrayList<Character> forbiddenChars = new ArrayList<>(List.of('.', '#', '$', '[', ']'));
     for (Character character : forbiddenChars) {
       if (key.contains(character.toString())) {
-        return "Please do not use forbidden chars in the key";
+        System.out.println("Please do not use forbidden chars in the key");
+        return new GeneralErrFirebase().serialize();
       }
     }
     try {
-      StringBuilder endpoint = new StringBuilder();
-      for (String eachString : args) {
-        endpoint.append(eachString).append("/");
-      }
-      DatabaseReference ref = firebaseDatabase.getReference(endpoint + "/" + key);
+      DatabaseReference ref = firebaseDatabase.getReference(endpointBuilder(args) + "/" + key);
       final CountDownLatch latch = new CountDownLatch(1);
       System.out.println("key: " + ref.getKey());
       System.out.println("root: " + ref.getRoot());
@@ -138,12 +128,21 @@ public class Firebase {
         }
       });
       latch.await();
-      return "Latch";
+      return new GeneralSuccessFirebase().serialize();
     } catch (InterruptedException e) {
       e.printStackTrace();
+      return new GeneralErrFirebase().serialize();
     }
-    return "Error";
   }
+
+  private String endpointBuilder(String[] args) {
+    StringBuilder endpoint = new StringBuilder();
+    for (String eachString : args) {
+      endpoint.append(eachString).append("/");
+    }
+    return endpoint.toString();
+  }
+
 
   /**
    * This function is similar to 'put' except that it will not overwrite preexisting data with the same
@@ -155,18 +154,15 @@ public class Firebase {
    */
   public String updateDatabase(String[] args, String key, Object value) {
     try {
-      StringBuilder endpoint = new StringBuilder();
-      for (String eachString : args) {
-        endpoint.append(eachString).append("/");
-      }
-      DatabaseReference ref = firebaseDatabase.getReference(String.valueOf(endpoint));
+      String endpoint = endpointBuilder(args);
+      DatabaseReference ref = firebaseDatabase.getReference(endpoint);
       final CountDownLatch latch = new CountDownLatch(1);
       System.out.println("key: " + ref.getKey());
       System.out.println("root: " + ref.getRoot());
       System.out.println("parent: " + ref.getParent());
       HashMap<String, Object> map = new HashMap();
       map.put(key, value);
-      if (!this.updateHelper(String.valueOf(endpoint), key).equals("null")) {
+      if (!this.updateHelper(endpoint, key).equals("null")) {
         ref.updateChildren(map, ((databaseError, databaseReference) -> {
           if (databaseError != null) {
             System.out.println("Data could not be saved " + databaseError.getMessage());
@@ -177,19 +173,16 @@ public class Firebase {
           }
         }));
         latch.await();
-        return "Latch";
+        return new GeneralSuccessFirebase().serialize();
       }
       else {
-        return ("User, " + key + ", does not exist under that root");
+        System.out.println("User, " + key + ", does not exist under that root");
+        return new GeneralErrFirebase().serialize();
       }
-    } catch (InterruptedException e) {
+    } catch (Exception e) {
       e.printStackTrace();
-    } catch (URISyntaxException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
+      return new GeneralErrFirebase().serialize();
     }
-    return "Error in updateDatabase";
   }
 
   /**
@@ -197,18 +190,18 @@ public class Firebase {
    * @param endpoint the path to the container in which the desired key-value pair should be stored, formatted
    * @param key the email (without @brown.edu)
    * @return "null" if it doesn't exist yet, or the contents of the preexisting data with the same key
-   * @throws URISyntaxException
-   * @throws IOException
-   * @throws InterruptedException
    */
-  private String updateHelper(String endpoint, String key)
-      throws URISyntaxException, IOException, InterruptedException {
-    String startURL = "https://matched-cs320-default-rtdb.firebaseio.com/" + endpoint + "/" + key;
-    URI fullURL = new URI(startURL + ".json");
-    HttpRequest retrieveData = HttpRequest.newBuilder().uri(fullURL).GET().build();
-    HttpResponse<String> dataResponse =
-        HttpClient.newBuilder().build().send(retrieveData, HttpResponse.BodyHandlers.ofString());
-    return dataResponse.body();
+  private String updateHelper(String endpoint, String key) {
+    try {
+      String startURL = "https://matched-cs320-default-rtdb.firebaseio.com/" + endpoint + "/" + key;
+      URI fullURL = new URI(startURL + ".json");
+      HttpRequest retrieveData = HttpRequest.newBuilder().uri(fullURL).GET().build();
+      HttpResponse<String> dataResponse =
+              HttpClient.newBuilder().build().send(retrieveData, HttpResponse.BodyHandlers.ofString());
+      return dataResponse.body();
+    } catch (Exception e) {
+      return new GeneralErrFirebase().serialize();
+    }
   }
 
   /**
@@ -216,17 +209,11 @@ public class Firebase {
    * @param args the path to the container in which the desired key (and value) should be deleted
    * @param key the email (without @brown.edu)
    * @return a string for the purposes of testing
-   * @throws URISyntaxException
-   * @throws IOException
-   * @throws InterruptedException
    */
-  public String deleteFromDatabase(String[] args, String key) throws URISyntaxException, IOException, InterruptedException {
-    StringBuilder endpoint1 = new StringBuilder();
-    for (String eachString : args) {
-      endpoint1.append(eachString).append("/");
-    }
-    if (Objects.equals(updateHelper(endpoint1.toString(), key), "null")) {
-      return "User, " + key + ", does not exist under that root";
+  public String deleteFromDatabase(String[] args, String key) {
+    if (Objects.equals(updateHelper(endpointBuilder(args), key), "null")) {
+      System.out.println("User, " + key + ", does not exist under that root");
+      return new GeneralErrFirebase().serialize();
     }
     else {
       try {
@@ -249,12 +236,12 @@ public class Firebase {
           }
         });
         latch.await();
-        return "Latch";
+        return new GeneralSuccessFirebase().serialize();
       } catch (InterruptedException e) {
         e.printStackTrace();
+        return new GeneralErrFirebase().serialize();
       }
     }
-      return "Error in deleteFromDatabase";
     }
 
   /**
@@ -361,7 +348,7 @@ public class Firebase {
    * @return a similarity score
    */
   public double cosineSimAverage(List<List<Float>> mainUser, List<List<Float>> compUser) {
-    Double score = 0.0;
+    double score = 0.0;
     for (int i = 0; i < mainUser.size(); i++) {
       score += cosineSimilarity(mainUser.get(i), compUser.get(i));
     }
@@ -414,6 +401,11 @@ public class Firebase {
   }
 }
 
+/**
+ * If the size of the data being stored is ever an issue (as we thought it was at one point), this function
+ * can be used to store all of it. The loop function would need to be slightly modified to accommodate
+ * this.
+ */
 //  public void putEmbeddingInDatabase(String[] args, String key, String value) throws IOException {
 //    int chunkSize = 400;
 //    if (value.length() > chunkSize) {
