@@ -10,9 +10,6 @@ import Main from './Main';
 
 import { GoogleLogin, GoogleLogout} from 'react-google-login';
 import {gapi} from 'gapi-script';
-import { EmailOutlined, FreeBreakfastSharp } from "@mui/icons-material";
-import { fontSize } from "@mui/system";
-import { relative } from "path/posix";
 
 // LOGIN PAGE
 
@@ -72,11 +69,11 @@ export default function Login (){
                                             buttonText = "Log Out" 
                                             onLogoutSuccess={logOut}
                                             className="logout"
+                                            aria-label="logout button"
                                         />
                                           
                                     </ol>
                                     </ul>
-                            {/* <IconButton style = {{position: 'absolute', right: 90, display: 'inline'}} onClick= {()=> logOut()}> <LogoutIcon /> </IconButton> */}
                             <Main/> 
                             
                              
@@ -92,6 +89,7 @@ export default function Login (){
                         cookiePolicy={'single_host_origin'}
                         isSignedIn={true}
                         style={{ width:50, height:50, margin: 10 }}
+                        aria-label="login button"
                         
                         
                         />
@@ -100,16 +98,7 @@ export default function Login (){
     
           </div>
 
-         
-          
           )
     
-      
-
-
-        // <div style={{ display: 'inline',  color:"blue" }}>
-        //      <p style ={{padding: 100}}> Please login with your Brown credentials below: </p>
-        //      <Link to='/'><Button style ={{margin: 100}} variant="outlined">Login</Button></Link>
-        // </div>
 
 }

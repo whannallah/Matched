@@ -12,8 +12,7 @@ import QuestionnaireD from './QuestionnaireDate';
 
 function Main(){
 
-  
-    //console.log("hi")
+
 return (    
 
 
