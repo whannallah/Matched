@@ -8,13 +8,15 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { mainuseremail } from './Login';
 
 
+/**
+ * This class returns the questionnaire for the date match type.
+ * There are inputs and a submit button that the user can fill out
+ * and interact with, and the information is then sent to the 
+ * backedd usng out backeend API's endpoint.
+ * Inspired by https://codesandbox.io/s/formik-v2-tutorial-final-ge1pt?file=/src/index.js and https://formik.org/docs/tutorial
+ * @returns 
+ */
 
-
-
-// inspired from https://codesandbox.io/s/formik-v2-tutorial-final-ge1pt?file=/src/index.js
-// and https://formik.org/docs/tutorial
-
-// Date Questionnaire PAGE
 const QuestionnaireD = () => {
 
 

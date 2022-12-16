@@ -1,7 +1,11 @@
 import React from 'react';
 import './App.css';
 
-// HOME PAGE 
+/**
+ * This class is the site's landing page and 
+ * displays an informative message about the site.
+ * @returns 
+ */
 
 function Home(){
     return (

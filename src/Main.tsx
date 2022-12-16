@@ -8,7 +8,11 @@ import QuestionnaireF from './QuestionnaireFriend';
 import QuestionnaireS from './QuestionnaireStudy';
 import QuestionnaireD from './QuestionnaireDate';
 
-
+/**
+ * This class returns all of the routes to the
+ * different pages that users can navigate to
+ * @returns 
+ */
 
 function Main(){
 

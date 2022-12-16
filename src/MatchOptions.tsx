@@ -6,7 +6,12 @@ import { Link} from 'react-router-dom';
 // import friend from './images/friend.png'
 // import heart from './images/heart.png'
 
-// MATCH OPTIONS PAGE
+/**
+ * This class displays all of the match options
+ * by returning the three buttons that respectively
+ * link to the different match option questionnaires
+ * @returns 
+ */
 
 function MatchOptions (){
     return (

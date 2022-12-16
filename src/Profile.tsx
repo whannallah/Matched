@@ -17,7 +17,14 @@ import { mainuseremail } from './Login';
 import { GoogleLogin, GoogleLogout} from 'react-google-login';
 
 
-//MY MATCHES PAGE
+/**
+ * This class displays the matches that users obtain after filling
+ * out the questionnairres. The class returns three buttons that users
+ * can click to get their different match type matches, which then calls
+ * out backend API that runs and returns the matches for that type, which 
+ * are then displayed in three distinct tables.
+ * @returns 
+ */
 
 
 function Profile (){

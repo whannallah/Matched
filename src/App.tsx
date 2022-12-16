@@ -9,24 +9,12 @@ import Login from './Login'
 
 /**
  * This class sets up the react app for the map.
- * @returns the created app
+ * @returns the google auth login
  */
+
 function App(){
   return (
-  //   <div style={{ display: 'inline',  color:"blue" }}>
-     
-  //     <ul >
-  //       <ol >
-  //         <Link to='/' id="nav-bar" >HOME</Link>
-  //         <Link to='/MatchOptions' id="nav-bar" >NEW MATCHES </Link>
-  //         <Link to='/Profile' id="nav-bar" >MY MATCHES</Link> 
-  //       </ol>
-  //     </ul>
-     
-  //     <Link to='/Login'><IconButton style = {{position: 'absolute', right: 90, display: 'inline'}}> <LogoutIcon /> </IconButton></Link>
-  //     <Main />
-     
-  //   </div>   
+
    <Login/>
   );
 }

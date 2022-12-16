@@ -9,12 +9,14 @@ import { mainuseremail } from './Login';
 
 
 
-// inspired from https://codesandbox.io/s/formik-v2-tutorial-final-ge1pt?file=/src/index.js
-// and https://formik.org/docs/tutorial
-
-// Study Questionnaire PAGE
-
-
+/**
+ * This class returns the questionnaire for the study match type.
+ * There are inputs and a submit button that the user can fill out
+ * and interact with, and the information is then sent to the 
+ * backedd usng out backeend API's endpoint.
+ * Inspired by https://codesandbox.io/s/formik-v2-tutorial-final-ge1pt?file=/src/index.js and https://formik.org/docs/tutorial
+ * @returns 
+ */
 
 
 const QuestionnaireS = () => {

@@ -1,9 +1,3 @@
-// import React from 'react';
-// import Button from '@mui/material/Button';
-// import './App.css';
-// import { Link} from 'react-router-dom';
-
-
 import React, { useState, useEffect , createContext, useContext, Component, SetStateAction } from "react";
 import {Link } from 'react-router-dom'; //Redirect
 import Main from './Main';
@@ -11,7 +5,11 @@ import Main from './Main';
 import { GoogleLogin, GoogleLogout} from 'react-google-login';
 import {gapi} from 'gapi-script';
 
-// LOGIN PAGE
+/**
+ * This class handles the google authentication login and logout functionality.
+ * The logged in and logged out states are toggled and the respective buttons
+ * are displayed on the screen. Ensures only brown users can log in.
+ */
 
 let mainuseremail = ""
 export {mainuseremail}
