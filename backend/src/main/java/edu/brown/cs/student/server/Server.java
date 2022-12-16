@@ -67,9 +67,6 @@ public class Server {
 
 
     Spark.get("getFilledOutQs", new FilledOutQAPIHandler(firebase, formsAvailable));
-
-    //firebase.otherLoop("users-friend", "kam");
-
     Spark.init();
     Spark.awaitInitialization();
     System.out.println("Server started.");

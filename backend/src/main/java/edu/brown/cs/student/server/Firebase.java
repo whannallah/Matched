@@ -17,15 +17,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.moshi.Moshi;
 
+/**
+ * The Firebase class is responsible for all things database. It provides functions to read, write, update, and delete
+ * users from the database. It also is responsible for calculating the cosine similarity scores for each user.
+ */
 public class Firebase {
   private FirebaseDatabase firebaseDatabase;
-  private User mostCompatible; //change this to a queue at some point
   public Boolean hasBeenInitiated=false;
   List<User> usersToReturn = new LinkedList<>();
 
-/**
- * initialize firebase.
- */
   /**
    * apiKey: "AIzaSyCI_PJl30MJRkgTRKj6C6G97u83RmFQKgw",
    * authDomain: "matched-cs320.firebaseapp.com",
@@ -37,6 +37,11 @@ public class Firebase {
    * databaseURL: "https://matched-cs320-default-rtdb.firebaseio.com/"
    */
 
+  /**
+   * This fucntion is responsible for initializing the firebase with the correct credentials; called upon
+   * server start
+   * @throws IOException
+   */
   public void initFirebase() throws IOException {
     FileInputStream serviceAccount =
         new FileInputStream("matched-cs320-firebase-adminsdk-qt8u9-0a35976e64.json");
@@ -60,12 +65,27 @@ public class Firebase {
     app.delete();
   }
 
+  /**
+   * Helper function used when putting new users in the database
+   * @param user
+   * @return a JSON representation of the param user
+   */
   public Object createNewUser(User user) {
     Moshi moshi = new Moshi.Builder().build();
     return moshi.adapter(User.class).toJson(user);
   }
 
   //Returns THE JSON; does not use moshi so as to make the read fxn more generally useful
+
+  /**
+   * This function allows for reading data from the database
+   * @param args an array of Strings that represents the path of the data in the database
+   * @return the data held within the key specified in args, as a JSON (does not moshi it) to
+   * make the read function more generally useful
+   * @throws URISyntaxException
+   * @throws IOException
+   * @throws InterruptedException
+   */
   public String readDatabase(String[] args)
       throws URISyntaxException, IOException, InterruptedException {
     String startURL = "https://matched-cs320-default-rtdb.firebaseio.com/";
@@ -81,7 +101,17 @@ public class Firebase {
   }
 
   //replaces existing
+
+  /**
+   * This function allows for putting new users in the database, replacing an existing key-value pair
+   * if it already exists
+   * @param args the path to the container in which the desired key-value pair should be stored
+   * @param key the email (without @brown.edu)
+   * @param value the user data
+   * @return strings for the purposes of testing
+   */
   public String putDatabase(String[] args, String key, Object value) {
+    //Firebase does not allow some chars in keys
     ArrayList<Character> forbiddenChars = new ArrayList<Character>(List.of('.', '#', '$', '[', ']'));
     for (Character character : forbiddenChars) {
       if (key.contains(character.toString())) {
@@ -115,6 +145,14 @@ public class Firebase {
     return "Error";
   }
 
+  /**
+   * This function is similar to 'put' except that it will not overwrite preexisting data with the same
+   * key in the same location in the database
+   * @param args the path to the container in which the desired key-value pair should be stored
+   * @param key the email (without @brown.edu)
+   * @param value the user data
+   * @return strings for testing purposes
+   */
   public String updateDatabase(String[] args, String key, Object value) {
     try {
       StringBuilder endpoint = new StringBuilder();
@@ -154,6 +192,15 @@ public class Firebase {
     return "Error in updateDatabase";
   }
 
+  /**
+   * This helper function is used to determine whether data already exists under the key name
+   * @param endpoint the path to the container in which the desired key-value pair should be stored, formatted
+   * @param key the email (without @brown.edu)
+   * @return "null" if it doesn't exist yet, or the contents of the preexisting data with the same key
+   * @throws URISyntaxException
+   * @throws IOException
+   * @throws InterruptedException
+   */
   private String updateHelper(String endpoint, String key)
       throws URISyntaxException, IOException, InterruptedException {
     String startURL = "https://matched-cs320-default-rtdb.firebaseio.com/" + endpoint + "/" + key;
@@ -164,6 +211,15 @@ public class Firebase {
     return dataResponse.body();
   }
 
+  /**
+   * This function allows for the removal of users from the database
+   * @param args the path to the container in which the desired key (and value) should be deleted
+   * @param key the email (without @brown.edu)
+   * @return a string for the purposes of testing
+   * @throws URISyntaxException
+   * @throws IOException
+   * @throws InterruptedException
+   */
   public String deleteFromDatabase(String[] args, String key) throws URISyntaxException, IOException, InterruptedException {
     StringBuilder endpoint1 = new StringBuilder();
     for (String eachString : args) {
@@ -201,7 +257,13 @@ public class Firebase {
       return "Error in deleteFromDatabase";
     }
 
-
+  /**
+   * This function compares the main user to all other users in the respective questionnaire category
+   * @param root the path to the container in which the desired key-value pair should be stored, formatted
+   * @param mainUserKey the key (email without @brown.edu) of the current user logged in
+   * @return a List of users that have been found to be similar based on their responses
+   * @throws InterruptedException
+   */
   public List<User> otherLoop(String root, String mainUserKey) throws InterruptedException {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -214,7 +276,6 @@ public class Firebase {
 
       @Override
       public void onDataChange(DataSnapshot snapshot) {
-        //System.out.println("got to inner loop");
         double maxCosSim = -2.0;
         Comparator<Map.Entry<User, Double>> comparator = new Comparator<Map.Entry<User, Double>>() {
           @Override
@@ -293,6 +354,12 @@ public class Firebase {
     return usersToReturn;
   }
 
+  /**
+   * This helper function deals specifically with the embeddings of each user compared to the main user
+   * @param mainUser user currently logged in
+   * @param compUser every other user in the respective questionnaire location in the database
+   * @return a similarity score
+   */
   public double cosineSimAverage(List<List<Float>> mainUser, List<List<Float>> compUser) {
     Double score = 0.0;
     for (int i = 0; i < mainUser.size(); i++) {
@@ -301,6 +368,12 @@ public class Firebase {
     return score / mainUser.size();
   }
 
+  /**
+   * A helper function that calculates the cosine similarity based on each vector
+   * @param vec1
+   * @param vec2
+   * @return a unit vector
+   */
     public static double cosineSimilarity(List<Float> vec1, List<Float> vec2) {
       int commonElements = 0;
       double dotProduct = 0;
@@ -331,11 +404,15 @@ public class Firebase {
       return dotProduct / magnitude;
     }
 
+  /**
+   * A getter that returns the users calculated to be the most similar to the main user
+   * @return
+   */
   public List<User> getUsersToReturn(){
     return this.usersToReturn;
 
   }
-        }
+}
 
 //  public void putEmbeddingInDatabase(String[] args, String key, String value) throws IOException {
 //    int chunkSize = 400;
