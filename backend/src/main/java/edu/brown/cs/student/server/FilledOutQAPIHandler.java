@@ -34,7 +34,7 @@ public class FilledOutQAPIHandler extends ExternalAPIHandler implements Route {
             String[] temp = {form, userKey};
             if (!Objects.equals(this.firebase.readDatabase(temp), "null")) {
                 filledOutFormsForUser.add(form);
-                System.out.println("matches above");
+                System.out.println("looping here");
             }
         }
         return this.serialize(filledOutFormsForUser);

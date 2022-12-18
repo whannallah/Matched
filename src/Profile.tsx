@@ -55,16 +55,17 @@ function Profile (){
     const [avail, setAvail] = useState([""])
 
 
-    let fullURL = "http://localhost:9000/getFilledOutQs?user-key=" + mainuseremail.split("@")[0]
-    fetch(fullURL)
-    .then((response) => response.json())
-    .then((response) => {
-      setAvail(response);
-      console.log(avail);
-      console.log(avail.includes("users-date"))
-
-    });
     
+    function helperFunc() {
+      let fullURL = "http://localhost:9000/getFilledOutQs?user-key=" + mainuseremail.split("@")[0]
+      fetch(fullURL)
+      .then((response) => response.json())
+      .then((response) => {
+        setAvail(response);
+        console.log(avail);
+        console.log(avail.includes("users-date"))
+      });
+    }
   
 
    let DisplayDataStudy = rowsStudy.map((row)=> (
@@ -110,6 +111,7 @@ function Profile (){
 
 
    function handleSubmitDate() {
+    helperFunc();
     if (avail.includes("users-date")){
       
       let fullURL = "http://localhost:9000/getMatches?user-key=" + mainuseremail.split("@")[0] + "&Qtype=users-date"
@@ -134,14 +136,15 @@ function Profile (){
               <TableCell align="right">{row.email}</TableCell>
             </TableRow>
           )))
-          }
-          )} else {
+          })
+          } else {
             alert("You haven't filled out the date questionnaire. Please do so by naviagting to the New Matches page.")
           }
         
         }
 
     function handleSubmitFriend() {
+      helperFunc();
       if (avail.includes("users-friend")){
           let fullURL = "http://localhost:9000/getMatches?user-key=" + mainuseremail.split("@")[0] + "&Qtype=users-friend"
           fetch(fullURL)
@@ -164,8 +167,8 @@ function Profile (){
                   <TableCell align="right">{row.email}</TableCell>
                 </TableRow>
               )))
-              }
-              )} else {
+              })
+              } else {
               alert("You haven't filled out the friend questionnaire. Please do so by naviagting to the New Matches page.")
             }
             
@@ -174,6 +177,7 @@ function Profile (){
 
 
     function handleSubmitStudy() {
+      helperFunc();
       if (avail.includes("users-study")){
         let fullURL = "http://localhost:9000/getMatches?user-key=" + mainuseremail.split("@")[0] + "&Qtype=users-study"
         fetch(fullURL)
@@ -196,11 +200,12 @@ function Profile (){
                 <TableCell align="right">{row.pronouns}</TableCell>
                 <TableCell align="right">{row.email}</TableCell>
               </TableRow>
-            )))
-            })} else {
+            )))})
+            } else {
           alert("You haven't filled out the study questionnaire. Please do so by naviagting to the New Matches page.")
         }
       }
+    
         
   
 

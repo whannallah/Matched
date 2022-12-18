@@ -17,7 +17,7 @@ function Home(){
          algorithm takes into account the similarity between each question equally and returns your top 3 matches! </p>
          <p id="body-text">
          When using Matched, keep in mind that meeting new people based on similarity isn't the only way. We encourage
-         you to find many ways to meet new people, including ways that that promote connections with people who have different interests than you do</p>
+         you to find many ways to meet new people, including ways that promote connections with people who have different interests than you do</p>
          </div>
 
         
