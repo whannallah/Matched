@@ -1,21 +1,15 @@
 package edu.brown.cs.student.stars.server;
 
 import edu.brown.cs.student.server.Firebase;
-import edu.brown.cs.student.server.GetMatchesAPIHandler;
 import edu.brown.cs.student.server.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import spark.Spark;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Objects;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestFirebase {
     public static Firebase firebase = new Firebase();

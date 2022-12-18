@@ -44,7 +44,7 @@ public class Firebase {
    */
   public void initFirebase() throws IOException {
     FileInputStream serviceAccount =
-        new FileInputStream("matched-cs320-firebase-adminsdk-qt8u9-0a35976e64.json");
+        new FileInputStream("backend/matched-cs320-firebase-adminsdk-qt8u9-0a35976e64.json");
     GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
     FirebaseOptions firebaseOptions = new FirebaseOptions.Builder()
         .setDatabaseUrl("https://matched-cs320-default-rtdb.firebaseio.com/")
@@ -135,6 +135,11 @@ public class Firebase {
     }
   }
 
+  /**
+   * This helper function is responsible for building endpoint strings
+   * @param args the path to the container
+   * @return the formatted endpoint as a string
+   */
   private String endpointBuilder(String[] args) {
     StringBuilder endpoint = new StringBuilder();
     for (String eachString : args) {
