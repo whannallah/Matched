@@ -9,20 +9,19 @@ import { mainuseremail } from './Login';
 
 
 
-// inspired from https://codesandbox.io/s/formik-v2-tutorial-final-ge1pt?file=/src/index.js
-// and https://formik.org/docs/tutorial
-
-// Study Questionnaire PAGE
-
-
+/**
+ * This class returns the questionnaire for the study match type.
+ * There are inputs and a submit button that the user can fill out
+ * and interact with, and the information is then sent to the 
+ * backedd usng out backeend API's endpoint.
+ * Inspired by https://codesandbox.io/s/formik-v2-tutorial-final-ge1pt?file=/src/index.js and https://formik.org/docs/tutorial
+ * @returns 
+ */
 
 
 const QuestionnaireS = () => {
 
-  // Note that we have to initialize ALL of fields with values. These
-  // could come from props, but since we don’t want to prefill this form,
-  // we just use an empty string. If we don’t do this, React will yell
-  // at us.
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -58,9 +57,6 @@ const QuestionnaireS = () => {
         reasoning: Yup.string()
           .max(5000, "Must be 100 character or less")
           .required("Required"),
-        // acceptanceTerm: Yup.boolean()
-        //   .required("Required")
-        //   .oneOf([false], "You must consent to move forward.")
       }),
     onSubmit: values => {
         values.email = mainuseremail;
@@ -77,8 +73,8 @@ const QuestionnaireS = () => {
   
   return (
     <div id="form-module">
-    <form style={{margin: 100, padding: 50, position: "relative" }} onSubmit={formik.handleSubmit}>
-      <label className="labelForm" htmlFor="name">Name: </label>
+    <form style={{margin: 100, padding: 50, position: "relative" }} onSubmit={formik.handleSubmit} aria-label="form to fill out study buddy match questionnaire">
+      <label className="labelForm" htmlFor="name" aria-label="input form to enter name">Name: </label>
       <input
         id="name"
         name="name"
@@ -92,7 +88,7 @@ const QuestionnaireS = () => {
          <div>{formik.errors.name}</div>
        ) : null}
 
-      <label className="labelForm" htmlFor="pronouns">Pronouns: </label>
+      <label className="labelForm" htmlFor="pronouns" aria-label="input form to enter pronouns">Pronouns: </label>
       <input
         id="pronouns"
         name="pronouns"
@@ -107,7 +103,7 @@ const QuestionnaireS = () => {
        ) : null}
 
 
-      <label className="labelForm" htmlFor="classYear">Class year: </label>
+      <label className="labelForm" htmlFor="classYear" aria-label="input form to enter class year">Class year: </label>
       <input
         id="classYear"
         name="classYear"
@@ -122,7 +118,7 @@ const QuestionnaireS = () => {
        ) : null}
 
 
-      <label className="labelForm" htmlFor="studyHabs">Describe your study habits: </label>
+      <label className="labelForm" htmlFor="studyHabs" aria-label="input form to enter study habits">Describe your study habits: </label>
       <input
         id="studyHabs"
         name="studyHabs"
@@ -135,7 +131,7 @@ const QuestionnaireS = () => {
          <div>{formik.errors.studyHabs}</div>
        ) : null}
 
-      <label className="labelForm" htmlFor="classes">What classes / kinds of classes are you taking: </label>
+      <label className="labelForm" htmlFor="classes" aria-label="input form to enter classes">What classes / kinds of classes are you taking: </label>
       <input
         id="classes"
         name="classes"
@@ -148,7 +144,7 @@ const QuestionnaireS = () => {
          <div>{formik.errors.classes}</div>
        ) : null}
 
-      <label className="labelForm" htmlFor="studySpot">Favorite places to study on/near campus: </label>
+      <label className="labelForm" htmlFor="studySpot" aria-label="input form to enter study spots">Favorite places to study on/near campus: </label>
       <input
         id="studySpot"
         name="studySpot"
@@ -161,7 +157,7 @@ const QuestionnaireS = () => {
          <div>{formik.errors.studySpot}</div>
        ) : null}
 
-      <label className="labelForm" htmlFor="reasoning">What is your reasoning for filling out this questionnaire? </label>
+      <label className="labelForm" htmlFor="reasoning" aria-label="input form to enter reasoning">What is your reasoning for filling out this questionnaire? </label>
       <input
         id="reasoning"
         name="reasoning"
@@ -174,28 +170,12 @@ const QuestionnaireS = () => {
          <div>{formik.errors.reasoning}</div>
        ) : null}
 
-      {/* <div> */}
-
-      {/* <FormControlLabel
-        name="acceptanceTerm"
-        value="start"
-        control={<Checkbox />}
-        label="I consent to my data being used to find a match"
-        labelPlacement="end"
-      />
-
-
-        {formik.touched.acceptanceTerm && formik.errors.acceptanceTerm ? (
-         <div>{formik.errors.acceptanceTerm}</div>
-       ) : null}
-
-
-      </div> */}
+    
 
     <p>By submitting this form, I consent to the analysis and storage of my data, as well as the sharing of my name, pronouns, and email with my
     matches.</p>
 
-      <button className="labelForm" type="submit">Submit</button>
+      <button className="labelForm" type="submit" aria-label="submit button">Submit</button>
     </form>
     </div>
   );

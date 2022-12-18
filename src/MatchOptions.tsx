@@ -6,7 +6,12 @@ import { Link} from 'react-router-dom';
 // import friend from './images/friend.png'
 // import heart from './images/heart.png'
 
-// MATCH OPTIONS PAGE
+/**
+ * This class displays all of the match options
+ * by returning the three buttons that respectively
+ * link to the different match option questionnaires
+ * @returns 
+ */
 
 function MatchOptions (){
     return (
@@ -20,7 +25,7 @@ function MatchOptions (){
 
                 <Link id="circ-item" to='/QuestionnaireStudy'>
                 <div >
-                    <p id ="button-style" >STUDY</p>
+                    <p id ="button-style" aria-label="study match option">STUDY</p>
                     <div>
                         {/* <img id="icon-img" src={pencil} alt="pencil"/> */}
                     </div>
@@ -29,7 +34,7 @@ function MatchOptions (){
 
                 <Link id="circ-item" to='/QuestionnaireFriend'>
                 <div >
-                    <p id="button-style">FRIEND</p>
+                    <p id="button-style" aria-label="friend match option">FRIEND</p>
                     <div>
                         {/* <img id="icon-img" src={friend} alt="friend"/> */}
                     </div>
@@ -38,7 +43,7 @@ function MatchOptions (){
 
                 <Link id="circ-item" to='/QuestionnaireDate'>
                 <div >
-                    <p id="button-style" >DATE</p>
+                    <p id="button-style" aria-label="date match option">DATE</p>
                     <div>
                         {/* <img id="icon-img" src={heart}  alt="heart"/> */}
                     </div>

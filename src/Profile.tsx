@@ -17,21 +17,20 @@ import { mainuseremail } from './Login';
 import { GoogleLogin, GoogleLogout} from 'react-google-login';
 
 
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getDatabase, ref, set, onValue } from "firebase/database"
-import { createNull, isFunctionDeclaration, isNonNullExpression } from 'typescript';
-
-//MY MATCHES PAGE
-
-
+/**
+ * This class displays the matches that users obtain after filling
+ * out the questionnairres. The class returns three buttons that users
+ * can click to get their different match type matches, which then calls
+ * out backend API that runs and returns the matches for that type, which 
+ * are then displayed in three distinct tables.
+ * @returns 
+ */
 
 
 function Profile (){
 
 
   function createData(
-    // matchType: string,
     name: string,
     pronouns: string,
     email: string
@@ -51,85 +50,6 @@ function Profile (){
     createData('', '', ''),
    ];
 
-  
-
-  //  function DisplayButtonD() {
-
-  //   return (
-  //     <div className = "button-div">
-  //       <Button id ="button-style2" variant="outlined" onClick={handleSubmitDate}>
-  //           <label htmlFor="usernameInput">Click for DATE matches</label>
-  //       </Button>
-  //     </div>
-  //     )
-  //  }
-
-  //  function DisplayButtonS() {
-
-  //   return (
-  //     <div className = "button-div">
-  //       <Button id ="button-style2" variant="outlined" onClick={handleSubmitStudy}>
-  //           <label htmlFor="usernameInput">Click for STUDY matches</label>
-  //       </Button>
-  //     </div>
-  //     )
-  //  }
-
-  //  function DisplayButtonF() {
-
-  //   return (
-  //     <div className = "button-div">
-  //       <Button id ="button-style2" variant="outlined"onClick={handleSubmitFriend}>
-  //           <label htmlFor="usernameInput">Click for FRIEND matches</label>
-  //       </Button>
-  //     </div>
-  //     )
-  //  }
- 
-
-  //  function DisplayButtons(){
-  //   if (avail.length === 3) {
-  //     return (
-  //       <div className = "button-div">
-  //         <DisplayButtonD />
-  //         <DisplayButtonS />
-  //         <DisplayButtonF />
-  //       </div>
-  //     )
-  //   } else if (avail.length === 1 && avail[0] === "users-date") {
-  //     return (
-  //       <div className = "button-div">
-  //         <DisplayButtonD />
-  //       </div>
-  //     ) 
-  //   } else if (avail.length === 1 && avail[0] === "users-study") {
-  //     return (
-  //       <div className = "button-div">
-  //         <DisplayButtonS />
-  //       </div>
-  //     ) 
-  //   } else if (avail.length === 1 && avail[0] === "users-friend") {
-  //     return (
-  //       <div className = "button-div">
-  //         <DisplayButtonF />
-  //       </div>
-  //     ) 
-  //   }else {
-  //       return (
-  //         <div>
-  //           <p>Please fill out a questionnaire to get matched.</p>
-  //         </div>
-  //       )
-  //     }
-  //   }
-  
-
-  //   const [buttonShow, setButtonShow] = useState(<DisplayButtons />)
-  //   setButtonShow(<DisplayButtons />)
-
-
-
-
 
    
     const [avail, setAvail] = useState([""])
@@ -144,8 +64,6 @@ function Profile (){
       console.log(avail.includes("users-date"))
 
     });
-
-
     
   
 
@@ -153,9 +71,8 @@ function Profile (){
     <TableRow
     key={row.name}
     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+    aria-label="table displying study matches"
     >
-      {/* <TableCell >{row.matchType}</TableCell> */}
-      {/* <TableCell >{row.name}</TableCell> */}
       <TableCell align="right">{row.pronouns}</TableCell>
       <TableCell align="right">{row.email}</TableCell>
     </TableRow>
@@ -165,9 +82,8 @@ function Profile (){
     <TableRow
     key={row.name}
     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+    aria-label="table displying friend matches"
     >
-      {/* <TableCell >{row.matchType}</TableCell> */}
-      {/* <TableCell >{row.name}</TableCell> */}
       <TableCell align="right">{row.pronouns}</TableCell>
       <TableCell align="right">{row.email}</TableCell>
     </TableRow>
@@ -177,9 +93,8 @@ function Profile (){
     <TableRow
     key={row.name}
     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+    aria-label="table displying date matches"
     >
-      {/* <TableCell >{row.matchType}</TableCell> */}
-      {/* <TableCell >{row.name}</TableCell> */}
       <TableCell align="right">{row.pronouns}</TableCell>
       <TableCell align="right">{row.email}</TableCell>
     </TableRow>
@@ -205,7 +120,6 @@ function Profile (){
 
           console.log(mainuseremail)
           for (let i = 0; i < response.length; i++){
-            // rows.push(createData(response[i].questionnaireType, response[i].name, response[i].pronouns, response[i].email))
             rowsDate.push(createData(response[i].name, response[i].pronouns, response[i].email))
           }
           
@@ -213,8 +127,8 @@ function Profile (){
             <TableRow
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              aria-label="table displying date matches"
             >
-              {/* <TableCell >{row.matchType}</TableCell> */}
               <TableCell >{row.name}</TableCell>
               <TableCell align="right">{row.pronouns}</TableCell>
               <TableCell align="right">{row.email}</TableCell>
@@ -236,7 +150,6 @@ function Profile (){
               alert(response);
               console.log(mainuseremail)
               for (let i = 0; i < response.length; i++){
-                // rows.push(createData(response[i].questionnaireType, response[i].name, response[i].pronouns, response[i].email))
                 rowsFriend.push(createData(response[i].name, response[i].pronouns, response[i].email))
               }
               
@@ -244,8 +157,8 @@ function Profile (){
                 <TableRow
                   key={row.name}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  aria-label="table displying friend matches"
                 >
-                  {/* <TableCell >{row.matchType}</TableCell> */}
                   <TableCell >{row.name}</TableCell>
                   <TableCell align="right">{row.pronouns}</TableCell>
                   <TableCell align="right">{row.email}</TableCell>
@@ -269,7 +182,6 @@ function Profile (){
             alert(response);
             console.log(mainuseremail)
             for (let i = 0; i < response.length; i++){
-              // rows.push(createData(response[i].questionnaireType, response[i].name, response[i].pronouns, response[i].email))
               rowsStudy.push(createData(response[i].name, response[i].pronouns, response[i].email))
 
             }
@@ -278,8 +190,8 @@ function Profile (){
               <TableRow
                 key={row.name}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                aria-label="table displying study matches"
               >
-                {/* <TableCell > {row.matchType}</TableCell> */}
                 <TableCell >{row.name}</TableCell>
                 <TableCell align="right">{row.pronouns}</TableCell>
                 <TableCell align="right">{row.email}</TableCell>
@@ -297,15 +209,15 @@ function Profile (){
     <div>
     
       <div className = "button-div">
-        <Button id ="button-style2" variant="outlined" onClick={handleSubmitDate}>
+        <Button id ="button-style2" variant="outlined" onClick={handleSubmitDate} aria-label="button to get date matches">
             <label htmlFor="usernameInput">Click for DATE matches</label>
         </Button>
               
-        <Button id ="button-style2" variant="outlined"onClick={handleSubmitFriend}>
+        <Button id ="button-style2" variant="outlined"onClick={handleSubmitFriend} aria-label="button to get friend matches">
             <label htmlFor="usernameInput">Click for FRIEND matches</label>
         </Button>
 
-        <Button id ="button-style2" variant="outlined" onClick={handleSubmitStudy}>
+        <Button id ="button-style2" variant="outlined" onClick={handleSubmitStudy} aria-label="button to get study matches">
             <label htmlFor="usernameInput">Click for STUDY matches</label>
         </Button>
       </div>
@@ -313,10 +225,9 @@ function Profile (){
   
       <h1>Study Matches</h1>
       <TableContainer component={Paper} id="t-cont">
-          <Table id="table" size="small" aria-label="a dense table">
+          <Table id="table" size="small" aria-label="study table">
             <TableHead >
               <TableRow className="top-row">
-                {/* <TableCell>Match Type</TableCell> */}
                 <TableCell>Name</TableCell>
                 <TableCell align="right">Pronouns</TableCell>
                 <TableCell align="right">Email</TableCell>
@@ -333,10 +244,9 @@ function Profile (){
 
       <h1>Friend Matches</h1>
       <TableContainer component={Paper} id="t-cont">
-          <Table id="table" size="small" aria-label="a dense table">
+          <Table id="table" size="small" aria-label="friend table">
             <TableHead >
               <TableRow className="top-row">
-                {/* <TableCell>Match Type</TableCell> */}
                 <TableCell>Name</TableCell>
                 <TableCell align="right">Pronouns</TableCell>
                 <TableCell align="right">Email</TableCell>
@@ -353,10 +263,9 @@ function Profile (){
 
       <h1>Date Matches</h1>
       <TableContainer component={Paper} id="t-cont">
-          <Table id="table" size="small" aria-label="a dense table">
+          <Table id="table" size="small" aria-label="date table">
             <TableHead >
               <TableRow className="top-row">
-                {/* <TableCell>Match Type</TableCell> */}
                 <TableCell>Name</TableCell>
                 <TableCell align="right">Pronouns</TableCell>
                 <TableCell align="right">Email</TableCell>

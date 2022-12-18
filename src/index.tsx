@@ -4,6 +4,11 @@ import './index.css';
 import App from './App';
 import { BrowserRouter } from "react-router-dom";
 
+/**
+ * This class renders the application
+ * with the browser router
+ */
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
