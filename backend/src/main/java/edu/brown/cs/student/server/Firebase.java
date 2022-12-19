@@ -44,17 +44,17 @@ public class Firebase {
    */
   public void initFirebase() throws IOException {
     FileInputStream serviceAccount =
-        new FileInputStream("backend/matched-cs320-firebase-adminsdk-qt8u9-0a35976e64.json");
+        new FileInputStream("matched2cs32-firebase-adminsdk-i99s2-522059a18a.json");
     GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
     FirebaseOptions firebaseOptions = new FirebaseOptions.Builder()
-        .setDatabaseUrl("https://matched-cs320-default-rtdb.firebaseio.com/")
+        .setDatabaseUrl("https://matched2cs32-default-rtdb.firebaseio.com/")
         //.setAPIKey("AIzaSyCI_PJl30MJRkgTRKj6C6G97u83RmFQKgw")
         //.setServiceAccount(new FileInputStream(new File("C:\\Users\\Vicky\\Documents\\NetBeansProjects\\Examples\\src\\com\\javaquery\\google\\firebase\\Firebase-30f95674f4d5.json")))
         .setCredentials(credentials)
         .build();
       FirebaseApp.initializeApp(firebaseOptions);
     firebaseDatabase =
-        FirebaseDatabase.getInstance("https://matched-cs320-default-rtdb.firebaseio.com/");
+        FirebaseDatabase.getInstance("https://matched2cs32-default-rtdb.firebaseio.com/");
     hasBeenInitiated=true;
   }
 
@@ -83,7 +83,7 @@ public class Firebase {
    */
   public String readDatabase(String[] args) {
     try {
-      String startURL = "https://matched-cs320-default-rtdb.firebaseio.com/";
+      String startURL = "https://matched2cs32-default-rtdb.firebaseio.com/";
       URI fullURL = new URI(startURL + endpointBuilder(args) + ".json");
       HttpRequest retrieveData = HttpRequest.newBuilder().uri(fullURL).GET().build();
       HttpResponse<String> dataResponse =
@@ -198,7 +198,7 @@ public class Firebase {
    */
   private String updateHelper(String endpoint, String key) {
     try {
-      String startURL = "https://matched-cs320-default-rtdb.firebaseio.com/" + endpoint + "/" + key;
+      String startURL = "https://matched2cs32-default-rtdb.firebaseio.com/" + endpoint + "/" + key;
       URI fullURL = new URI(startURL + ".json");
       HttpRequest retrieveData = HttpRequest.newBuilder().uri(fullURL).GET().build();
       HttpResponse<String> dataResponse =
